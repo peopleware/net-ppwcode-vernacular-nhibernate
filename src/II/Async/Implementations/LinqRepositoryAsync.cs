@@ -105,11 +105,11 @@ namespace PPWCode.Vernacular.NHibernate.II.Async.Implementations
                ?? new PagedList<TResult>(Enumerable.Empty<TResult>(), pageIndex, pageSize, 0);
 
         /// <inheritdoc
-        ///     cref="LinqRepository{TRoot,TId}.Count" />
+        ///     cref="LinqRepository{TRoot,TId}.Count{TResult}" />
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the work.</param>
         [NotNull]
-        public virtual Task<int> CountAsync(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda,
+        public virtual Task<int> CountAsync<TResult>(
+            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
             CancellationToken cancellationToken)
             => ExecuteAsync(
                 nameof(CountAsync),
@@ -246,10 +246,10 @@ namespace PPWCode.Vernacular.NHibernate.II.Async.Implementations
         }
 
         /// <inheritdoc
-        ///     cref="LinqRepository{TRoot,TId}.CountInternal" />
+        ///     cref="LinqRepository{TRoot,TId}.CountInternal{TResult}" />
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the work.</param>
-        protected virtual async Task<int> CountInternalAsync(
-            [NotNull] Func<IQueryable<TRoot>> lambda,
+        protected virtual async Task<int> CountInternalAsync<TResult>(
+            [NotNull] Func<IQueryable<TResult>> lambda,
             CancellationToken cancellationToken)
         {
             try

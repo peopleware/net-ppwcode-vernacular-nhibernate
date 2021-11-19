@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -27,7 +27,7 @@
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'netstandard20' ">
       <ItemGroup>
-        <PackageReference Include="System.Data.SqlClient" Version="[4.8.2, 5)" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
       </ItemGroup>
     </When>
   </Choose>

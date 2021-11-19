@@ -44,6 +44,22 @@ namespace PPWCode.Vernacular.NHibernate.II.Tests.IntegrationTests.Sync.Linq.Comm
         }
 
         [Test]
+        public void Can_Count_FailedCompanies_Through_Companies()
+        {
+            Company company1 = CreateCompany(CompanyCreationType.NO_CHILDREN);
+            CreateCompany(CompanyCreationType.NO_CHILDREN);
+
+            int count =
+                Repository
+                    .Count(companies =>
+                               companies
+                                   .Where(c => c.Id == company1.Id)
+                                   .Select(c => c.FailedCompany)
+                                   .Distinct());
+            Assert.AreEqual(0, count);
+        }
+
+        [Test]
         public void Can_Find_All_Companies()
         {
             IList<Company> companies = Repository.FindAll();

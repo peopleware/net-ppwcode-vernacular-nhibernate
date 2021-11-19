@@ -175,6 +175,7 @@ namespace PPWCode.Vernacular.NHibernate.II
         /// <summary>
         ///     Calculates the number of records of the given query, expressed as a <paramref name="lambda" />.
         /// </summary>
+        /// <typeparam name="TResult">A type that is projected from our <typeparamref name="TRoot" /></typeparam>
         /// <param name="lambda">The given query, expressed as a lambda.</param>
         /// <returns>
         ///     Number of records that satisfying the given query, expressed as a <paramref name="lambda" />.
@@ -182,7 +183,7 @@ namespace PPWCode.Vernacular.NHibernate.II
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, a <c>0</c> will be returned.
         /// </exception>
-        public virtual int Count([NotNull] Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
+        public virtual int Count<TResult>([NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
             => Execute(nameof(Count), () => CountInternal(lambda));
 
         /// <inheritdoc />
@@ -308,9 +309,9 @@ namespace PPWCode.Vernacular.NHibernate.II
             }
         }
 
-        /// <inheritdoc cref="Count" />
-        protected virtual int CountInternal(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
+        /// <inheritdoc cref="Count{TResult}" />
+        protected virtual int CountInternal<TResult>(
+            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
         {
             try
             {
