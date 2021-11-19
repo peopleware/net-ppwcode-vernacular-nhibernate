@@ -92,6 +92,22 @@ namespace PPWCode.Vernacular.NHibernate.II.Tests.IntegrationTests.Async.Linq.Com
         }
 
         [Test]
+        public async Task Can_Count_FailedCompanies_Through_Companies()
+        {
+            Company company = await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
+            int count =
+                await Repository
+                    .CountAsync(
+                        query =>
+                            query
+                                .Where(c => c.Id == company.Id)
+                                .Select(c => c.FailedCompany),
+                        CancellationToken);
+
+            Assert.AreEqual(0, count);
+        }
+
+        [Test]
         public async Task Can_Find_All_Companies()
         {
             await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
