@@ -17,8 +17,10 @@ using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
 {
+#pragma warning disable CA1001
     public abstract class BaseRepositoryTests<T> : BaseQueryTests
         where T : class, IIdentity<int>
+#pragma warning restore CA1001
     {
         [CanBeNull]
         private CancellationTokenSource _cancellationTokenSource;
