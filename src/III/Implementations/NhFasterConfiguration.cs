@@ -24,6 +24,8 @@ using NHibernate.Mapping;
 
 using Environment = System.Environment;
 
+#pragma warning disable SYSLIB0011
+
 namespace PPWCode.Vernacular.NHibernate.III
 {
     /// <inheritdoc />

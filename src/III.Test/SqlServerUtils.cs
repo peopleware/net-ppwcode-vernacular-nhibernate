@@ -17,6 +17,8 @@ using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Exceptions.IV;
 
+#pragma warning disable CA2100
+
 namespace PPWCode.Vernacular.NHibernate.III.Test
 {
     public static class SqlServerUtils

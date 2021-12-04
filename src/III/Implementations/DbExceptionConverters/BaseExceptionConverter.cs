@@ -19,6 +19,8 @@ using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
 
+#pragma warning disable CA1033
+
 namespace PPWCode.Vernacular.NHibernate.III.DbExceptionConverters
 {
     /// <inheritdoc cref="ISQLExceptionConverter" />
