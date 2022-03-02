@@ -44,7 +44,7 @@ namespace PPWCode.Vernacular.NHibernate.III.DbExceptionConverters
         /// <inheritdoc cref="IDbConstraints" />
         [CanBeNull]
         protected IDbConstraints DbConstraints
-            => _dbConstraints ?? (_dbConstraints = ViolatedConstraintNameExtracter as IDbConstraints);
+            => _dbConstraints ??= ViolatedConstraintNameExtracter as IDbConstraints;
 
         /// <inheritdoc cref="IConfigurable.Configure" />
         void IConfigurable.Configure([NotNull] IDictionary<string, string> properties)
