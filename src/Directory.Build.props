@@ -33,6 +33,7 @@
     <WarningsAsErrors />
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <!-- properties for debug configuration -->
