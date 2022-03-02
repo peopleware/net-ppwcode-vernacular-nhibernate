@@ -1,4 +1,4 @@
-﻿// Copyright 2018 by PeopleWare n.v..
+﻿// Copyright 2018-2022 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,8 +16,6 @@ using System.Data.Common;
 using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Exceptions.IV;
-
-#pragma warning disable CA2100
 
 namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
 {
