@@ -68,7 +68,7 @@
     <Product>PPWCode</Product>
     <Authors>dvdwouwe;rvdginste</Authors>
     <Company>Peopleware NV</Company>
-    <Copyright>Copyright © Peopleware NV 2014-2021</Copyright>
+    <Copyright>Copyright © Peopleware NV 2014-2022</Copyright>
 
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/peopleware/net-ppwcode-vernacular-nhibernate.git</RepositoryUrl>
@@ -82,7 +82,7 @@
     <PackageReleaseNotes>
       <![CDATA[
 1.0.0 Initial release
-1.1.0 Upgrading dependencies
+1.1.0 Upgrading dependencies. Target .net core 3.1, .net 5.0, .net 6.0.
       ]]>
     </PackageReleaseNotes>
 
