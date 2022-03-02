@@ -9,6 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 using JetBrains.Annotations;
@@ -17,10 +18,9 @@ using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
 {
-#pragma warning disable CA1001
+    [SuppressMessage("Design", "CA1001", Justification = "Review: Dispose is called in OnTearDown")]
     public abstract class BaseRepositoryTests<T> : BaseQueryTests
         where T : class, IIdentity<int>
-#pragma warning restore CA1001
     {
         [CanBeNull]
         private CancellationTokenSource _cancellationTokenSource;
@@ -41,7 +41,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
             base.OnTeardown();
         }
 
-        [NotNull]
+        [JetBrains.Annotations.NotNull]
         protected CancellationTokenSource CancellationTokenSource
             => _cancellationTokenSource ??= new CancellationTokenSource();
 
