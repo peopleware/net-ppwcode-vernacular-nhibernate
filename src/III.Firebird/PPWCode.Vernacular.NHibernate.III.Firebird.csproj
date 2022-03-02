@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- target frameworks -->
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+
     <!-- nuget package -->
     <IsPackable>true</IsPackable>
-    <Description>The PPWCode Vernacular NHibernate Firebird library version II.</Description>
+    <Description>The PPWCode Vernacular NHibernate Firebird library version III.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm firebird</PackageTags>
 
     <!-- Stylecop -->
@@ -11,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.5.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="8.5.4" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

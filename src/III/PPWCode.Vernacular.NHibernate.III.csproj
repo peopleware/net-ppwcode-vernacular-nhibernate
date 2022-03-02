@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- target frameworks -->
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+
     <!-- nuget package -->
     <IsPackable>true</IsPackable>
-    <Description>The PPWCode Vernacular NHibernate library version II.</Description>
+    <Description>The PPWCode Vernacular NHibernate library version III.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm</PackageTags>
 
     <!-- Stylecop -->
@@ -15,13 +18,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="[1.0.0, 2)" />
-    <PackageReference Include="NHibernate" Version="5.3.5" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="[1.1.0-rc010024, 2)" />
+    <PackageReference Include="NHibernate" Version="5.3.11" />
     <PackageReference Include="Iesi.Collections" Version="[4.0.4, 5)" />
     <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)" />
     <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)" />
     <PackageReference Include="Common.Logging" Version="[3.4.1, 4)" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

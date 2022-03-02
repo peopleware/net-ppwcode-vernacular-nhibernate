@@ -1,4 +1,4 @@
-// Copyright 2020 by PeopleWare n.v..
+// Copyright 2020-2022 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,8 +17,10 @@ using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
 {
+#pragma warning disable CA1001
     public abstract class BaseRepositoryTests<T> : BaseQueryTests
         where T : class, IIdentity<int>
+#pragma warning restore CA1001
     {
         [CanBeNull]
         private CancellationTokenSource _cancellationTokenSource;
@@ -41,7 +43,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
 
         [NotNull]
         protected CancellationTokenSource CancellationTokenSource
-            => _cancellationTokenSource ?? (_cancellationTokenSource = new CancellationTokenSource());
+            => _cancellationTokenSource ??= new CancellationTokenSource();
 
         protected CancellationToken CancellationToken
             => CancellationTokenSource.Token;

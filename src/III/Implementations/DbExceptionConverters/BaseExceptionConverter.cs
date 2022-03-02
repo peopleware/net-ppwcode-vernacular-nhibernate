@@ -1,4 +1,4 @@
-﻿// Copyright 2018 by PeopleWare n.v..
+﻿// Copyright 2018-2022 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,6 +22,7 @@ using PPWCode.Vernacular.NHibernate.III.DbConstraint;
 namespace PPWCode.Vernacular.NHibernate.III.DbExceptionConverters
 {
     /// <inheritdoc cref="ISQLExceptionConverter" />
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1033", Justification = "Reviewed: Explicit interface implementation is done on purpose")]
     public abstract class BaseExceptionConverter
         : ISQLExceptionConverter,
           IConfigurable
@@ -43,7 +44,7 @@ namespace PPWCode.Vernacular.NHibernate.III.DbExceptionConverters
         /// <inheritdoc cref="IDbConstraints" />
         [CanBeNull]
         protected IDbConstraints DbConstraints
-            => _dbConstraints ?? (_dbConstraints = ViolatedConstraintNameExtracter as IDbConstraints);
+            => _dbConstraints ??= ViolatedConstraintNameExtracter as IDbConstraints;
 
         /// <inheritdoc cref="IConfigurable.Configure" />
         void IConfigurable.Configure([NotNull] IDictionary<string, string> properties)
