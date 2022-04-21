@@ -1,4 +1,4 @@
-﻿// Copyright 2018 by PeopleWare n.v..
+﻿// Copyright 2018-2022 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 using JetBrains.Annotations;
 
@@ -97,7 +96,7 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
         public abstract ICandidatePersistentMembersProvider MembersProvider { get; }
 
         public abstract bool QuoteIdentifiers { get; }
-        public abstract bool UseCamelCaseUnderScoreForDbObjects { get; }
+        public abstract IdentifierFormat IdentifierFormat { get; }
 
         public ModelMapper ModelMapper { get; }
 
@@ -449,24 +448,19 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
         {
         }
 
-        public virtual string CamelCaseToUnderscore(string camelCase)
-        {
-            const string Rgx = @"([A-Z]+)([A-Z][a-z])";
-            const string Rgx2 = @"([a-z\d])([A-Z])";
-
-            if (camelCase != null)
-            {
-                string result = Regex.Replace(camelCase, Rgx, "$1_$2");
-                result = Regex.Replace(result, Rgx2, "$1_$2");
-                return result.ToUpper();
-            }
-
-            return null;
-        }
-
         [ContractAnnotation("null => null; notnull => notnull")]
         public virtual string GetIdentifier(string identifier)
-            => UseCamelCaseUnderScoreForDbObjects ? CamelCaseToUnderscore(identifier) : identifier;
+            => IdentifierFormat switch
+            {
+                IdentifierFormat.AS_IS
+                    => identifier,
+                IdentifierFormat.PASCAL_CASE_TO_SNAKE_CASE
+                    => StringUtil.ConvertFromPascalCaseToSnakeCase(identifier),
+                IdentifierFormat.PASCAL_CASE_TO_SCREAMING_SNAKE_CASE
+                    => StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(identifier),
+                _ => throw new ArgumentOutOfRangeException(
+                         $"IdentifierTransform ({IdentifierFormat}) not supported.")
+            };
 
         [ContractAnnotation("identifier:null => null; identifier:notnull => notnull")]
         public virtual string ConditionalQuoteIdentifier(string identifier, bool? quoteIdentifier)

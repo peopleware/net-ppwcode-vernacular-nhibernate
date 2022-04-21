@@ -99,8 +99,8 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
             ModelMapper.BeforeMapAny += MemberReadOnlyAccessor;
         }
 
-        public override bool UseCamelCaseUnderScoreForDbObjects
-            => false;
+        public override IdentifierFormat IdentifierFormat
+            => IdentifierFormat.AS_IS;
 
         protected virtual bool DynamicInsert
             => false;
@@ -367,7 +367,7 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
                 discriminatorValue = discriminatorValue.Substring(0, discriminatorValue.Length - "Enum".Length);
             }
 
-            return CamelCaseToUnderscore(discriminatorValue);
+            return StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(discriminatorValue);
         }
 
         [JetBrains.Annotations.NotNull]
