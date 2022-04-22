@@ -17,13 +17,13 @@
     <!-- See https://github.com/dotnet/standard/issues/506 -->
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
 
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="Moq" Version="4.17.1" />
-    <PackageReference Include="NHibernateProfiler.Appender" Version="6.0.6031" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="NHibernateProfiler.Appender" Version="6.0.6032" />
     <PackageReference Include="log4net" Version="2.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="PPWCode.Log4Net.Adapter" Version="[1.0.0, 2)" />
   </ItemGroup>
