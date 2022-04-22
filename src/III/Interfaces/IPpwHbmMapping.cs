@@ -1,4 +1,4 @@
-﻿// Copyright 2018 by PeopleWare n.v..
+﻿// Copyright 2018-2022 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -64,10 +64,7 @@ namespace PPWCode.Vernacular.NHibernate.III
         /// </returns>
         bool QuoteIdentifiers { get; }
 
-        bool UseCamelCaseUnderScoreForDbObjects { get; }
-
-        [ContractAnnotation("null => null; notnull => notnull")]
-        string CamelCaseToUnderscore(string camelCase);
+        IdentifierFormat IdentifierFormat { get; }
 
         [ContractAnnotation("null => null; notnull => notnull")]
         string GetIdentifier(string identifier);
