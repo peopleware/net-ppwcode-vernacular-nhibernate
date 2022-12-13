@@ -33,6 +33,12 @@ namespace PPWCode.Vernacular.NHibernate.II.Async.Interfaces.Providers
 
         /// <inheritdoc cref="ISession.FlushAsync" />
         [NotNull]
-        Task FlushAsync(CancellationToken cancellationToken);
+        Task FlushAsync(CancellationToken cancellationToken = default);
+
+        /// <inheritdoc cref="ITransaction.Commit" />
+        void CommitAsync(CancellationToken cancellationToken = default);
+
+        /// <inheritdoc cref="ITransaction.Commit" />
+        void RollbackAsync(CancellationToken cancellationToken = default);
     }
 }
