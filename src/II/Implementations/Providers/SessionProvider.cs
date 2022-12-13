@@ -47,5 +47,32 @@ namespace PPWCode.Vernacular.NHibernate.II.Providers
         /// <inheritdoc />
         public void Flush()
             => TransactionProvider.Run(Session, IsolationLevel, () => SafeEnvironmentProvider.Run(nameof(Flush), () => Session.Flush()));
+
+        /// <inheritdoc />
+        public void Commit()
+            => SafeEnvironmentProvider.Run(
+                nameof(Commit),
+                () =>
+                {
+                    ITransaction tran = Session.GetCurrentTransaction();
+                    if (tran?.IsActive == true)
+                    {
+                        Session.Flush();
+                        tran.Commit();
+                    }
+                });
+
+        /// <inheritdoc />
+        public void Rollback()
+            => SafeEnvironmentProvider.Run(
+                nameof(Commit),
+                () =>
+                {
+                    ITransaction tran = Session.GetCurrentTransaction();
+                    if (tran?.IsActive == true)
+                    {
+                        tran.Rollback();
+                    }
+                });
     }
 }

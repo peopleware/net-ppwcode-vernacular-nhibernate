@@ -36,5 +36,11 @@ namespace PPWCode.Vernacular.NHibernate.II.Providers
 
         /// <inheritdoc cref="ISession.Flush" />
         void Flush();
+
+        /// <inheritdoc cref="ITransaction.Commit" />
+        void Commit();
+
+        /// <inheritdoc cref="ITransaction.Rollback" />
+        void Rollback();
     }
 }

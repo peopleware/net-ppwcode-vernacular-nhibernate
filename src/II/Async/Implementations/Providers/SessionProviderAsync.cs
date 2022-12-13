@@ -46,7 +46,7 @@ namespace PPWCode.Vernacular.NHibernate.II.Async.Implementations.Providers
         public ISafeEnvironmentProviderAsync SafeEnvironmentProviderAsync { get; }
 
         /// <inheritdoc />
-        public Task FlushAsync(CancellationToken cancellationToken)
+        public Task FlushAsync(CancellationToken cancellationToken = default)
         {
             Task NHibernateFlushAsync(CancellationToken can)
                 => Session.FlushAsync(can);
@@ -56,5 +56,34 @@ namespace PPWCode.Vernacular.NHibernate.II.Async.Implementations.Providers
 
             return TransactionProviderAsync.RunAsync(Session, IsolationLevel, SafeFlushAsync, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task CommitAsync(CancellationToken cancellationToken = default)
+            => SafeEnvironmentProviderAsync.RunAsync(
+                nameof(CommitAsync),
+                async can =>
+                {
+                    ITransaction tran = Session.GetCurrentTransaction();
+                    if (tran?.IsActive == true)
+                    {
+                        await Session.FlushAsync(can).ConfigureAwait(false);
+                        await tran.CommitAsync(can).ConfigureAwait(false);
+                    }
+                },
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task RollbackAsync(CancellationToken cancellationToken = default)
+            => SafeEnvironmentProviderAsync.RunAsync(
+                nameof(CommitAsync),
+                async can =>
+                {
+                    ITransaction tran = Session.GetCurrentTransaction();
+                    if (tran?.IsActive == true)
+                    {
+                        await tran.RollbackAsync(can).ConfigureAwait(false);
+                    }
+                },
+                cancellationToken);
     }
 }
