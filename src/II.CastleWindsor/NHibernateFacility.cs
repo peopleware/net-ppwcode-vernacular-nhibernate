@@ -344,7 +344,7 @@ namespace PPWCode.Vernacular.NHibernate.II.CastleWindsor
                             .For<ISessionProvider, ISessionProviderAsync>()
                             .ImplementedBy(_sessionProviderAsync)
                             .DependsOn(Dependency.OnValue<IsolationLevel>(isolationLevel))
-                            .LifeStyle.Transient);
+                            .LifeStyle.Is(lifestyleType));
             }
             else
             {
@@ -354,7 +354,7 @@ namespace PPWCode.Vernacular.NHibernate.II.CastleWindsor
                             .For<ISessionProvider>()
                             .ImplementedBy(_sessionProvider)
                             .DependsOn(Dependency.OnValue<IsolationLevel>(isolationLevel))
-                            .LifeStyle.Transient);
+                            .LifeStyle.Is(lifestyleType));
             }
 
             if (_queryOverCustomExpressions != null)
@@ -364,7 +364,7 @@ namespace PPWCode.Vernacular.NHibernate.II.CastleWindsor
                         Component
                             .For<IQueryOverCustomExpressions>()
                             .ImplementedBy(_queryOverCustomExpressions)
-                            .LifestyleSingleton());
+                            .LifeStyle.Singleton);
                 IQueryOverCustomExpressions queryOverCustomExpressions = Kernel.Resolve<IQueryOverCustomExpressions>();
                 queryOverCustomExpressions.Initialize();
             }
