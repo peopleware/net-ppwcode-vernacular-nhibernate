@@ -86,7 +86,7 @@
 1.1.1 Fix dependency: upgrade to stable dependency PPWCode.Vernacular.Persistence.IV.
 2.0.0 Improve identifier formatting rules in SimpleModelMapper (breaking!)
       Upgraded dependencies
-2.0.2 Fix bug in PostgreDbConstraints: missing constraints
+2.0.3 Fix bug in PostgreDbConstraints: missing constraints
       ]]>
     </PackageReleaseNotes>
 
