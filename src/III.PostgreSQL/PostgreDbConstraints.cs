@@ -32,7 +32,7 @@ select tc.constraint_name,
        tc.table_schema,
        tc.constraint_type
   from information_schema.table_constraints tc
- where tc.constraint_catalog = 'test'
+ where tc.constraint_catalog = @catalog
    and tc.constraint_schema not in ('pg_catalog', 'pg_toast', 'information_schema')
 union all
 select c.relname as constraint_name,
