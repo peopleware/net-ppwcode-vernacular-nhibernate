@@ -125,7 +125,12 @@
         * Moq 4.16.0 -> 4.16.1
         * NHibernateProfiler.Appender 6.0.6019 -> 6.0.6029
         * System.Diagnostics.DiagnosticSource 5.0.1 -> 6.0.0
-      - Enhance Count, you can now use the Count functionality on a projection of TRoot]]>
+      - Enhance Count, you can now use the Count functionality on a projection of TRoot
+4.4.0 - Adjust life style for ISessionProvider / ISessionProviderAsync
+      - Add Commit(Async) / Rollback(Async) as save members (exception triage)
+      - Upgrade packages to latest version
+        * System.Data.SqlClient 4.8.3 -> 4.8.5 (CVE-2022-41064)
+]]>
     </PackageReleaseNotes>
 
     <!-- SourceLink support -->
