@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- target frameworks -->
-    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net48;net481;net6.0;net8.0</TargetFrameworks>
 
     <!-- nuget package -->
     <IsPackable>false</IsPackable>
@@ -28,7 +28,7 @@
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*" />
       </ItemGroup>
     </When>
-    <When Condition=" '$(TargetFramework)' == 'net8.0' ">
+    <When Condition=" '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481' ">
       <ItemGroup>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*" />
       </ItemGroup>
