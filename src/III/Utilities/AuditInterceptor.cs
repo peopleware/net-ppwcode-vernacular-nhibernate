@@ -1,4 +1,4 @@
-﻿// Copyright 2017 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -58,11 +58,11 @@ namespace PPWCode.Vernacular.NHibernate.III
             UseUtc = useUtc;
         }
 
-        /// <inheritdoc cref="IIdentityProvider"/>
+        /// <inheritdoc cref="IIdentityProvider" />
         [JetBrains.Annotations.NotNull]
         public IIdentityProvider IdentityProvider { get; }
 
-        /// <inheritdoc cref="ITimeProvider"/>
+        /// <inheritdoc cref="ITimeProvider" />
         [JetBrains.Annotations.NotNull]
         public ITimeProvider TimeProvider { get; }
 

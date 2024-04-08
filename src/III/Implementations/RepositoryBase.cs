@@ -1,4 +1,4 @@
-﻿// Copyright 2017 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -32,26 +32,26 @@ namespace PPWCode.Vernacular.NHibernate.III
             SessionProvider = sessionProvider ?? throw new ArgumentNullException(nameof(sessionProvider));
         }
 
-        /// <inheritdoc cref="ISessionProvider"/>
+        /// <inheritdoc cref="ISessionProvider" />
         [NotNull]
         public ISessionProvider SessionProvider { get; }
 
-        /// <inheritdoc cref="ISession"/>
+        /// <inheritdoc cref="ISession" />
         [NotNull]
         protected ISession Session
             => SessionProvider.Session;
 
-        /// <inheritdoc cref="ITransactionProvider"/>
+        /// <inheritdoc cref="ITransactionProvider" />
         [NotNull]
         protected ITransactionProvider TransactionProvider
             => SessionProvider.TransactionProvider;
 
-        /// <inheritdoc cref="ISafeEnvironmentProvider"/>
+        /// <inheritdoc cref="ISafeEnvironmentProvider" />
         [NotNull]
         protected ISafeEnvironmentProvider SafeEnvironmentProvider
             => SessionProvider.SafeEnvironmentProvider;
 
-        /// <inheritdoc cref="IsolationLevel"/>
+        /// <inheritdoc cref="IsolationLevel" />
         protected IsolationLevel IsolationLevel
             => SessionProvider.IsolationLevel;
 

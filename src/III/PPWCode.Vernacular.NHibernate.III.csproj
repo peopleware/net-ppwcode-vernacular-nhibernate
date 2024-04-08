@@ -14,26 +14,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="1.2.0-rc010030" />
-    <PackageReference Include="NHibernate" Version="5.*" />
-    <PackageReference Include="Iesi.Collections" Version="[4.1.1, 5)" />
-    <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)" />
-    <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)" />
-    <PackageReference Include="Common.Logging" Version="[3.4.1, 4)" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="1.2.0-rc010030"/>
+    <PackageReference Include="NHibernate" Version="5.*"/>
+    <PackageReference Include="Iesi.Collections" Version="[4.1.1, 5)"/>
+    <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)"/>
+    <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)"/>
+    <PackageReference Include="Common.Logging" Version="[3.4.1, 4)"/>
   </ItemGroup>
 
   <!-- See https://github.com/dotnet/standard/issues/506 -->
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'net6.0' ">
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
       </ItemGroup>
     </When>
     <When Condition=" '$(TargetFramework)' == 'net8.0' ">
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
       </ItemGroup>
     </When>
   </Choose>
-  
+
 </Project>

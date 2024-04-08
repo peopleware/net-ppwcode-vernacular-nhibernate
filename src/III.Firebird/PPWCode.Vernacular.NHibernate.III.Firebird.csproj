@@ -14,25 +14,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.0.0" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.0.0"/>
   </ItemGroup>
 
   <!-- See https://github.com/dotnet/standard/issues/506 -->
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'net6.0' ">
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
       </ItemGroup>
     </When>
     <When Condition=" '$(TargetFramework)' == 'net8.0' ">
       <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
       </ItemGroup>
     </When>
   </Choose>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj" />
+    <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj"/>
   </ItemGroup>
 
 </Project>

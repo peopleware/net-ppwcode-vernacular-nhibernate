@@ -2,7 +2,6 @@
 
 This library is part of the PPWCode project and defines the semantic vernacular.
 
-
 ## Getting started
 
 ### PPWCode.Vernacular.NHibernate I
@@ -10,9 +9,8 @@ This library is part of the PPWCode project and defines the semantic vernacular.
 This is version I of the library, which is designed to work with Microsoft .NET 4.5.
 
 The library is available as the [NuGet] package `PPWCode.Vernacular.NHibernate.I`
-in the [NuGet Gallery].  It can be installed using the Nuget package manager from 
+in the [NuGet Gallery]. It can be installed using the Nuget package manager from
 inside Visual Studio.
-
 
 ## Build your own
 
@@ -21,7 +19,7 @@ this library. One reason would be that you need a version of the library built
 with the debug configuration. Another reason might be that you need features
 that are available on master, but that are not yet released.
 
-Building your own package of this library is very easy.  A [psake] build script is
+Building your own package of this library is very easy. A [psake] build script is
 added for this purpose.
 
 Before executing regular [psake] tasks, the environment must first be initialized.
@@ -46,24 +44,22 @@ The last line builds a [NuGet] package using the 'Debug' configuration, and publ
 it to the [NuGet] repository with the name 'local'. The [NuGet] repository 'nuget'
 is used to locate the dependent [NuGet] packages.
 
-
 ## Contributors
 
 See the [GitHub Contributors list].
-
 
 ## PPWCode
 
 This package is part of the PPWCode project, developed by [PeopleWare n.v.].
 
 More information can be found in the following locations:
+
 * [PPWCode project website]
 * [PPWCode Google Code website]
 
 Please note that not all information on those sites is up-to-date. We are
 currently in the process of moving the code away from the Google code
 subversion repositories to git repositories on [GitHub].
-
 
 ### PPWCode .NET
 
@@ -72,15 +68,14 @@ Specifically for the .NET libraries: new development will be done on the
 be published as packages on the [NuGet Gallery].
 
 We believe in Design By Contract and have good experience with
-[Microsoft Code Contracts] and the related tooling.  As such, our packages
-always include Contract Reference assemblies.  This allows you to also
+[Microsoft Code Contracts] and the related tooling. As such, our packages
+always include Contract Reference assemblies. This allows you to also
 benefit as a user from the contracts that are already included in the
 library code.
 
 The packages also include both the pdb and xml files, for debugging symbols
-and documentation respectively.  In the future we might look into using
+and documentation respectively. In the future we might look into using
 symbol servers.
-
 
 ## License and Copyright
 
@@ -99,16 +94,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-
 [PPWCode project website]: http://www.ppwcode.org
+
 [PPWCode Google Code website]: http://ppwcode.googlecode.com
 
 [PeopleWare n.v.]: http://www.peopleware.be/
 
 [NuGet]: https://www.nuget.org/
+
 [NuGet Gallery]: https://www.nuget.org/policies/About
 
 [GitHub]: https://github.com
+
 [PeopleWare GitHub repositories]: https://github.com/peopleware
 
 [Microsoft Code Contracts]: http://research.microsoft.com/en-us/projects/contracts/
