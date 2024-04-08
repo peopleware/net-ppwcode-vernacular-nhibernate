@@ -44,27 +44,27 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         }
 
         [Test]
-        public void LastModified_Audit_Fields_Should_be_Null_After_Save()
+        public void LastModified_Audit_Fields_Should_be_Not_Null_After_Save()
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Assert.That(company.LastModifiedAt, Is.Null);
-            Assert.That(company.LastModifiedBy, Is.Null);
+            Assert.That(company.LastModifiedAt, Is.Not.Null);
+            Assert.That(company.LastModifiedBy, Is.Not.Null);
         }
 
         [Test]
-        public void LastModified_Audit_Fields_Should_be_Null_After_Save_With_Children()
+        public void LastModified_Audit_Fields_Should_be_Not_Null_After_Save_With_Children()
         {
             Company company = CreateCompany(CompanyCreationType.WITH_2_CHILDREN);
 
-            Assert.That(company.LastModifiedAt, Is.Null);
-            Assert.That(company.LastModifiedBy, Is.Null);
+            Assert.That(company.LastModifiedAt, Is.Not.Null);
+            Assert.That(company.LastModifiedBy, Is.Not.Null);
 
             Assert.That(2, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
-                Assert.That(companyIdentification.LastModifiedAt, Is.Null);
-                Assert.That(companyIdentification.LastModifiedBy, Is.Null);
+                Assert.That(companyIdentification.LastModifiedAt, Is.Not.Null);
+                Assert.That(companyIdentification.LastModifiedBy, Is.Not.Null);
             }
         }
     }

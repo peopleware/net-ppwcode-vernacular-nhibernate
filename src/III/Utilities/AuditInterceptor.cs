@@ -133,7 +133,8 @@ namespace PPWCode.Vernacular.NHibernate.III
                 insertAuditable.CreatedAt = time;
                 insertAuditable.CreatedBy = identityName;
             }
-            else if (updateAuditable != null)
+
+            if (updateAuditable != null)
             {
                 IUpdateAuditableProperties updateAuditableProperties = entity as IUpdateAuditableProperties;
                 string lastModifiedAtPropertyName =
