@@ -59,6 +59,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Com
                             .Number("17")
                 };
 
+            int expectedPersistenceVersion;
             if (companyCreationType == CompanyCreationType.WITH_2_CHILDREN)
             {
                 // ReSharper disable once ObjectCreationAsStatement
@@ -74,13 +75,19 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Com
                     Identification = "2",
                     Company = company
                 };
+
+                expectedPersistenceVersion = 2;
+            }
+            else
+            {
+                expectedPersistenceVersion = 1;
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
-            Assert.IsNotNull(savedCompany);
-            Assert.AreNotSame(company, savedCompany);
-            Assert.AreEqual(1, savedCompany.PersistenceVersion);
-            Assert.AreEqual(companyCreationType == CompanyCreationType.NO_CHILDREN ? 0 : 2, savedCompany.Identifications.Count);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(company, Is.Not.EqualTo(savedCompany));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(expectedPersistenceVersion));
+            Assert.That(companyCreationType == CompanyCreationType.NO_CHILDREN ? 0 : 2, Is.EqualTo(savedCompany.Identifications.Count));
 
             return savedCompany;
         }
