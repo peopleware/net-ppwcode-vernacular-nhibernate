@@ -639,12 +639,6 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
                     classCustomizer.DiscriminatorValue(GetDiscriminatorValue(modelInspector, type));
                 }
 
-                MemberInfo[] versionProperties = VersionProperties(modelInspector, type).ToArray();
-                if (versionProperties.Length == 1)
-                {
-                    classCustomizer.Version(versionProperties[0], m => m.Column(GetVersionColumnName(modelInspector, type, null)));
-                }
-
                 return;
             }
 
