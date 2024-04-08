@@ -14,10 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.13.3" />
-    <PackageReference Include="Moq" Version="4.17.2" />
-    <PackageReference Include="NHibernateProfiler.Appender" Version="6.0.6032" />
-    <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="NUnit" Version="4.1.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="NHibernateProfiler.Appender" Version="6.0.6047" />
+    <PackageReference Include="log4net" Version="2.0.*" />
     <PackageReference Include="PPWCode.Log4Net.Adapter" Version="[1.0.0, 2)" />
   </ItemGroup>
 

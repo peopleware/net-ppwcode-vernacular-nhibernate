@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.4" />
+    <PackageReference Include="Npgsql" Version="8.0.2" />
   </ItemGroup>
 
   <!-- See https://github.com/dotnet/standard/issues/506 -->

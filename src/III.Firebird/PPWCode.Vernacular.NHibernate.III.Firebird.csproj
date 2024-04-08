@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="9.0.0" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.0.0" />
   </ItemGroup>
 
   <!-- See https://github.com/dotnet/standard/issues/506 -->
