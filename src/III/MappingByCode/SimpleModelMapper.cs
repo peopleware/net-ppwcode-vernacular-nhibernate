@@ -156,14 +156,13 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
         }
 
         protected IDictionary<Type, CachedEntityType> CachedEntityTypes
-            => _cachedEntityTypes ?? (_cachedEntityTypes = GetEntityTypesToCache.ToDictionary(ce => ce.Type));
+            => _cachedEntityTypes ??= GetEntityTypesToCache.ToDictionary(ce => ce.Type);
 
         public override ICandidatePersistentMembersProvider MembersProvider { get; }
 
         [CanBeNull]
         protected PropertyInfo MapDocPropertyInfo
-            => _mapPropertyInfo
-               ?? (_mapPropertyInfo = typeof(ClassMapper).GetProperty("MapDoc", BindingFlags.Instance | BindingFlags.NonPublic));
+            => _mapPropertyInfo ??= typeof(ClassMapper).GetProperty("MapDoc", BindingFlags.Instance | BindingFlags.NonPublic);
 
         [JetBrains.Annotations.NotNull]
         protected virtual string DefaultDiscriminatorColumnName
@@ -513,12 +512,9 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
             }
 
             PropertyInfo rfprop =
-                property.DeclaringType != null
-                    ? property
-                        .DeclaringType
-                        .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                        .SingleOrDefault(pi => pi.Name == property.Name)
-                    : null;
+                property.DeclaringType
+                    ?.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                    .SingleOrDefault(pi => pi.Name == property.Name);
 
             return (rfprop != null) && !rfprop.CanWrite && rfprop.CanRead;
         }
