@@ -52,9 +52,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     Book mergedInDepth = BookRepository.Merge(inDepth);
 
-                    Assert.IsTrue(inDepth.IsTransient, "Original Book object is unchanged: did not get a primary key.");
-                    Assert.IsFalse(mergedInDepth.IsTransient, "Result of the merge is a new object with primary key.");
-                    Assert.AreNotEqual(mergedInDepth, inDepth);
+                    Assert.That(inDepth.IsTransient, Is.True, "Original Book object is unchanged: did not get a primary key.");
+                    Assert.That(mergedInDepth.IsTransient, Is.False, "Result of the merge is a new object with primary key.");
+                    Assert.That(mergedInDepth, Is.Not.EqualTo(inDepth));
 
                     Keyword csharp =
                         new Keyword
@@ -64,14 +64,14 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     csharp.AddBook(mergedInDepth);
                     Keyword mergedCsharp = KeywordRepository.Merge(csharp);
 
-                    Assert.IsTrue(csharp.IsTransient, "Original Keyword object is unchanged: did not get a primary key.");
-                    Assert.IsFalse(mergedCsharp.IsTransient, "Result of the merge is a new object with primary key.");
-                    Assert.AreNotEqual(mergedCsharp, csharp);
+                    Assert.That(csharp.IsTransient, Is.True, "Original Keyword object is unchanged: did not get a primary key.");
+                    Assert.That(mergedCsharp.IsTransient, Is.False, "Result of the merge is a new object with primary key.");
+                    Assert.That(mergedCsharp, Is.Not.EqualTo(csharp));
 
-                    Assert.AreNotEqual(mergedCsharp, mergedCsharp.Books.Single().Keywords.Single(), "Merged Keyword object does not have a bi-directional link with the Book object.");
-                    Assert.IsTrue(mergedCsharp.Books.Single().Keywords.Single().IsTransient, "Book object still points to the not persisted Keyword object.");
+                    Assert.That(mergedCsharp, Is.Not.EqualTo(mergedCsharp.Books.Single().Keywords.Single()), "Merged Keyword object does not have a bi-directional link with the Book object.");
+                    Assert.That(mergedCsharp.Books.Single().Keywords.Single().IsTransient, Is.True, "Book object still points to the not persisted Keyword object.");
 
-                    Assert.AreEqual(1, mergedInDepth.Keywords.Count);
+                    Assert.That(1, Is.EqualTo(mergedInDepth.Keywords.Count));
                 },
                 true);
         }
@@ -90,7 +90,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     BookRepository.SaveOrUpdate(inDepth);
 
-                    Assert.IsFalse(inDepth.IsTransient, "Original Book object is persisted and has now a primary key.");
+                    Assert.That(inDepth.IsTransient, Is.False, "Original Book object is persisted and has now a primary key.");
 
                     Keyword csharp =
                         new Keyword
@@ -100,8 +100,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     csharp.AddBook(inDepth);
                     KeywordRepository.SaveOrUpdate(csharp);
 
-                    Assert.IsFalse(csharp.IsTransient, "Original Keyword object is persisted and has now a primary key.");
-                    Assert.AreEqual(csharp, inDepth.Keywords.Single(), "There is a valid and consistent bi-directional link between the original Book and Keyword.");
+                    Assert.That(csharp.IsTransient, Is.False, "Original Keyword object is persisted and has now a primary key.");
+                    Assert.That(csharp, Is.EqualTo(inDepth.Keywords.Single()), "There is a valid and consistent bi-directional link between the original Book and Keyword.");
                 },
                 true);
         }
@@ -119,9 +119,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     Author mergedJohn = AuthorRepository.Merge(john);
 
-                    Assert.IsTrue(john.IsTransient, "Original Author object is unchanged: did not get a primary key.");
-                    Assert.IsFalse(mergedJohn.IsTransient, "Result of the merge is a new object with primary key.");
-                    Assert.AreNotEqual(mergedJohn, john);
+                    Assert.That(john.IsTransient, Is.True, "Original Author object is unchanged: did not get a primary key.");
+                    Assert.That(mergedJohn.IsTransient, Is.False, "Result of the merge is a new object with primary key.");
+                    Assert.That(mergedJohn, Is.Not.EqualTo(john));
 
                     Book inDepth =
                         new Book
@@ -131,14 +131,14 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     Book mergedInDepth = BookRepository.Merge(inDepth);
 
-                    Assert.IsTrue(inDepth.IsTransient, "Original Book object is unchanged: did not get a primary key.");
-                    Assert.IsFalse(mergedInDepth.IsTransient, "Result of the merge is a new object with primary key.");
-                    Assert.AreNotEqual(mergedInDepth, inDepth);
+                    Assert.That(inDepth.IsTransient, Is.True, "Original Book object is unchanged: did not get a primary key.");
+                    Assert.That(mergedInDepth.IsTransient, Is.False, "Result of the merge is a new object with primary key.");
+                    Assert.That(mergedInDepth, Is.Not.EqualTo(inDepth));
 
-                    Assert.AreNotEqual(mergedInDepth, mergedInDepth.Author.Books.Single(), "Merged Book object does not have a bi-directional link with the Author object.");
-                    Assert.IsTrue(mergedJohn.Books.Single().IsTransient, "Author object still points to the not persisted Book object.");
+                    Assert.That(mergedInDepth, Is.Not.EqualTo(mergedInDepth.Author.Books.Single()), "Merged Book object does not have a bi-directional link with the Author object.");
+                    Assert.That(mergedJohn.Books.Single().IsTransient, Is.True, "Author object still points to the not persisted Book object.");
 
-                    Assert.AreEqual(1, mergedJohn.Books.Count);
+                    Assert.That(1, Is.EqualTo(mergedJohn.Books.Count));
                 },
                 true);
         }
@@ -156,7 +156,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     AuthorRepository.SaveOrUpdate(john);
 
-                    Assert.IsFalse(john.IsTransient, "Original Author object is persisted and has now a primary key.");
+                    Assert.That(john.IsTransient, Is.False, "Original Author object is persisted and has now a primary key.");
 
                     Book inDepth =
                         new Book
@@ -166,8 +166,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         };
                     BookRepository.SaveOrUpdate(inDepth);
 
-                    Assert.IsFalse(inDepth.IsTransient, "Original Book object is persisted and has now a primary key.");
-                    Assert.AreEqual(inDepth, inDepth.Author.Books.Single(), "There is a valid and consistent bi-directional link between the original Author and Book.");
+                    Assert.That(inDepth.IsTransient, Is.False, "Original Book object is persisted and has now a primary key.");
+                    Assert.That(inDepth, Is.EqualTo(inDepth.Author.Books.Single()), "There is a valid and consistent bi-directional link between the original Author and Book.");
                 },
                 true);
         }

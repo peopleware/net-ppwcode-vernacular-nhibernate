@@ -119,10 +119,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             string translation = null;
 
             RunInsideTransaction(() => translation = GenderEnumTranslationRepository.Translate(GenderEnum.FEMALE, "fr"), true);
-            Assert.AreEqual("Femme", translation);
+            Assert.That("Femme", Is.EqualTo(translation));
 
             RunInsideTransaction(() => translation = SalutationEnumTranslationRepository.Translate(SalutationEnum.MS, "nl"), true);
-            Assert.AreEqual("Juffrouw", translation);
+            Assert.That("Juffrouw", Is.EqualTo(translation));
         }
     }
 }

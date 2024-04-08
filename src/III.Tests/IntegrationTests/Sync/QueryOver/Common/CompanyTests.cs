@@ -53,7 +53,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             int count = Repository.Count(companies => companies.Where(c => c.Id == company1.Id));
 
-            Assert.AreEqual(1, count);
+            Assert.That(1, Is.EqualTo(count));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             IList<Company> companies = Repository.FindByIds(new[] { company1.Id, company2.Id });
 
             Assert.That(companies, Is.Not.Null);
-            Assert.AreEqual(2, companies.Count);
+            Assert.That(2, Is.EqualTo(companies.Count));
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Company loadedCompany = Repository.LoadById(company.Id);
 
             Assert.That(loadedCompany, Is.Not.Null);
-            Assert.AreEqual(loadedCompany.Id, company.Id);
+            Assert.That(loadedCompany.Id, Is.EqualTo(company.Id));
         }
 
         [Test]

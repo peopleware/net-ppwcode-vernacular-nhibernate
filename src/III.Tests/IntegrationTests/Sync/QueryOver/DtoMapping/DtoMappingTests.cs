@@ -131,7 +131,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("X"); },
                 true);
 
-            Assert.IsTrue(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")));
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCodePaged(2, 10, "X"); },
                 true);
 
-            Assert.IsTrue(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")));
+            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -159,10 +159,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("Z"); },
                 true);
 
-            Assert.IsTrue(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")));
-            Assert.AreEqual(3, dtos.Count);
-            Assert.IsTrue(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)));
-            Assert.IsTrue(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")));
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")), Is.True);
+            Assert.That(3, Is.EqualTo(dtos.Count));
+            Assert.That(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)), Is.True);
+            Assert.That(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")), Is.True);
         }
     }
 }

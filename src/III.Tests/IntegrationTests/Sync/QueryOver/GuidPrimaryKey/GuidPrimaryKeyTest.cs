@@ -63,7 +63,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
                     Repository.SaveOrUpdate(car);
 
-                    Assert.AreNotEqual(Guid.Empty, car.Id);
+                    Assert.That(Guid.Empty, Is.Not.EqualTo(car.Id));
                 },
                 true);
 

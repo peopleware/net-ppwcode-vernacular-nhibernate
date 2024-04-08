@@ -47,7 +47,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                         .CreateCriteria<TRoot>()
                         .Add(Restrictions.Eq("Code", code))
                         .List<TRoot>().SingleOrDefault());
-            Assert.IsNotNull(translation);
+            Assert.That(translation, Is.Not.Null);
 
             string result = null;
 

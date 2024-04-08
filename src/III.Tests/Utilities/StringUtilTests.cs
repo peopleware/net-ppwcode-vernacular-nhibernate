@@ -23,7 +23,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Utilities
         [TestCase("AMD64InstructionSet", "amd64_instruction_set")]
         public void ConversionSnakeCase(string original, string transformed)
         {
-            Assert.AreEqual(transformed, StringUtil.ConvertFromPascalCaseToSnakeCase(original));
+            Assert.That(transformed, Is.EqualTo(StringUtil.ConvertFromPascalCaseToSnakeCase(original)));
         }
 
         [TestCase("MyTestIdentifier", "MY_TEST_IDENTIFIER")]
@@ -33,7 +33,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Utilities
         [TestCase("AMD64InstructionSet", "AMD64_INSTRUCTION_SET")]
         public void ConversionScreamingSnakeCase(string original, string transformed)
         {
-            Assert.AreEqual(transformed, StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(original));
+            Assert.That(transformed, Is.EqualTo(StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(original)));
         }
     }
 }

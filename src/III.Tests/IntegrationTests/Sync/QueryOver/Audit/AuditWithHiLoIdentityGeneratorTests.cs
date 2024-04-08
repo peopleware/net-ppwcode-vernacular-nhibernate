@@ -24,8 +24,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Assert.AreEqual(IdentityName, company.CreatedBy);
-            Assert.AreEqual(UtcNow, company.CreatedAt);
+            Assert.That(IdentityName, Is.EqualTo(company.CreatedBy));
+            Assert.That(UtcNow, Is.EqualTo(company.CreatedAt));
         }
 
         [Test]
@@ -33,13 +33,13 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.WITH_2_CHILDREN);
 
-            Assert.AreEqual(IdentityName, company.CreatedBy);
-            Assert.AreEqual(UtcNow, company.CreatedAt);
+            Assert.That(IdentityName, Is.EqualTo(company.CreatedBy));
+            Assert.That(UtcNow, Is.EqualTo(company.CreatedAt));
 
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
-                Assert.AreEqual(IdentityName, companyIdentification.CreatedBy);
-                Assert.AreEqual(UtcNow, companyIdentification.CreatedAt);
+                Assert.That(IdentityName, Is.EqualTo(companyIdentification.CreatedBy));
+                Assert.That(UtcNow, Is.EqualTo(companyIdentification.CreatedAt));
             }
         }
 
@@ -48,8 +48,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Assert.IsNull(company.LastModifiedAt);
-            Assert.IsNull(company.LastModifiedBy);
+            Assert.That(company.LastModifiedAt, Is.Null);
+            Assert.That(company.LastModifiedBy, Is.Null);
         }
 
         [Test]
@@ -57,14 +57,14 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.WITH_2_CHILDREN);
 
-            Assert.IsNull(company.LastModifiedAt);
-            Assert.IsNull(company.LastModifiedBy);
+            Assert.That(company.LastModifiedAt, Is.Null);
+            Assert.That(company.LastModifiedBy, Is.Null);
 
-            Assert.AreEqual(2, company.Identifications.Count);
+            Assert.That(2, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
-                Assert.IsNull(companyIdentification.LastModifiedAt);
-                Assert.IsNull(companyIdentification.LastModifiedBy);
+                Assert.That(companyIdentification.LastModifiedAt, Is.Null);
+                Assert.That(companyIdentification.LastModifiedBy, Is.Null);
             }
         }
     }
