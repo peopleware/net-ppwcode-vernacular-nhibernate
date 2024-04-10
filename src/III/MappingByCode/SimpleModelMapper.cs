@@ -1,4 +1,4 @@
-﻿// Copyright 2018 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -156,14 +156,13 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
         }
 
         protected IDictionary<Type, CachedEntityType> CachedEntityTypes
-            => _cachedEntityTypes ?? (_cachedEntityTypes = GetEntityTypesToCache.ToDictionary(ce => ce.Type));
+            => _cachedEntityTypes ??= GetEntityTypesToCache.ToDictionary(ce => ce.Type);
 
         public override ICandidatePersistentMembersProvider MembersProvider { get; }
 
         [CanBeNull]
         protected PropertyInfo MapDocPropertyInfo
-            => _mapPropertyInfo
-               ?? (_mapPropertyInfo = typeof(ClassMapper).GetProperty("MapDoc", BindingFlags.Instance | BindingFlags.NonPublic));
+            => _mapPropertyInfo ??= typeof(ClassMapper).GetProperty("MapDoc", BindingFlags.Instance | BindingFlags.NonPublic);
 
         [JetBrains.Annotations.NotNull]
         protected virtual string DefaultDiscriminatorColumnName
@@ -513,12 +512,9 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
             }
 
             PropertyInfo rfprop =
-                property.DeclaringType != null
-                    ? property
-                        .DeclaringType
-                        .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                        .SingleOrDefault(pi => pi.Name == property.Name)
-                    : null;
+                property.DeclaringType
+                    ?.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                    .SingleOrDefault(pi => pi.Name == property.Name);
 
             return (rfprop != null) && !rfprop.CanWrite && rfprop.CanRead;
         }
@@ -641,12 +637,6 @@ namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
                 {
                     classCustomizer.Discriminator(m => m.Column(GetDiscriminatorColumnName(modelInspector, type, null)));
                     classCustomizer.DiscriminatorValue(GetDiscriminatorValue(modelInspector, type));
-                }
-
-                MemberInfo[] versionProperties = VersionProperties(modelInspector, type).ToArray();
-                if (versionProperties.Length == 1)
-                {
-                    classCustomizer.Version(versionProperties[0], m => m.Column(GetVersionColumnName(modelInspector, type, null)));
                 }
 
                 return;

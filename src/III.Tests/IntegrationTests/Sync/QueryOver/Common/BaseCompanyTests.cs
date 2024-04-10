@@ -1,4 +1,4 @@
-﻿// Copyright 2020 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -58,6 +58,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Name = "Peopleware NV"
                 };
 
+            int expectedPersistenceVersion;
             if (companyCreationType == CompanyCreationType.WITH_2_CHILDREN)
             {
                 // ReSharper disable once ObjectCreationAsStatement
@@ -73,6 +74,12 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Identification = "2",
                     Company = company
                 };
+
+                expectedPersistenceVersion = 2;
+            }
+            else
+            {
+                expectedPersistenceVersion = 1;
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
@@ -80,7 +87,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(savedCompany, Is.Not.Null);
             Assert.That(savedCompany.IsTransient, Is.False);
             Assert.That(savedCompany, Is.Not.SameAs(company));
-            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(1));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(expectedPersistenceVersion));
             Assert.That(companyCreationType == CompanyCreationType.NO_CHILDREN ? 0 : 2, Is.EqualTo(savedCompany.Identifications.Count));
 
             return savedCompany;
@@ -101,7 +108,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(savedCompany, Is.Not.Null);
             Assert.That(savedCompany.IsTransient, Is.False);
             Assert.That(savedCompany, Is.Not.SameAs(company));
-            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(1));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(company.PersistenceVersion + 1));
             Assert.That(savedCompany.FailedCompany, Is.Not.Null);
             Assert.That(savedCompany.FailedCompany.IsTransient, Is.False);
             Assert.That(savedCompany.FailedCompany, Is.Not.SameAs(company.FailedCompany));
@@ -125,7 +132,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(savedCompany, Is.Not.Null);
             Assert.That(savedCompany.IsTransient, Is.False);
             Assert.That(savedCompany, Is.Not.SameAs(company));
-            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(2));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(company.PersistenceVersion + 1));
             Assert.That(savedCompany.ExtendedCompany, Is.Not.Null);
             Assert.That(savedCompany.ExtendedCompany.IsTransient, Is.False);
             Assert.That(savedCompany.ExtendedCompany, Is.Not.SameAs(company.ExtendedCompany));

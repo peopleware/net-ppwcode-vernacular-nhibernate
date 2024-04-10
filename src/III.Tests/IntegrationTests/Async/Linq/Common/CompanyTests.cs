@@ -1,4 +1,4 @@
-// Copyright 2020 by PeopleWare n.v..
+// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -75,7 +75,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
                         CancellationToken);
 
             Assert.That(companyAtIndex, Is.Not.Null);
-            Assert.AreEqual(companyAtIndex.Id, companies[index].Id);
+            Assert.That(companyAtIndex.Id, Is.EqualTo(companies[index].Id));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
                         query => query.Where(c => c.Id == company.Id),
                         CancellationToken);
 
-            Assert.AreEqual(1, count);
+            Assert.That(1, Is.EqualTo(count));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
             IList<Company> companies = await Repository.FindByIdsAsync(new[] { company1.Id, company2.Id, company3.Id }, CancellationToken);
 
             Assert.That(companies, Is.Not.Null);
-            Assert.AreEqual(3, companies.Count);
+            Assert.That(3, Is.EqualTo(companies.Count));
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
             Company loadedCompany = await Repository.GetByIdAsync(company.Id, CancellationToken);
 
             Assert.That(loadedCompany, Is.Not.Null);
-            Assert.AreEqual(loadedCompany.Id, company.Id);
+            Assert.That(loadedCompany.Id, Is.EqualTo(company.Id));
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
             await NHibernateUtil.InitializeAsync(loadedCompany, CancellationToken);
 
             Assert.That(loadedCompany, Is.Not.Null);
-            Assert.AreEqual(loadedCompany.Id, company.Id);
+            Assert.That(loadedCompany.Id, Is.EqualTo(company.Id));
         }
 
         [Test]

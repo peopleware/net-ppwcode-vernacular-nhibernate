@@ -1,4 +1,4 @@
-﻿// Copyright 2020 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -119,10 +119,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             string translation = null;
 
             RunInsideTransaction(() => translation = GenderEnumTranslationRepository.Translate(GenderEnum.FEMALE, "fr"), true);
-            Assert.AreEqual("Femme", translation);
+            Assert.That("Femme", Is.EqualTo(translation));
 
             RunInsideTransaction(() => translation = SalutationEnumTranslationRepository.Translate(SalutationEnum.MS, "nl"), true);
-            Assert.AreEqual("Juffrouw", translation);
+            Assert.That("Juffrouw", Is.EqualTo(translation));
         }
     }
 }

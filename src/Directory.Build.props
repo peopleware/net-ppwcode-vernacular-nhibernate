@@ -3,7 +3,7 @@
   <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build -->
 
   <!-- version number -->
-  <Import Project="version.props" />
+  <Import Project="version.props"/>
 
   <PropertyGroup>
     <!-- version numbers -->
@@ -30,7 +30,7 @@
     <NoWarn>1591;1592;1573;1571;1570;1572;1701;1702;1705;</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ErrorReport>prompt</ErrorReport>
-    <WarningsAsErrors />
+    <WarningsAsErrors/>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <LangVersion>8</LangVersion>
@@ -68,7 +68,7 @@
     <Product>PPWCode</Product>
     <Authors>dvdwouwe;rvdginste</Authors>
     <Company>Peopleware NV</Company>
-    <Copyright>Copyright © Peopleware NV 2014-2022</Copyright>
+    <Copyright>Copyright © Peopleware NV 2014-2024</Copyright>
 
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/peopleware/net-ppwcode-vernacular-nhibernate.git</RepositoryUrl>
@@ -87,6 +87,11 @@
 2.0.0 Improve identifier formatting rules in SimpleModelMapper (breaking!)
       Upgraded dependencies
 2.0.3 Fix bug in PostgreDbConstraints: missing constraints
+3.0.0 Upgrading dependencies. Target .net 8.0.
+  * Remove frameworks Target .net core 3.1, .net 5.0
+  * breaking behaviours
+    * Always fill in LastModifiedAt / LastModifiedBy when persisting a transient entity (breaking behaviour)
+    * Remove implicit Versioning mapping (breaking behaviour)   
       ]]>
     </PackageReleaseNotes>
 
@@ -105,16 +110,16 @@
 
   <!-- include supporting files in NuGet package -->
   <ItemGroup>
-    <None Include="../../assets/ppwcode_logo.jpg" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="../../LICENSE" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="../../NOTICE" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="../../README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="../../assets/ppwcode_logo.jpg" Pack="true" PackagePath="/" Visible="false"/>
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" Visible="false"/>
+    <None Include="../../NOTICE" Pack="true" PackagePath="/" Visible="false"/>
+    <None Include="../../README.md" Pack="true" PackagePath="/" Visible="false"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="all"/>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿// Copyright 2020 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -24,8 +24,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Assert.AreEqual(IdentityName, company.CreatedBy);
-            Assert.AreEqual(UtcNow, company.CreatedAt);
+            Assert.That(IdentityName, Is.EqualTo(company.CreatedBy));
+            Assert.That(UtcNow, Is.EqualTo(company.CreatedAt));
         }
 
         [Test]
@@ -33,38 +33,38 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             Company company = CreateCompany(CompanyCreationType.WITH_2_CHILDREN);
 
-            Assert.AreEqual(IdentityName, company.CreatedBy);
-            Assert.AreEqual(UtcNow, company.CreatedAt);
+            Assert.That(IdentityName, Is.EqualTo(company.CreatedBy));
+            Assert.That(UtcNow, Is.EqualTo(company.CreatedAt));
 
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
-                Assert.AreEqual(IdentityName, companyIdentification.CreatedBy);
-                Assert.AreEqual(UtcNow, companyIdentification.CreatedAt);
+                Assert.That(IdentityName, Is.EqualTo(companyIdentification.CreatedBy));
+                Assert.That(UtcNow, Is.EqualTo(companyIdentification.CreatedAt));
             }
         }
 
         [Test]
-        public void LastModified_Audit_Fields_Should_be_Null_After_Save()
+        public void LastModified_Audit_Fields_Should_be_Not_Null_After_Save()
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Assert.IsNull(company.LastModifiedAt);
-            Assert.IsNull(company.LastModifiedBy);
+            Assert.That(company.LastModifiedAt, Is.Not.Null);
+            Assert.That(company.LastModifiedBy, Is.Not.Null);
         }
 
         [Test]
-        public void LastModified_Audit_Fields_Should_be_Null_After_Save_With_Children()
+        public void LastModified_Audit_Fields_Should_be_Not_Null_After_Save_With_Children()
         {
             Company company = CreateCompany(CompanyCreationType.WITH_2_CHILDREN);
 
-            Assert.IsNull(company.LastModifiedAt);
-            Assert.IsNull(company.LastModifiedBy);
+            Assert.That(company.LastModifiedAt, Is.Not.Null);
+            Assert.That(company.LastModifiedBy, Is.Not.Null);
 
-            Assert.AreEqual(2, company.Identifications.Count);
+            Assert.That(2, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
-                Assert.IsNull(companyIdentification.LastModifiedAt);
-                Assert.IsNull(companyIdentification.LastModifiedBy);
+                Assert.That(companyIdentification.LastModifiedAt, Is.Not.Null);
+                Assert.That(companyIdentification.LastModifiedBy, Is.Not.Null);
             }
         }
     }

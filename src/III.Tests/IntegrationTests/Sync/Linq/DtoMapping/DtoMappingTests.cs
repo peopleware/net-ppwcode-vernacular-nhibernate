@@ -1,4 +1,4 @@
-﻿// Copyright 2020 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -134,7 +134,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Dto
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("X"); },
                 true);
 
-            Assert.IsTrue(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")));
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Dto
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCodePaged(2, 10, "X"); },
                 true);
 
-            Assert.IsTrue(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")));
+            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -162,10 +162,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Dto
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("Z"); },
                 true);
 
-            Assert.IsTrue(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")));
-            Assert.AreEqual(3, dtos.Count);
-            Assert.IsTrue(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)));
-            Assert.IsTrue(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")));
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")), Is.True);
+            Assert.That(3, Is.EqualTo(dtos.Count));
+            Assert.That(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)), Is.True);
+            Assert.That(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")), Is.True);
         }
     }
 }

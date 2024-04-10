@@ -1,4 +1,4 @@
-﻿// Copyright 2020 by PeopleWare n.v..
+﻿// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -32,19 +32,19 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Identification = "1"
                 };
             company.AddIdentification(companyIdentification);
-            Assert.AreEqual(1, company.Identifications.Count);
+            Assert.That(1, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification identification in company.Identifications)
             {
-                Assert.IsTrue(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.True);
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
-            Assert.IsNotNull(savedCompany);
-            Assert.AreEqual(2, savedCompany.PersistenceVersion);
-            Assert.AreEqual(1, savedCompany.Identifications.Count);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
+            Assert.That(1, Is.EqualTo(savedCompany.Identifications.Count));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
-                Assert.IsFalse(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.False);
             }
         }
 
@@ -66,19 +66,19 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Identification = "1"
                 };
             company.AddIdentification(companyIdentification2);
-            Assert.AreEqual(2, company.Identifications.Count);
+            Assert.That(2, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification identification in company.Identifications)
             {
-                Assert.IsTrue(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.True);
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
-            Assert.IsNotNull(savedCompany);
-            Assert.AreEqual(2, savedCompany.PersistenceVersion);
-            Assert.AreEqual(2, savedCompany.Identifications.Count);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
+            Assert.That(2, Is.EqualTo(savedCompany.Identifications.Count));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
-                Assert.IsFalse(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.False);
             }
         }
 
@@ -94,19 +94,19 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 Identification = "1",
                 Company = company
             };
-            Assert.AreEqual(1, company.Identifications.Count);
+            Assert.That(1, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification identification in company.Identifications)
             {
-                Assert.IsTrue(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.True);
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
-            Assert.IsNotNull(savedCompany);
-            Assert.AreEqual(2, savedCompany.PersistenceVersion);
-            Assert.AreEqual(1, savedCompany.Identifications.Count);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
+            Assert.That(1, Is.EqualTo(savedCompany.Identifications.Count));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
-                Assert.IsFalse(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.False);
             }
         }
 
@@ -129,19 +129,19 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 Identification = "1",
                 Company = company
             };
-            Assert.AreEqual(2, company.Identifications.Count);
+            Assert.That(2, Is.EqualTo(company.Identifications.Count));
             foreach (CompanyIdentification identification in company.Identifications)
             {
-                Assert.IsTrue(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.True);
             }
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
-            Assert.IsNotNull(savedCompany);
-            Assert.AreEqual(2, savedCompany.PersistenceVersion);
-            Assert.AreEqual(2, savedCompany.Identifications.Count);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
+            Assert.That(2, Is.EqualTo(savedCompany.Identifications.Count));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
-                Assert.IsFalse(identification.IsTransient);
+                Assert.That(identification.IsTransient, Is.False);
             }
         }
 
@@ -160,17 +160,17 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                             mergedCompany
                                 .Identifications
                                 .SingleOrDefault(i => i.Identification == "1");
-                        Assert.IsNotNull(companyIdentification);
+                        Assert.That(companyIdentification, Is.Not.Null);
                         companyIdentification.Company = null;
 
                         return mergedCompany;
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.AreEqual(1, selectedCompany.Identifications.Count);
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(1, Is.EqualTo(selectedCompany.Identifications.Count));
         }
 
         [Test]
@@ -193,10 +193,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.IsFalse(selectedCompany.Identifications.Any());
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.Identifications.Any(), Is.False);
         }
 
         [Test]
@@ -221,11 +221,11 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.IsNotNull(selectedCompany.FailedCompany);
-            Assert.IsTrue(selectedCompany.IsFailed);
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.FailedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.IsFailed, Is.True);
         }
 
         [Test]
@@ -250,11 +250,11 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.IsNotNull(selectedCompany.FailedCompany);
-            Assert.IsTrue(selectedCompany.IsFailed);
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.FailedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.IsFailed, Is.True);
         }
 
         [Test]
@@ -272,11 +272,11 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.IsNull(selectedCompany.FailedCompany);
-            Assert.IsFalse(selectedCompany.IsFailed);
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.FailedCompany, Is.Null);
+            Assert.That(selectedCompany.IsFailed, Is.False);
         }
 
         [Test]
@@ -294,17 +294,17 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                             mergedCompany
                                 .Identifications
                                 .SingleOrDefault(i => i.Identification == "1");
-                        Assert.IsNotNull(companyIdentification);
+                        Assert.That(companyIdentification, Is.Not.Null);
                         mergedCompany.RemoveIdentification(companyIdentification);
 
                         return mergedCompany;
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.AreEqual(1, selectedCompany.Identifications.Count);
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(1, Is.EqualTo(selectedCompany.Identifications.Count));
         }
 
         [Test]
@@ -327,10 +327,10 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     },
                     true);
 
-            Assert.IsNotNull(updatedCompany);
+            Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
-            Assert.IsNotNull(selectedCompany);
-            Assert.IsFalse(selectedCompany.Identifications.Any());
+            Assert.That(selectedCompany, Is.Not.Null);
+            Assert.That(selectedCompany.Identifications.Any(), Is.False);
         }
     }
 }

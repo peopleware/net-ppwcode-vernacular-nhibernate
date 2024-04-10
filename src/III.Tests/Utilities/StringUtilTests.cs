@@ -1,4 +1,4 @@
-// Copyright 2022 by PeopleWare n.v..
+// Copyright 2024 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,7 +23,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Utilities
         [TestCase("AMD64InstructionSet", "amd64_instruction_set")]
         public void ConversionSnakeCase(string original, string transformed)
         {
-            Assert.AreEqual(transformed, StringUtil.ConvertFromPascalCaseToSnakeCase(original));
+            Assert.That(transformed, Is.EqualTo(StringUtil.ConvertFromPascalCaseToSnakeCase(original)));
         }
 
         [TestCase("MyTestIdentifier", "MY_TEST_IDENTIFIER")]
@@ -33,7 +33,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Utilities
         [TestCase("AMD64InstructionSet", "AMD64_INSTRUCTION_SET")]
         public void ConversionScreamingSnakeCase(string original, string transformed)
         {
-            Assert.AreEqual(transformed, StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(original));
+            Assert.That(transformed, Is.EqualTo(StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(original)));
         }
     }
 }

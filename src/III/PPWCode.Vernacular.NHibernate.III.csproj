@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- target frameworks -->
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
 
     <!-- nuget package -->
     <IsPackable>true</IsPackable>
@@ -13,18 +13,27 @@
     <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <_HasReferenceToSystemRuntime>true</_HasReferenceToSystemRuntime>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="[1.1.0, 2)" />
-    <PackageReference Include="NHibernate" Version="5.3.11" />
-    <PackageReference Include="Iesi.Collections" Version="[4.0.4, 5)" />
-    <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)" />
-    <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)" />
-    <PackageReference Include="Common.Logging" Version="[3.4.1, 4)" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="1.*"/>
+    <PackageReference Include="NHibernate" Version="5.*"/>
+    <PackageReference Include="Iesi.Collections" Version="[4.1.1, 5)"/>
+    <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)"/>
+    <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)"/>
+    <PackageReference Include="Common.Logging" Version="[3.4.1, 4)"/>
   </ItemGroup>
+
+  <!-- See https://github.com/dotnet/standard/issues/506 -->
+  <Choose>
+    <When Condition=" '$(TargetFramework)' == 'net6.0' ">
+      <ItemGroup>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'net8.0' ">
+      <ItemGroup>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
+      </ItemGroup>
+    </When>
+  </Choose>
 
 </Project>
