@@ -40,8 +40,6 @@ include::partial$changelog-release-section.adoc[]
 :release: 3.0.0
 == `{release}`
 
-=== Release
-
 include::partial$changelog-release-section.adoc[]
 
 === Changes
