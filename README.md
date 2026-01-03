@@ -1,85 +1,19 @@
 # PPWCode.Vernacular.NHibernate
 
-This library is part of the PPWCode project and defines the semantic vernacular.
+This library is part of the .NET PPWCode project and contains a NHibernate specific implementation for persistence, with support for the following databases: Microsoft SQL Server, PostgreSQL and Firebird.
 
-## Getting started
+For more information, see [PPWCode .NET Docs].
 
-### PPWCode.Vernacular.NHibernate I
 
-This is version I of the library, which is designed to work with Microsoft .NET 4.5.
+## PPWCode .NET
 
-The library is available as the [NuGet] package `PPWCode.Vernacular.NHibernate.I`
-in the [NuGet Gallery]. It can be installed using the Nuget package manager from
-inside Visual Studio.
+Development of the PPWCode .NET libraries is done in [GitHub] repositories, and
+all releases (both stable and pre-release) are published on [NuGet].
 
-## Build your own
-
-A couple of reasons come to mind as to why you would want to build your own package of
-this library. One reason would be that you need a version of the library built
-with the debug configuration. Another reason might be that you need features
-that are available on master, but that are not yet released.
-
-Building your own package of this library is very easy. A [psake] build script is
-added for this purpose.
-
-Before executing regular [psake] tasks, the environment must first be initialized.
-To do this, open a PowerShell prompt, and execute the following in the root folder
-of the source.
-
-    .\init-psake.ps1
-
-This will initialize your environment. Note that the script assumes that the
-[NuGet] commandline client is available on the path.
-
-After the initialization, several [psake] tasks can be executed using the
-PowerShell command `Invoke-psake` that is available now. Here are a couple
-of examples:
-
-    Invoke-psake
-    Invoke-psake ?
-    Invoke-psake PackageRestore
-    Invoke-psake Package -properties @{ 'configuration'='Debug'; 'repos'=@('nuget'); 'publishrepo' = 'local' }
-
-The last line builds a [NuGet] package using the 'Debug' configuration, and publishes
-it to the [NuGet] repository with the name 'local'. The [NuGet] repository 'nuget'
-is used to locate the dependent [NuGet] packages.
-
-## Contributors
-
-See the [GitHub Contributors list].
-
-## PPWCode
-
-This package is part of the PPWCode project, developed by [PeopleWare n.v.].
-
-More information can be found in the following locations:
-
-* [PPWCode project website]
-* [PPWCode Google Code website]
-
-Please note that not all information on those sites is up-to-date. We are
-currently in the process of moving the code away from the Google code
-subversion repositories to git repositories on [GitHub].
-
-### PPWCode .NET
-
-Specifically for the .NET libraries: new development will be done on the
-[PeopleWare GitHub repositories], and all new stable releases will also
-be published as packages on the [NuGet Gallery].
-
-We believe in Design By Contract and have good experience with
-[Microsoft Code Contracts] and the related tooling. As such, our packages
-always include Contract Reference assemblies. This allows you to also
-benefit as a user from the contracts that are already included in the
-library code.
-
-The packages also include both the pdb and xml files, for debugging symbols
-and documentation respectively. In the future we might look into using
-symbol servers.
 
 ## License and Copyright
 
-Copyright 2014 by [PeopleWare n.v.].
+Copyright 2022–2026 by [PeopleWare].
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -94,22 +28,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-[PPWCode project website]: http://www.ppwcode.org
+[GitHub]: https://github.com/peopleware
 
-[PPWCode Google Code website]: http://ppwcode.googlecode.com
+[PeopleWare]: http://www.peopleware.be
 
-[PeopleWare n.v.]: http://www.peopleware.be/
+[NuGet]: https://www.nuget.org
 
-[NuGet]: https://www.nuget.org/
-
-[NuGet Gallery]: https://www.nuget.org/policies/About
-
-[GitHub]: https://github.com
-
-[PeopleWare GitHub repositories]: https://github.com/peopleware
-
-[Microsoft Code Contracts]: http://research.microsoft.com/en-us/projects/contracts/
-
-[psake]: https://github.com/psake/psake
-
-[GitHub Contributors list]: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/graphs/contributors
+[PPWCode .NET Docs]: https://peopleware.github.io/net-ppwcode-docs
