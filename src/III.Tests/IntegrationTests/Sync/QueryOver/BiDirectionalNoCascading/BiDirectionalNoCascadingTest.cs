@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -71,7 +71,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Assert.That(mergedCsharp, Is.Not.EqualTo(mergedCsharp.Books.Single().Keywords.Single()), "Merged Keyword object does not have a bi-directional link with the Book object.");
                     Assert.That(mergedCsharp.Books.Single().Keywords.Single().IsTransient, Is.True, "Book object still points to the not persisted Keyword object.");
 
-                    Assert.That(1, Is.EqualTo(mergedInDepth.Keywords.Count));
+                    Assert.That(mergedInDepth.Keywords.Count, Is.EqualTo(1));
                 },
                 true);
         }
@@ -138,7 +138,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Assert.That(mergedInDepth, Is.Not.EqualTo(mergedInDepth.Author.Books.Single()), "Merged Book object does not have a bi-directional link with the Author object.");
                     Assert.That(mergedJohn.Books.Single().IsTransient, Is.True, "Author object still points to the not persisted Book object.");
 
-                    Assert.That(1, Is.EqualTo(mergedJohn.Books.Count));
+                    Assert.That(mergedJohn.Books.Count, Is.EqualTo(1));
                 },
                 true);
         }

@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -88,7 +88,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
                         query => query.Where(c => c.Id == company.Id),
                         CancellationToken);
 
-            Assert.That(1, Is.EqualTo(count));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Co
             IList<Company> companies = await Repository.FindByIdsAsync(new[] { company1.Id, company2.Id, company3.Id }, CancellationToken);
 
             Assert.That(companies, Is.Not.Null);
-            Assert.That(3, Is.EqualTo(companies.Count));
+            Assert.That(companies.Count, Is.EqualTo(3));
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -121,7 +121,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Com
                     User savedUser = Repository.Merge(user);
                     savedUser.RemoveRole(savedUser.Roles.Single(r => r.Name == "Developer"));
                     Repository.Merge(savedUser);
-                }, true);
+                },
+                true);
         }
 
         [Test]

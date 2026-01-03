@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -32,7 +32,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Identification = "1"
                 };
             company.AddIdentification(companyIdentification);
-            Assert.That(1, Is.EqualTo(company.Identifications.Count));
+            Assert.That(company.Identifications.Count, Is.EqualTo(1));
             foreach (CompanyIdentification identification in company.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.True);
@@ -40,8 +40,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
             Assert.That(savedCompany, Is.Not.Null);
-            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
-            Assert.That(1, Is.EqualTo(savedCompany.Identifications.Count));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(2));
+            Assert.That(savedCompany.Identifications.Count, Is.EqualTo(1));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.False);
@@ -66,7 +66,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                     Identification = "1"
                 };
             company.AddIdentification(companyIdentification2);
-            Assert.That(2, Is.EqualTo(company.Identifications.Count));
+            Assert.That(company.Identifications.Count, Is.EqualTo(2));
             foreach (CompanyIdentification identification in company.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.True);
@@ -74,8 +74,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
             Assert.That(savedCompany, Is.Not.Null);
-            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
-            Assert.That(2, Is.EqualTo(savedCompany.Identifications.Count));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(2));
+            Assert.That(savedCompany.Identifications.Count, Is.EqualTo(2));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.False);
@@ -94,7 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 Identification = "1",
                 Company = company
             };
-            Assert.That(1, Is.EqualTo(company.Identifications.Count));
+            Assert.That(company.Identifications.Count, Is.EqualTo(1));
             foreach (CompanyIdentification identification in company.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.True);
@@ -102,8 +102,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
             Assert.That(savedCompany, Is.Not.Null);
-            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
-            Assert.That(1, Is.EqualTo(savedCompany.Identifications.Count));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(2));
+            Assert.That(savedCompany.Identifications.Count, Is.EqualTo(1));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.False);
@@ -129,7 +129,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 Identification = "1",
                 Company = company
             };
-            Assert.That(2, Is.EqualTo(company.Identifications.Count));
+            Assert.That(company.Identifications.Count, Is.EqualTo(2));
             foreach (CompanyIdentification identification in company.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.True);
@@ -137,8 +137,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             Company savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
             Assert.That(savedCompany, Is.Not.Null);
-            Assert.That(2, Is.EqualTo(savedCompany.PersistenceVersion));
-            Assert.That(2, Is.EqualTo(savedCompany.Identifications.Count));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(2));
+            Assert.That(savedCompany.Identifications.Count, Is.EqualTo(2));
             foreach (CompanyIdentification identification in savedCompany.Identifications)
             {
                 Assert.That(identification.IsTransient, Is.False);
@@ -170,7 +170,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
             Assert.That(selectedCompany, Is.Not.Null);
-            Assert.That(1, Is.EqualTo(selectedCompany.Identifications.Count));
+            Assert.That(selectedCompany.Identifications.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -304,7 +304,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(updatedCompany, Is.Not.Null);
             Company selectedCompany = RunInsideTransaction(() => Repository.GetById(updatedCompany.Id), false);
             Assert.That(selectedCompany, Is.Not.Null);
-            Assert.That(1, Is.EqualTo(selectedCompany.Identifications.Count));
+            Assert.That(selectedCompany.Identifications.Count, Is.EqualTo(1));
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,21 +28,13 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
     // ReSharper disable InconsistentNaming
     public class CompanyTests : BaseCompanyTests
     {
+        protected Company CreatedCompany { get; set; }
+
         protected override void OnSetup()
         {
             base.OnSetup();
 
             CreatedCompany = CreateExtendedCompany(CompanyCreationType.WITH_2_CHILDREN);
-        }
-
-        protected Company CreatedCompany { get; set; }
-
-        public class ExtendedCompanyRepository : TestRepository<ExtendedCompany>
-        {
-            public ExtendedCompanyRepository(ISessionProvider sessionProvider)
-                : base(sessionProvider)
-            {
-            }
         }
 
         [Test]
@@ -53,7 +45,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
 
             int count = Repository.Count(companies => companies.Where(c => c.Id == company1.Id));
 
-            Assert.That(1, Is.EqualTo(count));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -74,7 +66,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             IList<Company> companies = Repository.FindByIds(new[] { company1.Id, company2.Id });
 
             Assert.That(companies, Is.Not.Null);
-            Assert.That(2, Is.EqualTo(companies.Count));
+            Assert.That(companies.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -130,9 +122,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         public void Can_Get_Company_with_Eager_Identifications()
         {
             Company company =
-                Repository.Get(
-                    qry => qry.Where(c => c.Name == "Peopleware NV")
-                        .Fetch(SelectMode.Fetch, c => c.Identifications));
+                Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV")
+                                   .Fetch(SelectMode.Fetch, c => c.Identifications));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.True);
@@ -156,9 +147,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         {
             CompanyIdentification ci = null;
             Company company =
-                Repository.Get(
-                    qry => qry.Inner.JoinAlias(c => c.Identifications, () => ci)
-                        .Where(() => ci.Identification == "1"));
+                Repository.Get(qry => qry.Inner.JoinAlias(c => c.Identifications, () => ci)
+                                   .Where(() => ci.Identification == "1"));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -220,6 +210,14 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             string extraData = company.ExtendedCompany.ExtraData;
             Assert.That(extraData, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.ExtendedCompany), Is.True);
+        }
+
+        public class ExtendedCompanyRepository : TestRepository<ExtendedCompany>
+        {
+            public ExtendedCompanyRepository(ISessionProvider sessionProvider)
+                : base(sessionProvider)
+            {
+            }
         }
     }
 }

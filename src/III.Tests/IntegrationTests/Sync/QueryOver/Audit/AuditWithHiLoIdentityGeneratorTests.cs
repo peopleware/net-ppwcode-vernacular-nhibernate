@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -60,7 +60,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
             Assert.That(company.LastModifiedAt, Is.Not.Null);
             Assert.That(company.LastModifiedBy, Is.Not.Null);
 
-            Assert.That(2, Is.EqualTo(company.Identifications.Count));
+            Assert.That(company.Identifications.Count, Is.EqualTo(2));
             foreach (CompanyIdentification companyIdentification in company.Identifications)
             {
                 Assert.That(companyIdentification.LastModifiedAt, Is.Not.Null);
