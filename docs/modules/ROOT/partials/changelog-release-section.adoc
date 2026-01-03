@@ -1,22 +1,5 @@
 
-// some helper attributes for the release links
-:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/tree/III/
-:nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
-:nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
-:nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
-:nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.PostgreSQL/
-:nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Firebird/
-:nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Test/
-:main: PPWCode.Vernacular.NHibernate.III
-:castle: PPWCode.Vernacular.NHibernate.III.CastleWindsor
-:sql: PPWCode.Vernacular.NHibernate.III.SqlServer
-:pgsql: PPWCode.Vernacular.NHibernate.III.PostgreSQL
-:firebird: PPWCode.Vernacular.NHibernate.III.Firebird
-:test: PPWCode.Vernacular.NHibernate.III.Test
-
 === Release
-
-DEBUG release={release}
 
 * link:{github}{release}[GitHub]
 * NuGet

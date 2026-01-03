@@ -8,6 +8,13 @@ the link to the GitHub tag is only added once we are ready to release.
 ////
 
 // some helper attributes
+:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/tree/III/
+:nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
+:nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
+:nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
+:nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.PostgreSQL/
+:nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Firebird/
+:nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Test/
 :main: PPWCode.Vernacular.NHibernate.III
 :castle: PPWCode.Vernacular.NHibernate.III.CastleWindsor
 :sql: PPWCode.Vernacular.NHibernate.III.SqlServer
@@ -16,9 +23,10 @@ the link to the GitHub tag is only added once we are ready to release.
 :test: PPWCode.Vernacular.NHibernate.III.Test
 :ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
 
-== `4.0.0` (in development)
+:release: 4.0.0
+== `{release}` (in development)
 
-include::partial$changelog-release-section.adoc[release=4.0.0]
+include::partial$changelog-release-section.adoc[]
 
 === Changes
 
@@ -29,11 +37,12 @@ include::partial$changelog-release-section.adoc[release=4.0.0]
 * Initial version of documentation, available on link:{ppwcode-docs}[PPWCode .NET Docs]
 
 
-== `3.0.0`
+:release: 3.0.0
+== `{release}`
 
 === Release
 
-include::partial$changelog-release-section.adoc[release=3.0.0]
+include::partial$changelog-release-section.adoc[]
 
 === Changes
 
@@ -49,11 +58,12 @@ include::partial$changelog-release-section.adoc[release=3.0.0]
 ** Related to versioned objects (_persistence version_)
 
 
-== `2.0.3`
+:release: 2.0.3
+== `{release}`
 
 === Release
 
-include::partial$changelog-release-section.adoc[release=2.0.3]
+include::partial$changelog-release-section.adoc[]
 
 === Fixes
 
@@ -61,9 +71,10 @@ include::partial$changelog-release-section.adoc[release=2.0.3]
 ** Only relevant for users of `{pgsql}`
 
 
-== `2.0.0`
+:release: 2.0.0
+== `{release}`
 
-include::partial$changelog-release-section.adoc[release=2.0.0]
+include::partial$changelog-release-section.adoc[]
 
 === Changes
 
@@ -74,9 +85,10 @@ include::partial$changelog-release-section.adoc[release=2.0.0]
 * `SimpleModelMapper`: improve identifier formatting rules in  (breaking change)
 
 
-== `1.1.1`
+:release: 1.1.1
+== `{release}`
 
-include::partial$changelog-release-section.adoc[release=1.1.1]
+include::partial$changelog-release-section.adoc[]
 
 === Changes
 
@@ -84,9 +96,10 @@ include::partial$changelog-release-section.adoc[release=1.1.1]
 * Supported targets: `.NET standard 2.0`, `.NET Core 3.1`, `.NET 5.0`, `.NET 6.0`
 
 
-== `1.0.0`
+:release: 1.0.0
+== `{release}`
 
-include::partial$changelog-release-section.adoc[release=1.0.0]
+include::partial$changelog-release-section.adoc[]
 
 === Changes
 * Initial release of mark III
