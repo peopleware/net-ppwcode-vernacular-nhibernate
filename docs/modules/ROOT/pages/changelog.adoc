@@ -18,7 +18,7 @@ the link to the GitHub tag is only added once we are ready to release.
 
 == `4.0.0` (in development)
 
-include::partial$changelog-release-section.adoc[version=4.0.0]
+include::partial$changelog-release-section.adoc[release=4.0.0]
 
 === Changes
 
@@ -33,7 +33,7 @@ include::partial$changelog-release-section.adoc[version=4.0.0]
 
 === Release
 
-include::partial$changelog-release-section.adoc[version=3.0.0]
+include::partial$changelog-release-section.adoc[release=3.0.0]
 
 === Changes
 
@@ -53,7 +53,7 @@ include::partial$changelog-release-section.adoc[version=3.0.0]
 
 === Release
 
-include::partial$changelog-release-section.adoc[version=2.0.3]
+include::partial$changelog-release-section.adoc[release=2.0.3]
 
 === Fixes
 
@@ -63,7 +63,7 @@ include::partial$changelog-release-section.adoc[version=2.0.3]
 
 == `2.0.0`
 
-include::partial$changelog-release-section.adoc[version=2.0.0]
+include::partial$changelog-release-section.adoc[release=2.0.0]
 
 === Changes
 
@@ -76,7 +76,7 @@ include::partial$changelog-release-section.adoc[version=2.0.0]
 
 == `1.1.1`
 
-include::partial$changelog-release-section.adoc[version=1.1.1]
+include::partial$changelog-release-section.adoc[release=1.1.1]
 
 === Changes
 
@@ -86,7 +86,7 @@ include::partial$changelog-release-section.adoc[version=1.1.1]
 
 == `1.0.0`
 
-include::partial$changelog-release-section.adoc[version=1.0.0]
+include::partial$changelog-release-section.adoc[release=1.0.0]
 
 === Changes
 * Initial release of mark III

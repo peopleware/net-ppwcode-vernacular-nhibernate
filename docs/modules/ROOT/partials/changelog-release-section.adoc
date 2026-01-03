@@ -16,11 +16,11 @@
 
 === Release
 
-* link:{github}{version}[GitHub]
+* link:{github}{release}[GitHub]
 * NuGet
-** link:{nuget-main}{version}[{main}]
-** link:{nuget-castle}{version}[{castle}]
-** link:{nuget-sql}{version}[{sql}]
-** link:{nuget-pgsql}{version}[{pgsql}]
-** link:{nuget-firebird}{version}[{firebird}]
-** link:{nuget-test}{version}[{test}]
+** link:{nuget-main}{release}[{main}]
+** link:{nuget-castle}{release}[{castle}]
+** link:{nuget-sql}{release}[{sql}]
+** link:{nuget-pgsql}{release}[{pgsql}]
+** link:{nuget-firebird}{release}[{firebird}]
+** link:{nuget-test}{release}[{test}]
