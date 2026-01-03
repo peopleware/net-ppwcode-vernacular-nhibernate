@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,6 +26,9 @@ using PPWCode.Vernacular.Persistence.IV;
 
 using Environment = NHibernate.Cfg.Environment;
 
+// MUDO: switch to Microsoft.Data.SqlClient
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace PPWCode.Vernacular.NHibernate.III.Test
 {
     public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>
@@ -33,32 +36,6 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
         where TId : IEquatable<TId>
         where TAuditEntity : AuditLog<TId>, new()
     {
-        public class TestAuditLogEventListener
-            : AuditLogEventListener<TId, TAuditEntity, AuditLogEventContext>
-        {
-            public TestAuditLogEventListener(
-                [NotNull] IIdentityProvider identityProvider,
-                [NotNull] ITimeProvider timeProvider,
-                bool useUtc)
-                : base(identityProvider, timeProvider, useUtc)
-            {
-            }
-
-            /// <inheritdoc />
-            protected override bool CanAuditLogFor(AbstractEvent @event, AuditLogItem auditLogItem, AuditLogActionEnum requestedLogAction)
-                => true;
-
-            /// <inheritdoc />
-            protected override void OnAddAuditEntities(AuditLogEventContext context)
-            {
-                // NOP
-            }
-
-            /// <inheritdoc />
-            protected override AuditLogEventContext CreateContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
-                => new AuditLogEventContext(postDatabaseOperationEventArgs);
-        }
-
         private Configuration _configuration;
         private string _connectionString;
 
@@ -113,14 +90,13 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
                 if (_configuration == null)
                 {
                     _configuration = new Configuration()
-                        .DataBaseIntegration(
-                            db =>
-                            {
-                                db.Dialect<MsSqlDialect>();
-                                db.ConnectionString = ConnectionString;
-                                db.IsolationLevel = IsolationLevel.ReadCommitted;
-                                db.BatchSize = 0;
-                            })
+                        .DataBaseIntegration(db =>
+                                             {
+                                                 db.Dialect<MsSqlDialect>();
+                                                 db.ConnectionString = ConnectionString;
+                                                 db.IsolationLevel = IsolationLevel.ReadCommitted;
+                                                 db.BatchSize = 0;
+                                             })
                         .Configure()
                         .SetProperty(Environment.ShowSql, ShowSql.ToString())
                         .SetProperty(Environment.FormatSql, FormatSql.ToString())
@@ -161,12 +137,6 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
             }
         }
 
-        protected virtual void ResetConfiguration()
-        {
-            _configuration = null;
-            _connectionString = null;
-        }
-
         [CanBeNull]
         protected virtual IPpwHbmMapping PpwHbmMapping
             => null;
@@ -191,6 +161,12 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
         protected virtual INhInterceptor Interceptor
             => null;
 
+        protected virtual void ResetConfiguration()
+        {
+            _configuration = null;
+            _connectionString = null;
+        }
+
         protected virtual void CreateCatalog()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
@@ -209,6 +185,32 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
             {
                 SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);
             }
+        }
+
+        public class TestAuditLogEventListener
+            : AuditLogEventListener<TId, TAuditEntity, AuditLogEventContext>
+        {
+            public TestAuditLogEventListener(
+                [NotNull] IIdentityProvider identityProvider,
+                [NotNull] ITimeProvider timeProvider,
+                bool useUtc)
+                : base(identityProvider, timeProvider, useUtc)
+            {
+            }
+
+            /// <inheritdoc />
+            protected override bool CanAuditLogFor(AbstractEvent @event, AuditLogItem auditLogItem, AuditLogActionEnum requestedLogAction)
+                => true;
+
+            /// <inheritdoc />
+            protected override void OnAddAuditEntities(AuditLogEventContext context)
+            {
+                // NOP
+            }
+
+            /// <inheritdoc />
+            protected override AuditLogEventContext CreateContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
+                => new AuditLogEventContext(postDatabaseOperationEventArgs);
         }
     }
 }

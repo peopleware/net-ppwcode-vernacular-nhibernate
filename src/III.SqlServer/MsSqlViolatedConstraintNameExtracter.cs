@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,6 +19,9 @@ using JetBrains.Annotations;
 using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+
+// MUDO: switch to Microsoft.Data.SqlClient
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace PPWCode.Vernacular.NHibernate.III.SqlServer
 {
