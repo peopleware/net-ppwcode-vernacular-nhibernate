@@ -7,12 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = src\Directory.Build.props
 		version.props = src\version.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "psake", "psake", "{90949B3E-8AD7-4771-856E-47D86A5FAD33}"
-	ProjectSection(SolutionItems) = preProject
-		init-psake.ps1 = init-psake.ps1
-		psakefile.ps1 = psakefile.ps1
+		src\common-tests.props = src\common-tests.props
+		src\common.props = src\common.props
+		src\Directory.Packages.props = src\Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III", "src\III\PPWCode.Vernacular.NHibernate.III.csproj", "{83256CEB-BA1A-4614-9ACA-653049FFBDAC}"
@@ -29,11 +26,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHiberna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.Firebird", "src\III.Firebird\PPWCode.Vernacular.NHibernate.III.Firebird.csproj", "{9A28EE76-6342-46CC-9E70-23E377C866DE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style-cop", "style-cop", "{D694C67A-338F-4C74-A483-AC30CBD44574}"
-ProjectSection(SolutionItems) = preProject
-	src\StyleCop.ruleset = src\StyleCop.ruleset
-	src\StyleCop-Tests.ruleset = src\StyleCop-Tests.ruleset
-EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{2CC6ECFD-5CDD-49E3-A204-D995B67BAA79}"
+	ProjectSection(SolutionItems) = preProject
+		src\Analyzer-Tests.ruleset = src\Analyzer-Tests.ruleset
+		src\Analyzer.ruleset = src\Analyzer.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-pipeline", "build-pipeline", "{AB1E1436-A8DE-4D85-97D7-8101069D9DAE}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{A6435BF9-5B3E-47AF-861B-495E9049652D}"
+	ProjectSection(SolutionItems) = preProject
+		NOTICE = NOTICE
+		LICENSE = LICENSE
+		README.md = README.md
+		assets\ppw-logo-2.png = assets\ppw-logo-2.png
+		assets\ppw-logo.png = assets\ppw-logo.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

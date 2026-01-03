@@ -1,48 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\common.props" />
+  
+  <!-- nuget package -->
   <PropertyGroup>
-    <!-- target frameworks -->
-    <TargetFrameworks>net48;net481;net6.0;net8.0</TargetFrameworks>
-
-    <!-- nuget package -->
-    <IsPackable>true</IsPackable>
     <Description>The PPWCode Vernacular NHibernate Test library version III.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm test</PackageTags>
+  </PropertyGroup>
 
-    <!-- Stylecop -->
-    <CodeAnalysisRuleSet>..\StyleCop-Tests.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup>
+    <!-- less strict analyzer ruleset in this package -->
+    <CodeAnalysisRuleSet>..\Analyzer-Tests.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Target frameworks -->
+    <TargetFrameworks>net8.0;net9.0;net10.0;net462;net47;net471;net472;net48;net481</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="4.1.0"/>
-    <PackageReference Include="Moq" Version="4.20.70"/>
-    <PackageReference Include="NHibernateProfiler.Appender" Version="6.0.6047"/>
-    <PackageReference Include="log4net" Version="2.0.*"/>
-    <PackageReference Include="PPWCode.Log4Net.Adapter" Version="1.*"/>
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="NHibernateProfiler.Appender" />
+    <PackageReference Include="log4net" />
+    <PackageReference Include="PPWCode.Log4Net.Adapter" />
   </ItemGroup>
 
-  <!-- See https://github.com/dotnet/standard/issues/506 -->
-  <Choose>
-    <When Condition=" '$(TargetFramework)' == 'net6.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.*"/>
-      </ItemGroup>
-    </When>
-    <When Condition=" '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.*"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.*"/>
-      </ItemGroup>
-    </When>
-  </Choose>
-
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\III.SqlServer\PPWCode.Vernacular.NHibernate.III.SqlServer.csproj"/>
   </ItemGroup>

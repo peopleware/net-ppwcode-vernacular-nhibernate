@@ -1,39 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <!-- target frameworks -->
-    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
-
-    <!-- nuget package -->
-    <IsPackable>true</IsPackable>
-    <Description>The PPWCode Vernacular NHibernate library version III.</Description>
-    <PackageTags>ppwcode vernacular nhibernate orm</PackageTags>
-
-    <!-- Stylecop -->
-    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
+  <Import Project="..\common.props" />
+  
   <ItemGroup>
-    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" Version="1.*"/>
-    <PackageReference Include="NHibernate" Version="5.*"/>
-    <PackageReference Include="Iesi.Collections" Version="[4.1.1, 5)"/>
-    <PackageReference Include="Remotion.Linq" Version="[2.2.0, 3)"/>
-    <PackageReference Include="Remotion.Linq.EagerFetching" Version="[2.2.0, 3)"/>
-    <PackageReference Include="Common.Logging" Version="[3.4.1, 4)"/>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="NHibernate" />
+    <PackageReference Include="Common.Logging" />    
+    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" />
   </ItemGroup>
-
-  <!-- See https://github.com/dotnet/standard/issues/506 -->
-  <Choose>
-    <When Condition=" '$(TargetFramework)' == 'net6.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
-      </ItemGroup>
-    </When>
-    <When Condition=" '$(TargetFramework)' == 'net8.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
-      </ItemGroup>
-    </When>
-  </Choose>
 
 </Project>

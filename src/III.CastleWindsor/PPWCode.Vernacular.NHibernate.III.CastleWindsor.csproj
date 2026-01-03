@@ -1,35 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\common.props" />
+  
+  <!-- nuget package -->
   <PropertyGroup>
-    <!-- target frameworks -->
-    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
-
-    <!-- nuget package -->
-    <IsPackable>true</IsPackable>
     <Description>The PPWCode Vernacular NHibernate Castle Windsor library version III.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm castle windsor</PackageTags>
-
-    <!-- Stylecop -->
-    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Windsor" Version="5.1.1"/>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Castle.Windsor" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" />
   </ItemGroup>
-
-  <!-- See https://github.com/dotnet/standard/issues/506 -->
-  <Choose>
-    <When Condition=" '$(TargetFramework)' == 'net6.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
-      </ItemGroup>
-    </When>
-    <When Condition=" '$(TargetFramework)' == 'net8.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
-      </ItemGroup>
-    </When>
-  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj"/>

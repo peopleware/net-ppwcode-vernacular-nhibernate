@@ -1,35 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <!-- target frameworks -->
-    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
+  <Import Project="..\common.props" />
 
-    <!-- nuget package -->
-    <IsPackable>true</IsPackable>
+  <!-- nuget package -->
+  <PropertyGroup>
     <Description>The PPWCode Vernacular NHibernate Firebird library version III.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm firebird</PackageTags>
-
-    <!-- Stylecop -->
-    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.0.0"/>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" />
   </ItemGroup>
-
-  <!-- See https://github.com/dotnet/standard/issues/506 -->
-  <Choose>
-    <When Condition=" '$(TargetFramework)' == 'net6.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.*"/>
-      </ItemGroup>
-    </When>
-    <When Condition=" '$(TargetFramework)' == 'net8.0' ">
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.*"/>
-      </ItemGroup>
-    </When>
-  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj"/>
