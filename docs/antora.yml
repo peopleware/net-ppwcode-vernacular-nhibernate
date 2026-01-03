@@ -1,0 +1,5 @@
+name: ppwcode-vernacular-nhibernate-iii
+version: ~
+title: PPWCode.Vernacular.NHibernate.III
+nav:
+  - modules/ROOT/nav.adoc

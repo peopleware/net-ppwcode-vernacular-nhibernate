@@ -1,0 +1,41 @@
+= About
+
+The `PPWCode.Vernacular.NHibernate.III` project is part of the .NET PPWCode project and offers an implementation of `PPWCode.Vernacular.Persistence.IV` with support for relational databases Microsoft SQL Server, PostgreSQL and Firebird.
+
+The library supports both different versions of .NET full framework and more recent (supported) .NET SDKs.
+
+Note that this project contains the following libraries (and NuGet packages):
+
+- `PPWCode.Vernacular.NHibernate.III`, base functionality and database independent abstractions
+- `PPWCode.Vernacular.NHibernate.III.CastleWindsor`, a Castle Windsor _facility_ for setup and registration when using Castle Windsor as dependency injection container
+- `PPWCode.Vernacular.NHibernate.III.SqlServer`, support for Microsoft SQL Server
+- `PPWCode.Vernacular.NHibernate.III.PostgreSQL`, support for PostgreSQL
+- `PPWCode.Vernacular.NHibernate.III.Firebird`, support for Firebird
+- `PPWCode.Vernacular.NHibernate.III.Test`, support for integration tests with NUnit and SQL Server
+
+These libraries are always released as a set and follow the same versioning.  Do not mix different versions of these libraries within the same project.
+
+
+== Development
+
+Development of the PPWCode is done on https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/tree/III/next[GitHub].
+
+Releases (both stable and pre-release) are published on https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/[NuGet] by https://www.nuget.org/profiles/PeopleWare[PeopleWare].
+
+
+== License and Copyright
+
+Copyright 2014–2026 by xref:ppwcode-net:ROOT:peopleware.adoc[PeopleWare].
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
