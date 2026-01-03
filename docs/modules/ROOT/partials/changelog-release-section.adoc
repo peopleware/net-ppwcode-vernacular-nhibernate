@@ -16,6 +16,8 @@
 
 === Release
 
+DEBUG release={release}
+
 * link:{github}{release}[GitHub]
 * NuGet
 ** link:{nuget-main}{release}[{main}]
