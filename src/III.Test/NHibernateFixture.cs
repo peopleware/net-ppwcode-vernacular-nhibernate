@@ -64,7 +64,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
             IConfiguration config =
                 new ConfigurationBuilder()
                     .AddJsonFile(@"appsettings.json", false, false)
-                    .AddEnvironmentVariables(@"PPWCODE_TESTS")
+                    .AddEnvironmentVariables(@"PPWCODE_")
                     .Build();
             _appSettings = new AppSettings();
             config
