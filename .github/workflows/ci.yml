@@ -23,7 +23,7 @@ jobs:
             test-filter: 'Category!=SqlServer'
           - os: windows-latest
             name-suffix: 'Windows'
-            test-filter: 'Category!=SqlServer'
+            test-filter: 'Category=SqlServer|Category!=SqlServer'
 
     steps:
       - uses: actions/checkout@v4
