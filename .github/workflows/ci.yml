@@ -63,6 +63,15 @@ jobs:
           done
           echo "SQL Server is ready!"
 
+      - name: Start SQL Server LocalDB
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          # Start LocalDB instance
+          SqlLocalDB create MSSQLLocalDB
+          SqlLocalDB start MSSQLLocalDB
+          SqlLocalDB info MSSQLLocalDB
+
       - name: Restore dependencies
         shell: bash
         # do not add ContinuousIntegrationBuild here
