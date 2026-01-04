@@ -21,6 +21,8 @@ using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Mapping;
 
+using NUnit.Framework;
+
 using PPWCode.Vernacular.NHibernate.III.SqlServer;
 using PPWCode.Vernacular.Persistence.IV;
 
@@ -31,6 +33,7 @@ using Environment = NHibernate.Cfg.Environment;
 
 namespace PPWCode.Vernacular.NHibernate.III.Test
 {
+    [Category("SqlServer")]
     public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>
         : NHibernateFixture<TId>
         where TId : IEquatable<TId>
