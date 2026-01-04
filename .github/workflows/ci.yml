@@ -17,13 +17,13 @@ jobs:
         include:
           - os: ubuntu-latest
             name-suffix: 'Linux'
-            test-filter: 'Category=Database|Category!=Database'
+            test-filter: 'Category=SqlServer|Category!=SqlServer'
           - os: macos-latest
             name-suffix: 'macOS'
-            test-filter: 'Category!=Database'
+            test-filter: 'Category!=SqlServer'
           - os: windows-latest
             name-suffix: 'Windows'
-            test-filter: 'Category=Database|Category!=Database'
+            test-filter: 'Category!=SqlServer'
 
     steps:
       - uses: actions/checkout@v4
