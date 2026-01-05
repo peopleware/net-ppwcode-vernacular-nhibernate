@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [ "III/next" ]
 
-# need to serialize builds to ensure that test and coverage reports
-# are added to the correct build...
-concurrency:
-  group: ppwcode-vernacular-nhibernate
-  cancel-in-progress: false  # queue new runs instead of cancelling
-
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
@@ -118,7 +112,7 @@ jobs:
           docker rm sql-server || true
 
       - name: Publish Test Results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: always()
         with:
           name: Test Results (${{ matrix.name-suffix }})
