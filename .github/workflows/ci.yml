@@ -127,16 +127,23 @@ jobs:
           dotnet tool install -g dotnet-reportgenerator-globaltool
           reportgenerator \
             -reports:"coverage/**/coverage.cobertura.xml" \
-            -targetdir:"coveragereport" \
-            -reporttypes:"Cobertura"
+            -targetdir:"coveragereport-html" \
+            -reporttypes:"Html;MarkdownSummaryGithub" \
+            -verbosity:Warning
 
-      - name: Publish Coverage Report
-        uses: 5monkeys/cobertura-action@master
+      - name: Add Coverage to Job Summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f coveragereport-html/SummaryGithub.md ]; then
+            echo "## Code Coverage - ${{ matrix.name-suffix }}" >> $GITHUB_STEP_SUMMARY
+            cat coveragereport-html/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload Coverage HTML Report
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          path: 'coveragereport/Cobertura.xml'
-          minimum_coverage: 0
-          fail_below_threshold: false
-          show_line: false
-          show_branch: false
-          report_name: Code Coverage (${{ matrix.name-suffix }})
+          name: coverage-report-${{ matrix.name-suffix }}
+          path: coveragereport-html/
+          retention-days: 30
