@@ -118,7 +118,7 @@ jobs:
           docker rm sql-server || true
 
       - name: Publish Test Results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: always()
         with:
           name: Test Results (${{ matrix.name-suffix }})
