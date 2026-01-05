@@ -6,6 +6,12 @@ on:
       - 'III/[0-9]+.[0-9]+.[0-9]+'
       - 'III/[0-9]+.[0-9]+.[0-9]+-*'
 
+# need to serialize builds to ensure that test and coverage reports
+# are added to the correct build...
+concurrency:
+  group: ppwcode-vernacular-nhibernate
+  cancel-in-progress: false  # queue new runs instead of cancelling
+
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
