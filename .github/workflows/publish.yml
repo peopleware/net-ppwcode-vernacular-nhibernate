@@ -161,10 +161,11 @@ jobs:
 
   publish:
     needs: build-and-test
+    name: Release
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -174,35 +175,56 @@ jobs:
         run: |
           # Extract full tag (e.g., I/1.2.3 or II/2.0.0-beta1)
           FULL_TAG=${GITHUB_REF#refs/tags/}
-          
+
           # Validate tag format with roman numeral prefix
           if [[ ! $FULL_TAG =~ ^[IVX]+/[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
             echo "ERROR: Tag '$FULL_TAG' does not match format {ROMAN}/{VERSION}"
             echo "Expected format: I/1.2.3 or II/2.0.0-beta1"
             exit 1
           fi
-          
+
           # Extract version part (strip roman numeral prefix)
           VERSION=${FULL_TAG#*/}
-          
+
           # Extract commit hash (short)
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          
+
           # Extract major version for AssemblyVersion (e.g., 1.2.3 -> 1.0.0.0)
           if [[ $VERSION =~ ^([0-9]+) ]]; then
             ASSEMBLY_VERSION="${BASH_REMATCH[1]}.0.0.0"
           fi
-          
+
           # InformationalVersion = semantic version + commit hash
           INFORMATIONAL_VERSION="${VERSION}+${COMMIT_HASH}"
-          
+
+          # Detect if this is a pre-release version
+          if [[ $VERSION =~ - ]]; then
+            IS_PRERELEASE="true"
+          else
+            IS_PRERELEASE="false"
+          fi
+
+          # Extract major.minor.patch and create cleaned version string
+          if [[ $VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+            MAJOR="${BASH_REMATCH[1]}"
+            MINOR="${BASH_REMATCH[2]}"
+            PATCH="${BASH_REMATCH[3]}"
+            VERSION_CLEAN="_${MAJOR}_${MINOR}_${PATCH}"
+          else
+            VERSION_CLEAN=""
+          fi
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "assembly_version=$ASSEMBLY_VERSION" >> $GITHUB_OUTPUT
           echo "informational_version=$INFORMATIONAL_VERSION" >> $GITHUB_OUTPUT
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          echo "version_clean=$VERSION_CLEAN" >> $GITHUB_OUTPUT
           echo "Using tag: $FULL_TAG"
           echo "Version: $VERSION"
           echo "AssemblyVersion: $ASSEMBLY_VERSION"
           echo "InformationalVersion: $INFORMATIONAL_VERSION"
+          echo "Is pre-release: $IS_PRERELEASE"
+          echo "Version clean: $VERSION_CLEAN"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -254,3 +276,41 @@ jobs:
           dotnet nuget push ./artifacts/*.nupkg \
             --source https://api.nuget.org/v3/index.json \
             --api-key "${{ steps.nuget_login.outputs.NUGET_API_KEY }}"
+
+      - name: Download all artifacts
+        if: steps.get_version.outputs.is_prerelease == 'false'
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Create release ZIPs
+        if: steps.get_version.outputs.is_prerelease == 'false'
+        run: |
+          cd release-artifacts
+
+          # Zip test and coverage raw per OS
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_Linux_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Linux/
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_macOS_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-macOS/
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_Windows_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Windows/
+
+          # Zip coverage HTML per OS
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_Linux_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Linux/
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_macOS_${{ steps.get_version.outputs.version }}.zip coverage-report-html-macOS/
+          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_Windows_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Windows/
+
+          # Zip all NuGet packages
+          cd ../artifacts
+          zip -r -9 ../release-artifacts/PPWCode.Vernacular.NHibernate.III-nuget-pkgs_${{ steps.get_version.outputs.version }}.zip *.nupkg
+
+      - name: Create GitHub Release
+        if: steps.get_version.outputs.is_prerelease == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-artifacts/*.zip
+          generate_release_notes: false
+          name: PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version }}
+          body: |
+            **Changelog**
+            https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}
+          fail_on_unmatched_files: true
