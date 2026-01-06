@@ -64,15 +64,25 @@ jobs:
           done
           echo "SQL Server is ready!"
 
-      - name: Start SQL Server LocalDB
+      - name: Generate SQL Server password for Windows
         if: matrix.os == 'windows-latest'
-        shell: pwsh
+        shell: bash
         run: |
-          # Start LocalDB instance
-          SqlLocalDB create MSSQLLocalDB
-          SqlLocalDB start MSSQLLocalDB
-          SqlLocalDB info MSSQLLocalDB
+          # Generate a random password for this test run
+          SA_PASSWORD="P@ssw0rd_$(openssl rand -base64 12 | tr -d '/+=' | head -c 16)"
+          echo "SA_PASSWORD=$SA_PASSWORD" >> $GITHUB_ENV
+          echo "Generated SA password for Windows SQL Server"
 
+      - name: Run the action
+        if: matrix.os == 'windows-latest'
+        uses: potatoqualitee/mssqlsuite@v1.11
+        with:
+          install: sqlengine, sqlclient
+          version: 2019
+          sa-password: ${{ env.SA_PASSWORD }}
+          show-log: true
+          collation: SQL_Latin1_General_CP1_CI_AI
+        
       - name: Restore dependencies
         shell: bash
         # do not add ContinuousIntegrationBuild here
@@ -94,7 +104,7 @@ jobs:
       - name: Test
         shell: bash
         env:
-          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ matrix.os == 'ubuntu-latest' && format('Server=localhost,1433;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || (matrix.os == 'windows-latest' && 'Data Source=(localdb)\MSSQLLocalDB;Database=master;Integrated Security=True;' || '') }}
+          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ matrix.os == 'ubuntu-latest' && format('Server=localhost,1433;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || (matrix.os == 'windows-latest' && format('Server=localhost;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || '') }}
         run: |
           dotnet test PPWCode.Vernacular.NHibernate.sln \
             --configuration Release \
