@@ -24,7 +24,7 @@ the link to the GitHub tag is only added once we are ready to release.
 :ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
 
 :release: 4.0.0
-== `{release}` (in development)
+== `{release}`
 include::partial$changelog-release-section.adoc[]
 include::partial$changelog-{release}.adoc[]
 
