@@ -94,7 +94,7 @@ jobs:
       - name: Test
         shell: bash
         env:
-          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ matrix.os == 'ubuntu-latest' && format('Server=localhost,1433;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || (matrix.os == 'windows-latest' && 'Data Source=localhost\SQLEXPRESS;Database=master;Integrated Security=True;TrustServerCertificate=True' || '') }}
+          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ matrix.os == 'ubuntu-latest' && format('Server=localhost,1433;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || (matrix.os == 'windows-latest' && 'Data Source=(localdb)\MSSQLLocalDB;Database=master;Integrated Security=True;' || '') }}
         run: |
           dotnet test PPWCode.Vernacular.NHibernate.sln \
             --configuration Release \
