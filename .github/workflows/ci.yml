@@ -14,7 +14,7 @@ jobs:
       checks: write
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2022]
         include:
           - os: ubuntu-latest
             name-suffix: 'Linux'
@@ -22,7 +22,7 @@ jobs:
           - os: macos-latest
             name-suffix: 'macOS'
             test-filter: 'Category!=SqlServer'
-          - os: windows-latest
+          - os: windows-2022
             name-suffix: 'Windows'
             test-filter: 'Category=SqlServer|Category!=SqlServer'
 
@@ -69,7 +69,7 @@ jobs:
           echo "SQL Server is ready!"
 
       - name: Run the action
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2022'
         uses: potatoqualitee/mssqlsuite@v1.11
         with:
           install: sqlengine, sqlclient
