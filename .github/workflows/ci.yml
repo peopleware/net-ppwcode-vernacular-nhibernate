@@ -116,6 +116,7 @@ jobs:
         uses: dorny/test-reporter@v2
         if: ${{ !cancelled() }} # run this step even if previous step failed
         with:
+          name: Test Results - ${{ matrix.name-suffix }}
           report-title: Test Results - ${{ matrix.name-suffix }}
           path: 'coverage/test-results_*_.*.trx'
           reporter: dotnet-trx
