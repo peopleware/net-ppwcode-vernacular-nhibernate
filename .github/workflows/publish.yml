@@ -131,6 +131,7 @@ jobs:
             -reports:"coverage/**/coverage.cobertura.xml" \
             -targetdir:"coveragereport-html" \
             -reporttypes:"Html;MarkdownSummaryGithub" \
+            -title:"Coverage Report - ${{ matrix.name-suffix }}" \
             -verbosity:Warning
 
       - name: Add Coverage to Job Summary
@@ -138,7 +139,6 @@ jobs:
         shell: bash
         run: |
           if [ -f coveragereport-html/SummaryGithub.md ]; then
-            echo "## Code Coverage - ${{ matrix.name-suffix }}" >> $GITHUB_STEP_SUMMARY
             cat coveragereport-html/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
           fi
 
