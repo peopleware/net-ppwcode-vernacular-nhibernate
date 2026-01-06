@@ -130,7 +130,7 @@ jobs:
           reportgenerator \
             -reports:"coverage/**/coverage.cobertura.xml" \
             -targetdir:"coveragereport-html" \
-            -reporttypes:"Html;MarkdownSummary" \
+            -reporttypes:"Html;MarkdownSummaryGithub" \
             -title:"Coverage Report - ${{ matrix.name-suffix }}" \
             -verbosity:Warning
 
@@ -138,8 +138,8 @@ jobs:
         if: always()
         shell: bash
         run: |
-          if [ -f coveragereport-html/Summary.md ]; then
-            cat coveragereport-html/Summary.md >> $GITHUB_STEP_SUMMARY
+          if [ -f coveragereport-html/SummaryGithub.md ]; then
+            cat coveragereport-html/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Upload Coverage HTML Report
