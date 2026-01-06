@@ -147,7 +147,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: coverage-report-${{ matrix.name-suffix }}
+          name: coverage-report-html-${{ matrix.name-suffix }}
           path: coveragereport-html/
           retention-days: 30
 
