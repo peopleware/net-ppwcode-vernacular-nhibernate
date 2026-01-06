@@ -37,21 +37,25 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Start SQL Server container
-        if: matrix.os == 'ubuntu-latest'
+      - name: Generate SQL Server SA password
+        shell: bash
         run: |
           # Generate a random password for this test run
           SA_PASSWORD="P@ssw0rd_$(openssl rand -base64 12 | tr -d '/+=' | head -c 16)"
           echo "SA_PASSWORD=$SA_PASSWORD" >> $GITHUB_ENV
+          echo "Generated SA password"
 
+      - name: Start SQL Server container
+        if: matrix.os == 'ubuntu-latest'
+        run: |
           docker run -d \
             --name sql-server \
             -e ACCEPT_EULA=Y \
-            -e MSSQL_SA_PASSWORD=$SA_PASSWORD \
+            -e MSSQL_SA_PASSWORD=${{ env.SA_PASSWORD }} \
             -e MSSQL_COLLATION=SQL_Latin1_General_CP1_CI_AI \
             -e MSSQL_MEMORY_LIMIT_MB=4096 \
             -p 1433:1433 \
-            --health-cmd "sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q 'SELECT 1' -b" \
+            --health-cmd "sqlcmd -S localhost -U sa -P ${{ env.SA_PASSWORD }} -Q 'SELECT 1' -b" \
             --health-interval 10s \
             --health-timeout 5s \
             --health-retries 5 \
@@ -63,15 +67,6 @@ jobs:
             sleep 2
           done
           echo "SQL Server is ready!"
-
-      - name: Generate SQL Server password for Windows
-        if: matrix.os == 'windows-latest'
-        shell: bash
-        run: |
-          # Generate a random password for this test run
-          SA_PASSWORD="P@ssw0rd_$(openssl rand -base64 12 | tr -d '/+=' | head -c 16)"
-          echo "SA_PASSWORD=$SA_PASSWORD" >> $GITHUB_ENV
-          echo "Generated SA password for Windows SQL Server"
 
       - name: Run the action
         if: matrix.os == 'windows-latest'
@@ -104,7 +99,7 @@ jobs:
       - name: Test
         shell: bash
         env:
-          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ matrix.os == 'ubuntu-latest' && format('Server=localhost,1433;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || (matrix.os == 'windows-latest' && format('Server=localhost;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) || '') }}
+          PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ format('Server=localhost;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) }}
         run: |
           dotnet test PPWCode.Vernacular.NHibernate.sln \
             --configuration Release \
@@ -115,12 +110,6 @@ jobs:
             --results-directory ./coverage \
             --filter "${{ matrix.test-filter }}" \
             -p:ContinuousIntegrationBuild=true
-
-      - name: Stop SQL Server container
-        if: always() && matrix.os == 'ubuntu-latest'
-        run: |
-          docker stop sql-server || true
-          docker rm sql-server || true
 
       - name: Publish Test Results
         uses: dorny/test-reporter@v2
