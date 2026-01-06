@@ -1,4 +1,3 @@
-
 === Release
 
 * link:{github}{release}[GitHub]

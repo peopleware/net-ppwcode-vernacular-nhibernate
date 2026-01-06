@@ -1,0 +1,7 @@
+=== Changes
+
+* Upgrade dependencies
+
+=== Breaking
+
+* `SimpleModelMapper`: improve identifier formatting rules in  (breaking change)

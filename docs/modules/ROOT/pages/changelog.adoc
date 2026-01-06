@@ -25,80 +25,30 @@ the link to the GitHub tag is only added once we are ready to release.
 
 :release: 4.0.0
 == `{release}` (in development)
-
 include::partial$changelog-release-section.adoc[]
-
-=== Changes
-
-* Supported targets: `.NET standard 2.0`, `.NET 8.0`, `.NET 9.0`, `.NET 10.0` and .NET full framework (explicit support for `4.6.2`, `4.7`, `4.7.1`, `4.7.2`, `4.8`, `4.8.1`)
-** Note: `.NET standard 2.0` not supported for `{test}` (because of dependency on `NUnit`)
-* Build and publish workflows on GitHub actions
-* Upgraded dependencies
-* Initial version of documentation, available on link:{ppwcode-docs}[PPWCode .NET Docs]
-
+include::partial$changelog-{release}.adoc[]
 
 :release: 3.0.0
 == `{release}`
-
 include::partial$changelog-release-section.adoc[]
-
-=== Changes
-
-* Upgrade dependencies
-* Supported targets: `.NET standard 2.0`, `.NET 6.0`, `.NET 8.0`
-
-=== Breaking
-
-* Removed targets: `.NET Core 3.1`, `.NET 5.0`
-* Always write properties `LastModifiedAt` & `LastModifiedBy` when persisting a transient entity (breaking change)
-** Properties are also filled in upon creation of the entity
-* `SimpleModelMapper`: remove implicit mapping for _Versioning_ (breaking change)
-** Related to versioned objects (_persistence version_)
-
+include::partial$changelog-{release}.adoc[]
 
 :release: 2.0.3
 == `{release}`
-
-=== Release
-
 include::partial$changelog-release-section.adoc[]
-
-=== Fixes
-
-* `PostgreDbContraints`: fixed missing constraints
-** Only relevant for users of `{pgsql}`
-
+include::partial$changelog-{release}.adoc[]
 
 :release: 2.0.0
 == `{release}`
-
 include::partial$changelog-release-section.adoc[]
-
-=== Changes
-
-* Upgrade dependencies
-
-=== Breaking
-
-* `SimpleModelMapper`: improve identifier formatting rules in  (breaking change)
-
+include::partial$changelog-{release}.adoc[]
 
 :release: 1.1.1
 == `{release}`
-
 include::partial$changelog-release-section.adoc[]
-
-=== Changes
-
-* Upgraded dependencies
-* Supported targets: `.NET standard 2.0`, `.NET Core 3.1`, `.NET 5.0`, `.NET 6.0`
-
+include::partial$changelog-{release}.adoc[]
 
 :release: 1.0.0
 == `{release}`
-
 include::partial$changelog-release-section.adoc[]
-
-=== Changes
-* Initial release of mark III
-* Supported target: `.NET Core 3.1`
+include::partial$changelog-{release}.adoc[]

@@ -1,0 +1,5 @@
+=== Fixes
+
+* `PostgreDbContraints`: fixed missing constraints
+** Only relevant for users of `{pgsql}`
+

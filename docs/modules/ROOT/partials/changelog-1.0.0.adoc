@@ -1,0 +1,4 @@
+=== Changes
+
+* Initial release of mark III
+* Supported target: `.NET Core 3.1`
