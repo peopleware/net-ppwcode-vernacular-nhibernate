@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-test:
+    name: Build & Test - ${{ matrix.name-suffix }}
     runs-on: ${{ matrix.os }}
     permissions:
       checks: write
@@ -113,10 +114,10 @@ jobs:
 
       - name: Publish Test Results
         uses: dorny/test-reporter@v2
-        if: always()
+        if: ${{ !cancelled() }} # run this step even if previous step failed
         with:
-          name: Test Results (${{ matrix.name-suffix }})
-          path: '**/test-results*.trx'
+          name: 'Test Results - ${{ matrix.name-suffix }} - $1'
+          path: 'coverage/test-results_([^_]+)_.*\.trx'
           reporter: dotnet-trx
           fail-on-error: true
 
@@ -144,8 +145,16 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: coverage-report-${{ matrix.name-suffix }}
+          name: coverage-report-html-${{ matrix.name-suffix }}
           path: coveragereport-html/
+          retention-days: 30
+
+      - name: Upload Test and Coverage Raw Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-and-coverage-raw-${{ matrix.name-suffix }}
+          path: coverage/
           retention-days: 30
 
   publish:
