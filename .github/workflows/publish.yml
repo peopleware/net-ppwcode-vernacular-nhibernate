@@ -301,6 +301,12 @@ jobs:
           cd ../artifacts
           zip -r -9 ../release-artifacts/PPWCode.Vernacular.NHibernate.III-nuget-pkgs_${{ steps.get_version.outputs.version }}.zip *.nupkg
 
+      - name: Install pandoc
+        if: steps.get_version.outputs.is_prerelease == 'false'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
       - name: Create GitHub Release
         if: steps.get_version.outputs.is_prerelease == 'false'
         id: create_release
