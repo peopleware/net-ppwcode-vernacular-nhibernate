@@ -85,9 +85,6 @@
         <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
     </ItemGroup>
 
-    <ItemGroup>
-    </ItemGroup>
-    
     <!-- global package references -->
     <ItemGroup>
         <!-- included in each project, using PrivateAssets="All" -->
