@@ -303,13 +303,36 @@ jobs:
 
       - name: Create GitHub Release
         if: steps.get_version.outputs.is_prerelease == 'false'
+        id: create_release
+        run: |
+          CHANGELOG_FILE="docs/modules/ROOT/partials/changelog-${{ steps.get_version.outputs.version }}.adoc"
+          if [ -f "$CHANGELOG_FILE" ]; then
+            # Convert AsciiDoc to Markdown using pandoc
+            # -f asciidoc: from asciidoc
+            # -t gfm: to GitHub Flavored Markdown
+            # --wrap=none: avoid hard wraps
+            pandoc -f asciidoc -t gfm --wrap=none "$CHANGELOG_FILE" -o release_notes.md
+          else
+            echo "Changelog file $CHANGELOG_FILE not found."
+            echo "No specific changelog found for this version." > release_notes.md
+          fi
+
+          # Build the release body
+          {
+            cat release_notes.md
+            echo ""
+            echo "---"
+            echo "**Full Changelog**"
+            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}"
+          } > release_body.md
+
+      - name: Create GitHub Release
+        if: steps.get_version.outputs.is_prerelease == 'false'
         uses: softprops/action-gh-release@v2
         with:
           files: |
             release-artifacts/*.zip
           generate_release_notes: false
           name: PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version }}
-          body: |
-            **Changelog**
-            https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}
+          body_path: release_body.md
           fail_on_unmatched_files: true
