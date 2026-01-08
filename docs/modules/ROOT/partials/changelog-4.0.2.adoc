@@ -1,0 +1,6 @@
+=== Fixes
+
+* Fix release workflow
+** create GitHub release
+** publish release notes on GitHub release
+** fail pre-release builds when no changelog is available
