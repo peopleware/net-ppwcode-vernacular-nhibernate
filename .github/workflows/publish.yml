@@ -208,22 +208,53 @@ jobs:
             MAJOR="${BASH_REMATCH[1]}"
             MINOR="${BASH_REMATCH[2]}"
             PATCH="${BASH_REMATCH[3]}"
+            VERSION_TRIMMED="${MAJOR}.${MINOR}.${PATCH}"
             VERSION_CLEAN="_${MAJOR}_${MINOR}_${PATCH}"
           else
+            VERSION_TRIMMED=""
             VERSION_CLEAN=""
           fi
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_trimmed=$VERSION_TRIMMED" >> $GITHUB_OUTPUT
           echo "assembly_version=$ASSEMBLY_VERSION" >> $GITHUB_OUTPUT
           echo "informational_version=$INFORMATIONAL_VERSION" >> $GITHUB_OUTPUT
           echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
           echo "version_clean=$VERSION_CLEAN" >> $GITHUB_OUTPUT
           echo "Using tag: $FULL_TAG"
           echo "Version: $VERSION"
+          echo "Version trimmed: $VERSION_TRIMMED"
           echo "AssemblyVersion: $ASSEMBLY_VERSION"
           echo "InformationalVersion: $INFORMATIONAL_VERSION"
           echo "Is pre-release: $IS_PRERELEASE"
           echo "Version clean: $VERSION_CLEAN"
+
+      - name: Create release notes
+        id: create_release_notes
+        run: |
+          CHANGELOG_FILE="docs/modules/ROOT/partials/changelog-${{ steps.get_version.outputs.version_trimmed }}.adoc"
+          if [ ! -f "$CHANGELOG_FILE" ]; then
+            echo "ERROR: Changelog file '$CHANGELOG_FILE' not found."
+            exit 1
+          fi
+
+          # Convert AsciiDoc to Markdown using downdoc
+          npx downdoc "$CHANGELOG_FILE" -o release_notes.md
+
+          # Build the release body
+          {
+            cat release_notes.md
+            echo ""
+            echo "---"
+            echo "**Full Changelog**"
+            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}"
+          } > release_body.md
+
+      - name: Add Release Notes to Job Summary
+        run: |
+          if [ -f release_body.md ]; then
+            cat release_body.md >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -300,37 +331,6 @@ jobs:
           # Zip all NuGet packages
           cd ../artifacts
           zip -r -9 ../release-artifacts/PPWCode.Vernacular.NHibernate.III-nuget-pkgs_${{ steps.get_version.outputs.version }}.zip *.nupkg
-
-      - name: Install pandoc
-        if: steps.get_version.outputs.is_prerelease == 'false'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc
-
-      - name: Create GitHub Release
-        if: steps.get_version.outputs.is_prerelease == 'false'
-        id: create_release
-        run: |
-          CHANGELOG_FILE="docs/modules/ROOT/partials/changelog-${{ steps.get_version.outputs.version }}.adoc"
-          if [ -f "$CHANGELOG_FILE" ]; then
-            # Convert AsciiDoc to Markdown using pandoc
-            # -f asciidoc: from asciidoc
-            # -t gfm: to GitHub Flavored Markdown
-            # --wrap=none: avoid hard wraps
-            pandoc -f asciidoc -t gfm --wrap=none "$CHANGELOG_FILE" -o release_notes.md
-          else
-            echo "Changelog file $CHANGELOG_FILE not found."
-            echo "No specific changelog found for this version." > release_notes.md
-          fi
-
-          # Build the release body
-          {
-            cat release_notes.md
-            echo ""
-            echo "---"
-            echo "**Full Changelog**"
-            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}"
-          } > release_body.md
 
       - name: Create GitHub Release
         if: steps.get_version.outputs.is_prerelease == 'false'
