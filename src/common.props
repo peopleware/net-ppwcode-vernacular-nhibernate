@@ -16,6 +16,11 @@
                      Or ('$(TargetFramework)' == 'net48')
                      Or ('$(TargetFramework)' == 'net481') ">
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="All" />
+        <Reference Include="System.ComponentModel.DataAnnotations" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+        <PackageReference Include="System.ComponentModel.Annotations" />
     </ItemGroup>
 
     <!-- common dependencies included using GlobalPackageReference -->
