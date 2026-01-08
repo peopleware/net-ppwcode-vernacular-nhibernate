@@ -247,12 +247,14 @@ jobs:
             echo ""
             echo "---"
             echo "**Full Changelog**"
-            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }}"
+            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html"
           } > release_body.md
 
       - name: Add Release Notes to Job Summary
         run: |
           if [ -f release_body.md ]; then
+            echo "# PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version_clean }}"
+            echo ""
             cat release_body.md >> $GITHUB_STEP_SUMMARY
           fi
 
