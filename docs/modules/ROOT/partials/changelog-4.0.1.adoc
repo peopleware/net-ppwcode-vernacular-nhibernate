@@ -1,0 +1,4 @@
+=== Changes
+
+* Improved release workflow
+** Create GitHub release with build artifacts
