@@ -245,9 +245,9 @@ jobs:
           {
             cat release_notes.md
             echo ""
-            echo "---"
-            echo "**Full Changelog**"
-            echo "https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html"
+            echo ""
+            echo "<br />"
+            echo "[View full changelog →](https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }})"
           } > release_body.md
 
       - name: Add Release Notes to Job Summary
