@@ -8,7 +8,7 @@ the link to the GitHub tag is only added once we are ready to release.
 ////
 
 // some helper attributes
-:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/tree/III/
+:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/releases/tag/III%2F
 :nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
 :nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
 :nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
