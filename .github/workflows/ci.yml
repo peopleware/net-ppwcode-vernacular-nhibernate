@@ -68,7 +68,7 @@ jobs:
           done
           echo "SQL Server is ready!"
 
-      - name: Run the action
+      - name: Install SQL Server
         if: matrix.os == 'windows-2022'
         uses: potatoqualitee/mssqlsuite@v1.11
         with:
