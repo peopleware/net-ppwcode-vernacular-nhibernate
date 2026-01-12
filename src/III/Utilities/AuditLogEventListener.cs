@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -37,7 +37,9 @@ namespace PPWCode.Vernacular.NHibernate.III
     /// <inheritdoc cref="IPostInsertEventListener" />
     /// <inheritdoc cref="IPostDeleteEventListener" />
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]
+#if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]
+#endif
     public abstract class AuditLogEventListener<TId, TAuditEntity, TContext>
         : IRegisterEventListener,
           IPostUpdateEventListener,
@@ -343,7 +345,8 @@ namespace PPWCode.Vernacular.NHibernate.III
 
         protected virtual void SaveAuditLogs(
             [JetBrains.Annotations.NotNull] AbstractEvent @event,
-            [JetBrains.Annotations.NotNull] [ItemNotNull] ICollection<TAuditEntity> auditLogs)
+            [JetBrains.Annotations.NotNull] [ItemNotNull]
+            ICollection<TAuditEntity> auditLogs)
         {
             if (auditLogs.Count > 0)
             {
@@ -362,7 +365,8 @@ namespace PPWCode.Vernacular.NHibernate.III
         [JetBrains.Annotations.NotNull]
         protected virtual async Task SaveAuditLogsAsync(
             [JetBrains.Annotations.NotNull] AbstractEvent @event,
-            [JetBrains.Annotations.NotNull] [ItemNotNull] ICollection<TAuditEntity> auditLogs,
+            [JetBrains.Annotations.NotNull] [ItemNotNull]
+            ICollection<TAuditEntity> auditLogs,
             CancellationToken cancellationToken)
         {
             if (auditLogs.Count > 0)

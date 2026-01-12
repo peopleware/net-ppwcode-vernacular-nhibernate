@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,7 +20,9 @@ using NHibernate.Engine;
 namespace PPWCode.Vernacular.NHibernate.III
 {
     /// <inheritdoc />
+#if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]
+#endif
     public abstract class GenericWellKnownInstanceType<T, TId> : ImmutableUserTypeBase
         where T : class
     {
@@ -66,7 +68,7 @@ namespace PPWCode.Vernacular.NHibernate.III
             int index,
             [NotNull] ISessionImplementor sessionImplementor)
         {
-            cmd.Parameters[index].Value = value == null ? (object)DBNull.Value : _idGetter((T)value);
+            cmd.Parameters[index].Value = value == null ? DBNull.Value : _idGetter((T)value);
         }
     }
 }

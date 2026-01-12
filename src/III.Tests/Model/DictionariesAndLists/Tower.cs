@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,7 +9,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#if NETSTANDARD2_0 || NET462_OR_GREATER
 using System;
+#endif
+
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -22,7 +25,9 @@ using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists
 {
+#if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]
+#endif
     [DataContract(IsReference = true)]
     public class Tower : PersistentObject<int>
     {
@@ -61,21 +66,20 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists
                 },
                 cer =>
                 {
-                    cer.Component(
-                        cp =>
-                        {
-                            cp.Component(
-                                p => p.Normal,
-                                pm =>
-                                {
-                                    pm.Property(pn => pn.X, pnm => { pnm.Column("PlaneNormalX"); });
-                                    pm.Property(pn => pn.Y, pnm => { pnm.Column("PlaneNormalY"); });
-                                    pm.Property(pn => pn.Z, pnm => { pnm.Column("PlaneNormalZ"); });
-                                });
-                            cp.Property(
-                                p => p.Translation,
-                                ptm => { ptm.Column("PlaneTranslation"); });
-                        });
+                    cer.Component(cp =>
+                                  {
+                                      cp.Component(
+                                          p => p.Normal,
+                                          pm =>
+                                          {
+                                              pm.Property(pn => pn.X, pnm => { pnm.Column("PlaneNormalX"); });
+                                              pm.Property(pn => pn.Y, pnm => { pnm.Column("PlaneNormalY"); });
+                                              pm.Property(pn => pn.Z, pnm => { pnm.Column("PlaneNormalZ"); });
+                                          });
+                                      cp.Property(
+                                          p => p.Translation,
+                                          ptm => { ptm.Column("PlaneTranslation"); });
+                                  });
                 });
 
             Map(
@@ -88,43 +92,41 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists
                 },
                 k =>
                 {
-                    k.Element(
-                        e =>
-                        {
-                            e.Column("Side");
-                            e.Type<EnumStringType<SideEnum>>();
-                        });
+                    k.Element(e =>
+                              {
+                                  e.Column("Side");
+                                  e.Type<EnumStringType<SideEnum>>();
+                              });
                 },
                 r =>
                 {
-                    r.Component(
-                        ccp =>
-                        {
-                            ccp.Component(
-                                x => x.Plane,
-                                cp =>
+                    r.Component(ccp =>
                                 {
-                                    cp.Component(
-                                        p => p.Normal,
-                                        pm =>
+                                    ccp.Component(
+                                        x => x.Plane,
+                                        cp =>
                                         {
-                                            pm.Property(pn => pn.X, pnm => { pnm.Column("ClippingPlanePlaneNormalX"); });
-                                            pm.Property(pn => pn.Y, pnm => { pnm.Column("ClippingPlanePlaneNormalY"); });
-                                            pm.Property(pn => pn.Z, pnm => { pnm.Column("ClippingPlanePlaneNormalZ"); });
+                                            cp.Component(
+                                                p => p.Normal,
+                                                pm =>
+                                                {
+                                                    pm.Property(pn => pn.X, pnm => { pnm.Column("ClippingPlanePlaneNormalX"); });
+                                                    pm.Property(pn => pn.Y, pnm => { pnm.Column("ClippingPlanePlaneNormalY"); });
+                                                    pm.Property(pn => pn.Z, pnm => { pnm.Column("ClippingPlanePlaneNormalZ"); });
+                                                });
+                                            cp.Property(
+                                                p => p.Translation,
+                                                ptm => { ptm.Column("ClippingPlanePlaneTranslation"); });
                                         });
-                                    cp.Property(
-                                        p => p.Translation,
-                                        ptm => { ptm.Column("ClippingPlanePlaneTranslation"); });
+                                    ccp.Component(
+                                        x => x.MeshTranslation,
+                                        mt =>
+                                        {
+                                            mt.Property(pn => pn.X, pnm => { pnm.Column("ClippingPlaneMeshTranslationX"); });
+                                            mt.Property(pn => pn.Y, pnm => { pnm.Column("ClippingPlaneMeshTranslationY"); });
+                                            mt.Property(pn => pn.Z, pnm => { pnm.Column("ClippingPlaneMeshTranslationZ"); });
+                                        });
                                 });
-                            ccp.Component(
-                                x => x.MeshTranslation,
-                                mt =>
-                                {
-                                    mt.Property(pn => pn.X, pnm => { pnm.Column("ClippingPlaneMeshTranslationX"); });
-                                    mt.Property(pn => pn.Y, pnm => { pnm.Column("ClippingPlaneMeshTranslationY"); });
-                                    mt.Property(pn => pn.Z, pnm => { pnm.Column("ClippingPlaneMeshTranslationZ"); });
-                                });
-                        });
                 });
         }
     }
