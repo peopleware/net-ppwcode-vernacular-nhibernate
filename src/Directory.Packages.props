@@ -37,7 +37,7 @@
         <PackageVersion Include="PPWCode.Log4Net.Adapter" Version="1.*" />
 
         <!-- castle windsor -->
-        <PackageVersion Include="Castle.Windsor" Version="[5.1.1]" />
+        <PackageVersion Include="Castle.Windsor" Version="[5.1.1, 5.1.2]" />
         <!--
             following is a dependency of CastleWindsor that in its minimal version
             pulls in a dependency on a vulnerable version of Newtonsoft.Json
