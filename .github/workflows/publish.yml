@@ -36,6 +36,7 @@ jobs:
             8.0.x
             9.0.x
             10.0.x
+          global-json-file: ./global.json
 
       - name: Generate SQL Server SA password
         shell: bash
@@ -266,6 +267,7 @@ jobs:
             8.0.x
             9.0.x
             10.0.x
+          global-json-file: ./global.json
 
       - name: Restore dependencies
         shell: bash
