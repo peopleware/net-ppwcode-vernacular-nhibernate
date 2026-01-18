@@ -36,6 +36,7 @@ jobs:
             8.0.x
             9.0.x
             10.0.x
+          global-json-file: ./global.json
 
       - name: Generate SQL Server SA password
         shell: bash
@@ -86,6 +87,7 @@ jobs:
         # builds on Linux and macOS
         run: |
           dotnet restore PPWCode.Vernacular.NHibernate.sln \
+            --locked-mode \
             -p:Configuration=Release
 
       - name: Build
