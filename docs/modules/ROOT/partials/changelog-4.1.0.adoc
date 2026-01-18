@@ -11,4 +11,4 @@ This file is translated into markdown and used for the release notes in the GitH
 * Reproducible builds
 ** Locking the compiler version to ensure reproducible builds
 *** Compiler version is now tracked through `global.json`
-
+** Strict locking when restoring dependencies (`dotnet restore --locked-mode`)
