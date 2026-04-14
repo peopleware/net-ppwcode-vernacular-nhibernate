@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHiberna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.Firebird", "src\III.Firebird\PPWCode.Vernacular.NHibernate.III.Firebird.csproj", "{9A28EE76-6342-46CC-9E70-23E377C866DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.NHibernate.III.DI", "src\III.DI\PPWCode.Vernacular.NHibernate.III.DI.csproj", "{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{2CC6ECFD-5CDD-49E3-A204-D995B67BAA79}"
 	ProjectSection(SolutionItems) = preProject
 		src\Analyzer-Tests.ruleset = src\Analyzer-Tests.ruleset
@@ -81,6 +83,10 @@ Global
 		{9A28EE76-6342-46CC-9E70-23E377C866DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A28EE76-6342-46CC-9E70-23E377C866DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A28EE76-6342-46CC-9E70-23E377C866DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
