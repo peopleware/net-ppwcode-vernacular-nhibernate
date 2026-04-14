@@ -27,8 +27,88 @@ using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.III.DI
 {
+    /// <summary>
+    ///     Extension methods for <see cref="IServiceCollection" /> that register NHibernate
+    ///     infrastructure services with the Microsoft Dependency Injection container.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        ///     Registers all NHibernate infrastructure services required to run the PPWCode
+        ///     NHibernate vernacular layer.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+        /// <param name="configure">
+        ///     A delegate that receives an <see cref="NHibernateOptions" /> builder and is
+        ///     responsible for supplying at minimum
+        ///     <see cref="NHibernateOptions.UseMappingAssemblies{T}" /> and
+        ///     <see cref="NHibernateOptions.UseHbmMapping{T}" />.  All other options fall back to
+        ///     built-in defaults when not set.
+        /// </param>
+        /// <returns>The same <see cref="IServiceCollection" /> for fluent chaining.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when <paramref name="services" /> or <paramref name="configure" /> is
+        ///     <c>null</c>.
+        /// </exception>
+        /// <exception cref="PPWCode.Vernacular.Exceptions.IV.Error">
+        ///     Thrown when the <paramref name="configure" /> delegate does not call
+        ///     <see cref="NHibernateOptions.UseMappingAssemblies{T}" /> or
+        ///     <see cref="NHibernateOptions.UseHbmMapping{T}" />, as both are mandatory.
+        /// </exception>
+        /// <remarks>
+        ///     <para>
+        ///         The following singleton services are always registered (using
+        ///         <c>TryAdd</c> semantics so that application registrations take precedence):
+        ///     </para>
+        ///     <list type="bullet">
+        ///         <item><description><see cref="IMappingAssemblies" /></description></item>
+        ///         <item><description><see cref="IPpwHbmMapping" /></description></item>
+        ///         <item><description><see cref="IExceptionTranslator" /></description></item>
+        ///         <item><description><see cref="INhProperties" /></description></item>
+        ///         <item><description><see cref="INhConfiguration" /></description></item>
+        ///         <item><description><see cref="INHibernateSessionFactory" /></description></item>
+        ///         <item><description><see cref="INhInterceptor" /></description></item>
+        ///         <item>
+        ///             <description>
+        ///                 <see cref="ITimeProvider" /> (defaults to built-in
+        ///                 <c>TimeProvider</c>)
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <description>
+        ///                 <see cref="IIdentityProvider" /> (defaults to built-in
+        ///                 <c>IdentityProvider</c>)
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <description>
+        ///                 <c>ITransactionProvider</c> / <c>ITransactionProviderAsync</c>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <description>
+        ///                 <c>ISafeEnvironmentProvider</c> / <c>ISafeEnvironmentProviderAsync</c>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        ///     <para>
+        ///         <see cref="ISession" /> and <see cref="IStatelessSession" /> are registered
+        ///         with the lifetime specified by
+        ///         <see cref="NHibernateOptions.UseLifestyleTypeForSessions" /> (default:
+        ///         <see cref="ServiceLifetime.Scoped" />).
+        ///     </para>
+        ///     <para>
+        ///         <see cref="ISessionProvider" /> / <see cref="ISessionProviderAsync" /> are
+        ///         registered as <see cref="ServiceLifetime.Transient" /> services.
+        ///     </para>
+        ///     <para>
+        ///         All concrete types found in the assemblies returned by
+        ///         <see cref="IMappingAssemblies" /> that implement
+        ///         <see cref="IRegisterEventListener" /> or
+        ///         <see cref="IAuxiliaryDatabaseObject" /> are registered
+        ///         automatically via enumerable registrations.
+        ///     </para>
+        /// </remarks>
         public static IServiceCollection AddNHibernate(this IServiceCollection services, Action<NHibernateOptions> configure)
         {
             if (services == null)
@@ -166,6 +246,12 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
             return services;
         }
 
+        /// <summary>
+        ///     Registers <see cref="ISession" /> and <see cref="IStatelessSession" /> with the
+        ///     DI lifetime configured by <see cref="NHibernateOptions.SessionLifestyle" />.
+        ///     Both services are resolved by opening a new session from
+        ///     <see cref="INHibernateSessionFactory.SessionFactory" /> on each resolution.
+        /// </summary>
         private static void RegisterNhSessionFactories(
             IServiceCollection services,
             NHibernateOptions options)
@@ -195,6 +281,13 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
             services.Add(statelessSessionServiceDescriptor);
         }
 
+        /// <summary>
+        ///     Scans the assemblies returned by <see cref="IMappingAssemblies" /> and registers
+        ///     all concrete types that implement <see cref="IRegisterEventListener" /> or
+        ///     <see cref="IAuxiliaryDatabaseObject" /> as singleton-enumerable
+        ///     services, so NHibernate can discover and apply them during session factory
+        ///     initialization.
+        /// </summary>
         private static void RegisterAssemblyBasedComponents(
             IServiceCollection services,
             NHibernateOptions options)
