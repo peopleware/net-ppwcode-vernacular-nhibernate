@@ -16,9 +16,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -581,7 +581,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -744,9 +744,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -1322,7 +1322,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -1485,9 +1485,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -2063,7 +2063,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -2226,9 +2226,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -2797,7 +2797,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -2960,9 +2960,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -3531,7 +3531,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -3694,9 +3694,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -4265,7 +4265,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -4428,9 +4428,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -4979,7 +4979,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[10.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -5141,9 +5141,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -5697,7 +5697,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[8.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {
@@ -5859,9 +5859,9 @@
       },
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -6409,7 +6409,7 @@
           "PPWCode.Log4Net.Adapter": "[1.*, )",
           "PPWCode.Vernacular.NHibernate.III.SqlServer": "[0.0.0-devbuild, )",
           "System.Configuration.ConfigurationManager": "[9.*, )",
-          "log4net": "[2.0.*, )"
+          "log4net": "[3.*, )"
         }
       },
       "Common.Logging": {

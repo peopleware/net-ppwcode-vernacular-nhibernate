@@ -24,7 +24,7 @@
     <PackageVersion Include="NHibernateProfiler.Appender" Version="6.0.*" />
     <!-- logging -->
     <PackageVersion Include="Common.Logging" Version="[3.4.1, 4)" />
-    <PackageVersion Include="log4net" Version="2.0.*" />
+    <PackageVersion Include="log4net" Version="3.*" />
     <PackageVersion Include="PPWCode.Log4Net.Adapter" Version="1.*" />
     <!-- castle windsor -->
     <PackageVersion Include="Castle.Windsor" Version="5.1.1" />

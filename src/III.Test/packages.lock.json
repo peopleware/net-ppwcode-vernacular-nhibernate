@@ -4,9 +4,9 @@
     ".NETFramework,Version=v4.6.2": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -592,9 +592,9 @@
     ".NETFramework,Version=v4.7": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -1193,9 +1193,9 @@
     ".NETFramework,Version=v4.7.1": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -1794,9 +1794,9 @@
     ".NETFramework,Version=v4.7.2": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -2388,9 +2388,9 @@
     ".NETFramework,Version=v4.8": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -2982,9 +2982,9 @@
     ".NETFramework,Version=v4.8.1": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA=="
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
@@ -3576,9 +3576,9 @@
     "net10.0": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -4164,9 +4164,9 @@
     "net8.0": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
@@ -4757,9 +4757,9 @@
     "net9.0": {
       "log4net": {
         "type": "Direct",
-        "requested": "[2.0.*, )",
-        "resolved": "2.0.17",
-        "contentHash": "qnnDf/ubJzwm2i1xH7nRMjEDoD+ctse7nZDqb+p7L1PvZc6ykpMoEesWr1/9hFqlsbII2v9e8yyQHJhoDQh7ZA==",
+        "requested": "[3.*, )",
+        "resolved": "3.3.0",
+        "contentHash": "wtZ7K4XGWDxeQqHbUybwIug/3AAzhKcmroLf4ENfE5GsaDIMqT3GLX24f18XPFY8Qg9vaxfMSAODwWAXqkjI/Q==",
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
         }
