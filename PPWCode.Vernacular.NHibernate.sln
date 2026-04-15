@@ -12,21 +12,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III", "src\III\PPWCode.Vernacular.NHibernate.III.csproj", "{83256CEB-BA1A-4614-9ACA-653049FFBDAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV", "src\IV\PPWCode.Vernacular.NHibernate.IV.csproj", "{83256CEB-BA1A-4614-9ACA-653049FFBDAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.Tests", "src\III.Tests\PPWCode.Vernacular.NHibernate.III.Tests.csproj", "{753CD3CA-A0A7-4340-A492-580942B74E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.Tests", "src\IV.Tests\PPWCode.Vernacular.NHibernate.IV.Tests.csproj", "{753CD3CA-A0A7-4340-A492-580942B74E83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.Test", "src\III.Test\PPWCode.Vernacular.NHibernate.III.Test.csproj", "{BD66B970-0474-468D-A95B-C42DDAE75717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.Test", "src\IV.Test\PPWCode.Vernacular.NHibernate.IV.Test.csproj", "{BD66B970-0474-468D-A95B-C42DDAE75717}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.SqlServer", "src\III.SqlServer\PPWCode.Vernacular.NHibernate.III.SqlServer.csproj", "{0A823DCA-06DD-4795-BA11-32BEC3AD0C4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.SqlServer", "src\IV.SqlServer\PPWCode.Vernacular.NHibernate.IV.SqlServer.csproj", "{0A823DCA-06DD-4795-BA11-32BEC3AD0C4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.PostgreSQL", "src\III.PostgreSQL\PPWCode.Vernacular.NHibernate.III.PostgreSQL.csproj", "{56923C60-644C-48F1-9B53-295840E80665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.PostgreSQL", "src\IV.PostgreSQL\PPWCode.Vernacular.NHibernate.IV.PostgreSQL.csproj", "{56923C60-644C-48F1-9B53-295840E80665}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.CastleWindsor", "src\III.CastleWindsor\PPWCode.Vernacular.NHibernate.III.CastleWindsor.csproj", "{C3704071-18D7-488C-9EF7-127E7B874EA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.CastleWindsor", "src\IV.CastleWindsor\PPWCode.Vernacular.NHibernate.IV.CastleWindsor.csproj", "{C3704071-18D7-488C-9EF7-127E7B874EA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.III.Firebird", "src\III.Firebird\PPWCode.Vernacular.NHibernate.III.Firebird.csproj", "{9A28EE76-6342-46CC-9E70-23E377C866DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPWCode.Vernacular.NHibernate.IV.Firebird", "src\IV.Firebird\PPWCode.Vernacular.NHibernate.IV.Firebird.csproj", "{9A28EE76-6342-46CC-9E70-23E377C866DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.NHibernate.III.DI", "src\III.DI\PPWCode.Vernacular.NHibernate.III.DI.csproj", "{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.NHibernate.IV.DI", "src\IV.DI\PPWCode.Vernacular.NHibernate.IV.DI.csproj", "{9BBCA11E-BA23-4E5F-A671-01A08C8E8EBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "analyzers", "analyzers", "{2CC6ECFD-5CDD-49E3-A204-D995B67BAA79}"
 	ProjectSection(SolutionItems) = preProject

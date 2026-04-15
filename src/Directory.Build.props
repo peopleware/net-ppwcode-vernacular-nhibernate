@@ -14,7 +14,7 @@
 
     <!-- nuget package -->
     <PropertyGroup>
-        <Description>The PPWCode Vernacular NHibernate library version III.</Description>
+        <Description>The PPWCode Vernacular NHibernate library version IV.</Description>
         <Product>PPWCode</Product>
         <Authors>dvdwouwe;rvdginste</Authors>
         <Company>Peopleware NV</Company>
