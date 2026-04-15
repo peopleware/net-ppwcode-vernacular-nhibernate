@@ -11,19 +11,21 @@ the link to the GitHub tag is only added once we are ready to release.
 :github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/releases/tag/III%2F
 :nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
 :nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
+:nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.DI/
 :nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
 :nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.PostgreSQL/
 :nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Firebird/
 :nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Test/
 :main: PPWCode.Vernacular.NHibernate.III
 :castle: PPWCode.Vernacular.NHibernate.III.CastleWindsor
+:ms-di: PPWCode.Vernacular.NHibernate.III.DI
 :sql: PPWCode.Vernacular.NHibernate.III.SqlServer
 :pgsql: PPWCode.Vernacular.NHibernate.III.PostgreSQL
 :firebird: PPWCode.Vernacular.NHibernate.III.Firebird
 :test: PPWCode.Vernacular.NHibernate.III.Test
 :ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
 
-:release: 4.1.1
+:release: 4.2.0
 == `{release}`
 include::partial$changelog-release-section.adoc[]
 include::partial$changelog-{release}.adoc[]

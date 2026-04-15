@@ -3,12 +3,14 @@
 // helper attributes for package links
 :nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
 :nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
+:nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.DI/
 :nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
 :nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.PostgreSQL/
 :nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Firebird/
 :nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Test/
 :main: PPWCode.Vernacular.NHibernate.III
 :castle: PPWCode.Vernacular.NHibernate.III.CastleWindsor
+:ms-di: PPWCode.Vernacular.NHibernate.III.DI
 :sql: PPWCode.Vernacular.NHibernate.III.SqlServer
 :pgsql: PPWCode.Vernacular.NHibernate.III.PostgreSQL
 :firebird: PPWCode.Vernacular.NHibernate.III.Firebird
@@ -22,6 +24,7 @@ The following packages are available:
 
 - {nuget-main}[{main}], base library
 - {nuget-castle}[{castle}], Castle Windsor facility
+- {nuget-ms-di}[{ms-di}], extension to register NHIbernate using service collection
 - {nuget-sql}[{sql}], support for Microsoft SQL Server
 - {nuget-pgsql}[{pgsql}], support for PostgreSQL
 - {nuget-firebird}[{firebird}], support for Firebird
