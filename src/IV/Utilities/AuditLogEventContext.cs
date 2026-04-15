@@ -9,31 +9,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Event;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract]
-    public class AuditLogEventContext
+    public class AuditLogEventContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
     {
-        public AuditLogEventContext(
-            [NotNull] IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
-        {
-            PostDatabaseOperationEventArgs = postDatabaseOperationEventArgs;
-        }
-
-        [NotNull]
-        public IPostDatabaseOperationEventArgs PostDatabaseOperationEventArgs { get; }
+        public IPostDatabaseOperationEventArgs PostDatabaseOperationEventArgs { get; } = postDatabaseOperationEventArgs;
     }
 }

@@ -9,48 +9,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Ship : PersistentObject<int>
+    public class Ship : PersistentObject
     {
-        [DataMember]
         private readonly ISet<CargoContainer> _cargoContainers = new HashSet<CargoContainer>();
 
-        public Ship()
-        {
-        }
-
-        public Ship(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string Code { get; set; }
+        public virtual string? Code { get; set; }
 
         [AuditLogPropertyIgnore]
         public virtual ISet<CargoContainer> CargoContainers
             => _cargoContainers;
 
-        public virtual void AddCargoContainer(CargoContainer cargoContainer)
+        public virtual void AddCargoContainer(CargoContainer? cargoContainer)
         {
             if ((cargoContainer != null) && CargoContainers.Add(cargoContainer))
             {
@@ -58,26 +35,25 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping
             }
         }
 
-        public virtual void RemoveCargoContainer(CargoContainer cargoContainer)
+        public virtual void RemoveCargoContainer(CargoContainer? cargoContainer)
         {
             if ((cargoContainer != null) && CargoContainers.Remove(cargoContainer))
             {
                 cargoContainer.Ship = null;
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class ShipMapper : PersistentObjectMapper<Ship, int>
-    {
-        public ShipMapper()
+        public class ShipMapper : PersistentObjectMapper<Ship>
         {
-            Property(s => s.Code);
+            public ShipMapper()
+            {
+                Property(s => s.Code);
 
-            Set(
-                s => s.CargoContainers,
-                m => m.Cascade(Cascade.All | Cascade.Merge),
-                r => r.OneToMany());
+                Set(
+                    s => s.CargoContainers,
+                    m => m.Cascade(Cascade.All | Cascade.Merge),
+                    r => r.OneToMany());
+            }
         }
     }
 }

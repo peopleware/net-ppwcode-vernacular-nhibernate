@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,27 +26,27 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 
         /// <inheritdoc />
         protected override string CommandText
-            => @"
-select x.constraint_name,
-       x.table_name,
-       '' as table_schema,
-       x.constraint_type
-  from (select trim(both from rc.rdb$constraint_name),
-               trim(both from rc.rdb$relation_name),
-               trim(both from rc.rdb$constraint_type)
-          from rdb$relation_constraints rc
-               join rdb$relations r on rc.rdb$relation_name = r.rdb$relation_name
-         where coalesce(r.rdb$system_flag, 0) = 0
-        union all
-        select trim(both from i.rdb$index_name),
-               trim(both from i.rdb$relation_name),
-               'UNIQUE'
-          from rdb$indices i
-               join rdb$relations r on i.rdb$relation_name = r.rdb$relation_name
-               left join rdb$relation_constraints rc on i.rdb$index_name = rc.rdb$index_name
-         where coalesce(r.rdb$system_flag, 0) = 0
-           and coalesce(i.rdb$unique_flag, 0) = 1
-           and rc.rdb$constraint_name is null) x (constraint_name, table_name, constraint_type)
-";
+            => """
+               select x.constraint_name,
+                      x.table_name,
+                      '' as table_schema,
+                      x.constraint_type
+                 from (select trim(both from rc.rdb$constraint_name),
+                              trim(both from rc.rdb$relation_name),
+                              trim(both from rc.rdb$constraint_type)
+                         from rdb$relation_constraints rc
+                              join rdb$relations r on rc.rdb$relation_name = r.rdb$relation_name
+                        where coalesce(r.rdb$system_flag, 0) = 0
+                       union all
+                       select trim(both from i.rdb$index_name),
+                              trim(both from i.rdb$relation_name),
+                              'UNIQUE'
+                         from rdb$indices i
+                              join rdb$relations r on i.rdb$relation_name = r.rdb$relation_name
+                              left join rdb$relation_constraints rc on i.rdb$index_name = rc.rdb$index_name
+                        where coalesce(r.rdb$system_flag, 0) = 0
+                          and coalesce(i.rdb$unique_flag, 0) = 1
+                          and rc.rdb$constraint_name is null) x (constraint_name, table_name, constraint_type)
+               """;
     }
 }

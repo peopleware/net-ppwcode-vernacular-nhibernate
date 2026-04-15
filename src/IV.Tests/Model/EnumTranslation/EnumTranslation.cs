@@ -9,48 +9,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class EnumTranslation : PersistentObject<int>
     {
-        protected EnumTranslation()
+        public virtual string? TranslationNl { get; set; }
+        public virtual string? TranslationFr { get; set; }
+
+        public class EnumTranslationMapper : PersistentObjectMapper<EnumTranslation>
         {
-        }
-
-        protected EnumTranslation(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string TranslationNl { get; set; }
-
-        [DataMember]
-        public virtual string TranslationFr { get; set; }
-    }
-
-    [UsedImplicitly]
-    public class EnumTranslationMapper : PersistentObjectMapper<EnumTranslation, int>
-    {
-        public EnumTranslationMapper()
-        {
-            Property(et => et.TranslationNl);
-            Property(et => et.TranslationFr);
+            public EnumTranslationMapper()
+            {
+                Property(et => et.TranslationNl);
+                Property(et => et.TranslationFr);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,19 +17,14 @@ using System.Linq;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
-    internal class Grouping<TKey, TElement>
+    internal class Grouping<TKey, TElement>(int count)
         : IGrouping<TKey, TElement>,
           IList<TElement>
     {
         private int _count;
-        private TElement[] _elements;
+        private TElement[] _elements = new TElement[count];
 
-        public Grouping(int count)
-        {
-            _elements = new TElement[count];
-        }
-
-        internal TKey Key { get; set; }
+        internal required TKey Key { get; init; }
 
         public IEnumerator<TElement> GetEnumerator()
         {

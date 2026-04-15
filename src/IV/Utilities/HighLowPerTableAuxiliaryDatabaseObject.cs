@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
-using JetBrains.Annotations;
-
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Engine;
@@ -26,36 +24,24 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public abstract class HighLowPerTableAuxiliaryDatabaseObject : PpwAuxiliaryDatabaseObject
     {
-        protected HighLowPerTableAuxiliaryDatabaseObject([JetBrains.Annotations.NotNull] IPpwHbmMapping ppwHbmMapping)
+        protected HighLowPerTableAuxiliaryDatabaseObject(IPpwHbmMapping ppwHbmMapping)
             : base(ppwHbmMapping)
         {
         }
 
-        [JetBrains.Annotations.NotNull]
         protected abstract string GeneratorTableName { get; }
-
-        [JetBrains.Annotations.NotNull]
         protected abstract string GeneratorEntityNameColumnName { get; }
-
-        [JetBrains.Annotations.NotNull]
         protected abstract string GeneratorNextHiColumnName { get; }
-
-        [JetBrains.Annotations.NotNull]
         protected abstract string GeneratorTableNameColumnName { get; }
 
-        [JetBrains.Annotations.NotNull]
         protected virtual IEnumerable<IGeneratorDef> GeneratorDefs
         {
             get { yield return Generators.HighLow; }
         }
 
-        [JetBrains.Annotations.NotNull]
         protected virtual IEnumerable<string> SchemaNames
-        {
-            get { return HbmClasses.Select(c => c.schema).Distinct(); }
-        }
+            => HbmClasses.Select(c => c.schema).Distinct();
 
-        [JetBrains.Annotations.NotNull]
         protected virtual IEnumerable<HbmClass> HbmClasses
         {
             get
@@ -70,16 +56,15 @@ namespace PPWCode.Vernacular.NHibernate.IV
             }
         }
 
-        protected abstract int GeneratorEntityNameColumnLength([JetBrains.Annotations.NotNull] Dialect dialect);
+        protected abstract int GeneratorEntityNameColumnLength(Dialect dialect);
 
-        protected abstract int GeneratorTableNameColumnLength([JetBrains.Annotations.NotNull] Dialect dialect);
+        protected abstract int GeneratorTableNameColumnLength(Dialect dialect);
 
-        [JetBrains.Annotations.NotNull]
         public override string SqlCreateString(
-            [JetBrains.Annotations.NotNull] Dialect dialect,
-            [JetBrains.Annotations.NotNull] IMapping mapping,
-            [CanBeNull] string defaultCatalog,
-            [CanBeNull] string defaultSchema)
+            Dialect dialect,
+            IMapping mapping,
+            string? defaultCatalog,
+            string? defaultSchema)
         {
             Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
@@ -104,8 +89,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return script;
         }
 
-        [JetBrains.Annotations.NotNull]
-        public virtual string SqlCreateStringSqlServer([JetBrains.Annotations.NotNull] Context context)
+        public virtual string SqlCreateStringSqlServer(Context context)
         {
             StringBuilder script = new StringBuilder();
             foreach (string schemaName in SchemaNames)
@@ -137,8 +121,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return script.ToString();
         }
 
-        [JetBrains.Annotations.NotNull]
-        public virtual string SqlCreateStringFirebird([JetBrains.Annotations.NotNull] Context context)
+        public virtual string SqlCreateStringFirebird(Context context)
         {
             StringBuilder script = new StringBuilder();
 
@@ -159,12 +142,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return script.ToString();
         }
 
-        [JetBrains.Annotations.NotNull]
-        public virtual string SqlCreateStringPostgreSQL([JetBrains.Annotations.NotNull] Context context)
+        public virtual string SqlCreateStringPostgreSQL(Context context)
             => SqlCreateStringGeneric(context);
 
-        [JetBrains.Annotations.NotNull]
-        public virtual string SqlCreateStringGeneric([JetBrains.Annotations.NotNull] Context context)
+        public virtual string SqlCreateStringGeneric(Context context)
         {
             StringBuilder script = new StringBuilder();
             foreach (string schemaName in SchemaNames)
@@ -190,22 +171,21 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return script.ToString();
         }
 
-        [JetBrains.Annotations.NotNull]
         public override string SqlDropString(
-            [JetBrains.Annotations.NotNull] Dialect dialect,
-            [CanBeNull] string defaultCatalog,
-            [CanBeNull] string defaultSchema)
+            Dialect dialect,
+            string? defaultCatalog,
+            string? defaultSchema)
             => string.Empty;
 
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "reviewed")]
         public class Context
         {
             public Context(
-                [JetBrains.Annotations.NotNull] HighLowPerTableAuxiliaryDatabaseObject auxiliaryDatabaseObject,
-                [JetBrains.Annotations.NotNull] Dialect dialect,
-                [JetBrains.Annotations.NotNull] IMapping mapping,
-                [CanBeNull] string defaultCatalog,
-                [CanBeNull] string defaultSchema)
+                HighLowPerTableAuxiliaryDatabaseObject auxiliaryDatabaseObject,
+                Dialect dialect,
+                IMapping mapping,
+                string? defaultCatalog,
+                string? defaultSchema)
             {
                 Dialect = dialect;
                 Mapping = mapping;
@@ -217,31 +197,22 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 TableNameColumnName = auxiliaryDatabaseObject.PpwHbmMapping.GetIdentifier(auxiliaryDatabaseObject.GeneratorTableNameColumnName);
             }
 
-            [JetBrains.Annotations.NotNull]
             public HighLowPerTableAuxiliaryDatabaseObject AuxiliaryDatabaseObject { get; }
 
-            [JetBrains.Annotations.NotNull]
             public Dialect Dialect { get; }
 
-            [JetBrains.Annotations.NotNull]
             public IMapping Mapping { get; }
 
-            [CanBeNull]
-            public string DefaultCatalog { get; }
+            public string? DefaultCatalog { get; }
 
-            [CanBeNull]
-            public string DefaultSchema { get; }
+            public string? DefaultSchema { get; }
 
-            [JetBrains.Annotations.NotNull]
             public string NextHiColumnName { get; }
 
-            [JetBrains.Annotations.NotNull]
             public string EntityNameColumnName { get; }
 
-            [JetBrains.Annotations.NotNull]
             public string TableNameColumnName { get; }
 
-            [JetBrains.Annotations.NotNull]
             public string GetTableName(string schemaName)
             {
                 string quotedSchemaName = AuxiliaryDatabaseObject.QuoteSchemaName(Dialect, AuxiliaryDatabaseObject.RemoveBackTicks(schemaName));

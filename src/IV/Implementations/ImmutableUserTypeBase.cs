@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,7 +21,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public abstract class ImmutableUserTypeBase : IUserType
     {
-        public new bool Equals(object x, object y)
+        public new bool Equals(object? x, object? y)
         {
             if (ReferenceEquals(x, y))
             {
@@ -36,12 +36,12 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return x.Equals(y);
         }
 
-        public int GetHashCode(object x)
+        public int GetHashCode(object? x)
             => x == null ? 0 : x.GetHashCode();
 
-        public abstract object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor sessionImplementor, object owner);
+        public abstract object? NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor sessionImplementor, object owner);
 
-        public abstract void NullSafeSet(DbCommand cmd, object value, int index, ISessionImplementor sessionImplementor);
+        public abstract void NullSafeSet(DbCommand cmd, object? value, int index, ISessionImplementor sessionImplementor);
 
         public object DeepCopy(object value)
             => value;

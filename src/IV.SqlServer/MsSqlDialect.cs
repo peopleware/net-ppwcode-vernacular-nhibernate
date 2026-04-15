@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,12 +16,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
 {
     public class MsSqlDialect : MsSql2012Dialect
     {
-        private IViolatedConstraintNameExtracter _violatedConstraintNameExtracter;
-
         /// <inheritdoc />
-        public override IViolatedConstraintNameExtracter ViolatedConstraintNameExtracter
-            => _violatedConstraintNameExtracter
-               ?? (_violatedConstraintNameExtracter = new MsSqlViolatedConstraintNameExtracter());
+        public override IViolatedConstraintNameExtracter ViolatedConstraintNameExtracter { get; }
+            = new MsSqlViolatedConstraintNameExtracter();
 
         /// <inheritdoc />
         public override ISQLExceptionConverter BuildSQLExceptionConverter()

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,8 +15,6 @@ using System.Linq;
 
 using FirebirdSql.Data.FirebirdClient;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
@@ -27,22 +25,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
         : IViolatedConstraintNameExtracter,
           IDbConstraints
     {
-        [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public FirebirdViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new FirebirdDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new FirebirdDbConstraints();
 
         /// <inheritdoc />
-        public DbConstraintMetadata GetByConstraintName(string constraintName)
+        public DbConstraintMetadata? GetByConstraintName(string constraintName)
             => _dbConstraints.GetByConstraintName(constraintName);
 
         /// <inheritdoc />
-        public void Initialize(IDictionary<string, string> connectionStringSettings)
+        public void Initialize(IDictionary<string, string> properties)
         {
-            _dbConstraints.Initialize(connectionStringSettings);
+            _dbConstraints.Initialize(properties);
         }
 
         /// <inheritdoc />
@@ -50,12 +42,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
             => _dbConstraints.Constraints;
 
         /// <inheritdoc />
-        [CanBeNull]
-        public string ExtractConstraintName([NotNull] DbException dbException)
+        public string? ExtractConstraintName(DbException dbException)
         {
             if (ADOExceptionHelper.ExtractDbException(dbException) is FbException sqle)
             {
-                DbConstraintMetadata dbConstraint =
+                DbConstraintMetadata? dbConstraint =
                     _dbConstraints
                         .Constraints
                         .FirstOrDefault(c => sqle.Message.Contains(c.ConstraintName));

@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,20 +16,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
 {
     public abstract class BaseUserTests : BaseRepositoryTests<User>
     {
-        protected override void OnSetup()
-        {
-            base.OnSetup();
+        private UserRepository? _repository;
 
-            Repository = new UserRepository(SessionProvider);
-        }
+        protected UserRepository Repository
+            => _repository ??= new UserRepository(SessionProvider);
 
         protected override void OnTeardown()
         {
-            Repository = null;
+            _repository = null;
 
             base.OnTeardown();
         }
-
-        protected UserRepository Repository { get; private set; }
     }
 }

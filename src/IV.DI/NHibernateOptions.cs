@@ -12,17 +12,16 @@
 using System;
 using System.Data;
 
-using JetBrains.Annotations;
-
 using Microsoft.Extensions.DependencyInjection;
 
 using NHibernate;
 
+using PPWCode.Util.Authorization.I;
+using PPWCode.Util.Time.I;
 using PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.NHibernate.IV.Providers;
-using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DI;
 
@@ -39,11 +38,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI;
 ///         for every option that was left unset.
 ///     </para>
 ///     <para>
-///         Two properties are mandatory and have no built-in default:
-///         <see cref="MappingAssemblies" /> (set via <see cref="UseMappingAssemblies{T}" />) and
-///         <see cref="PpwHbmMapping" /> (set via <see cref="UseHbmMapping{T}" />).
-///         Omitting either will cause <see cref="ServiceCollectionExtensions.AddNHibernate" /> to
-///         throw an <see cref="PPWCode.Vernacular.Exceptions.IV.Error" />.
+///         Four properties are mandatory and have no built-in default:
+///         <see cref="MappingAssemblies" /> (set via <see cref="UseMappingAssemblies{T}" />),
+///         <see cref="PpwHbmMapping" /> (set via <see cref="UseHbmMapping{T}" />),
+///         <see cref="TimeProvider" /> (set via <see cref="UseTimeProvider{T,TTimestamp}" />), and
+///         <see cref="IdentityProvider" /> (set via <see cref="UseIdentityProvider{T}" />).
+///         Omitting any of them will cause <see cref="ServiceCollectionExtensions.AddNHibernate" /> to
+///         throw an <see cref="PPWCode.Vernacular.Exceptions.V.Error" />.
 ///     </para>
 /// </remarks>
 public sealed class NHibernateOptions
@@ -52,8 +53,7 @@ public sealed class NHibernateOptions
     ///     The concrete type that implements <see cref="IExceptionTranslator" />.
     ///     Defaults to the built-in <c>ExceptionTranslator</c> when not set explicitly.
     /// </summary>
-    [CanBeNull]
-    public Type ExceptionTranslator { get; private set; }
+    public Type? ExceptionTranslator { get; private set; }
 
     /// <summary>
     ///     An optional concrete type that implements NHibernate's <see cref="IInterceptor" />.
@@ -61,8 +61,7 @@ public sealed class NHibernateOptions
     ///     <c>NhInterceptor</c> wrapper.  When <c>null</c>, no application-level interceptor
     ///     is attached to NHibernate sessions.
     /// </summary>
-    [CanBeNull]
-    public Type Interceptor { get; private set; }
+    public Type? Interceptor { get; private set; }
 
     /// <summary>
     ///     The transaction isolation level passed to the session provider.
@@ -82,52 +81,45 @@ public sealed class NHibernateOptions
     ///     The concrete type that implements <see cref="IMappingAssemblies" />.
     ///     <b>Mandatory</b> — must be supplied via <see cref="UseMappingAssemblies{T}" />.
     /// </summary>
-    [CanBeNull]
-    public Type MappingAssemblies { get; private set; }
+    public Type? MappingAssemblies { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="INhConfiguration" />.
     ///     Defaults to the built-in <c>NhConfiguration</c> when not set explicitly.
     /// </summary>
-    [CanBeNull]
-    public Type NhConfiguration { get; private set; }
+    public Type? NhConfiguration { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="INHibernateSessionFactory" />.
     ///     Defaults to the built-in <c>NHibernateSessionFactory</c> when not set explicitly.
     /// </summary>
-    [CanBeNull]
-    public Type NHibernateSessionFactory { get; private set; }
+    public Type? NHibernateSessionFactory { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="INhProperties" />.
     ///     Defaults to the built-in <c>NhProperties</c> when not set explicitly.
     /// </summary>
-    [CanBeNull]
-    public Type NhProperties { get; private set; }
+    public Type? NhProperties { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="IPpwHbmMapping" />.
     ///     <b>Mandatory</b> — must be supplied via <see cref="UseHbmMapping{T}" />.
     /// </summary>
-    [CanBeNull]
-    public Type PpwHbmMapping { get; private set; }
+    public Type? PpwHbmMapping { get; private set; }
 
     /// <summary>
     ///     An optional concrete type that implements <see cref="IQueryOverCustomExpressions" />.
     ///     When set, the instance is resolved and its <c>Initialize</c> method is called once
     ///     during application startup to register custom QueryOver expression handlers.
     /// </summary>
-    [CanBeNull]
-    public Type QueryOverCustomExpressions { get; private set; }
+    public Type? QueryOverCustomExpressions { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ISafeEnvironmentProvider" />.
     ///     Mutually exclusive with <see cref="SafeEnvironmentProviderAsync" />; when neither is
     ///     set, defaults to the built-in async implementation.
     /// </summary>
-    [CanBeNull]
-    public Type SafeEnvironmentProvider { get; private set; }
+    public Type? SafeEnvironmentProvider { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ISafeEnvironmentProviderAsync" />.
@@ -135,16 +127,14 @@ public sealed class NHibernateOptions
     ///     <see cref="ISafeEnvironmentProvider" /> interface is satisfied by the same instance.
     ///     Mutually exclusive with <see cref="SafeEnvironmentProvider" />.
     /// </summary>
-    [CanBeNull]
-    public Type SafeEnvironmentProviderAsync { get; private set; }
+    public Type? SafeEnvironmentProviderAsync { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ISessionProvider" />.
     ///     Mutually exclusive with <see cref="SessionProviderAsync" />; when neither is set,
     ///     defaults to the built-in async implementation.
     /// </summary>
-    [CanBeNull]
-    public Type SessionProvider { get; private set; }
+    public Type? SessionProvider { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ISessionProviderAsync" />.
@@ -152,30 +142,26 @@ public sealed class NHibernateOptions
     ///     <see cref="ISessionProvider" /> interface is satisfied by the same instance.
     ///     Mutually exclusive with <see cref="SessionProvider" />.
     /// </summary>
-    [CanBeNull]
-    public Type SessionProviderAsync { get; private set; }
+    public Type? SessionProviderAsync { get; private set; }
 
     /// <summary>
-    ///     An optional concrete type that implements <see cref="ITimeProvider" />.
-    ///     When <c>null</c>, the built-in <c>TimeProvider</c> is registered instead.
+    ///     The concrete type that implements <see cref="ITimeProvider{T}" />.
+    ///     <b>Mandatory</b> — must be supplied via <see cref="UseTimeProvider{T,TTimestamp}" />.
     /// </summary>
-    [CanBeNull]
-    public Type TimeProvider { get; private set; }
+    public Type? TimeProvider { get; private set; }
 
     /// <summary>
-    ///     An optional concrete type that implements <see cref="IIdentityProvider" />.
-    ///     When <c>null</c>, the built-in <c>IdentityProvider</c> is registered instead.
+    ///     The concrete type that implements <see cref="IIdentityProvider" />.
+    ///     <b>Mandatory</b> — must be supplied via <see cref="UseIdentityProvider{T}" />.
     /// </summary>
-    [CanBeNull]
-    public Type IdentityProvider { get; private set; }
+    public Type? IdentityProvider { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ITransactionProvider" />.
     ///     Mutually exclusive with <see cref="TransactionProviderAsync" />; when neither is set,
     ///     defaults to the built-in async implementation.
     /// </summary>
-    [CanBeNull]
-    public Type TransactionProvider { get; private set; }
+    public Type? TransactionProvider { get; private set; }
 
     /// <summary>
     ///     The concrete type that implements <see cref="ITransactionProviderAsync" />.
@@ -183,8 +169,7 @@ public sealed class NHibernateOptions
     ///     <see cref="ITransactionProvider" /> interface is satisfied by the same instance.
     ///     Mutually exclusive with <see cref="TransactionProvider" />.
     /// </summary>
-    [CanBeNull]
-    public Type TransactionProviderAsync { get; private set; }
+    public Type? TransactionProviderAsync { get; private set; }
 
     /// <summary>
     ///     Whether to register the built-in <c>CivilizedEventListener</c> as an
@@ -451,24 +436,29 @@ public sealed class NHibernateOptions
     }
 
     /// <summary>
-    ///     Registers a custom <see cref="ITimeProvider" /> implementation.
-    ///     When not set, the built-in <c>TimeProvider</c> is used.
+    ///     Registers the <see cref="ITimeProvider{TTimestamp}" /> implementation that supplies the
+    ///     current timestamp for auditing purposes.
+    ///     <b>Mandatory.</b>
     /// </summary>
     /// <typeparam name="T">
-    ///     The concrete type that implements <see cref="ITimeProvider" />.
+    ///     The concrete type that implements <see cref="ITimeProvider{TTimestamp}" />.
+    /// </typeparam>
+    /// <typeparam name="TTimestamp">
+    ///     The timestamp type used by the <see cref="ITimeProvider{TTimestamp}" /> implementation.
     /// </typeparam>
     /// <returns>The current <see cref="NHibernateOptions" /> instance for fluent chaining.</returns>
-    public NHibernateOptions UseTimeProvider<T>()
-        where T : ITimeProvider
+    public NHibernateOptions UseTimeProvider<T, TTimestamp>()
+        where T : ITimeProvider<TTimestamp>
+        where TTimestamp : struct, IComparable<TTimestamp>, IEquatable<TTimestamp>
     {
         TimeProvider = typeof(T);
         return this;
     }
 
     /// <summary>
-    ///     Registers a custom <see cref="IIdentityProvider" /> implementation that supplies the
+    ///     Registers the <see cref="IIdentityProvider" /> implementation that supplies the
     ///     current user identity for auditing purposes.
-    ///     When not set, the built-in <c>IdentityProvider</c> is used.
+    ///     <b>Mandatory.</b>
     /// </summary>
     /// <typeparam name="T">
     ///     The concrete type that implements <see cref="IIdentityProvider" />.

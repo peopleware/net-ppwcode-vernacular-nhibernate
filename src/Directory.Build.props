@@ -102,7 +102,7 @@ https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-IV/c
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
         <LangVersion>12.0</LangVersion>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <!-- properties for debug configuration -->

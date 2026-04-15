@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,7 +11,7 @@
 
 using System;
 
-using JetBrains.Annotations;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
@@ -26,14 +26,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
         /// </summary>
         /// <param name="message">
         ///     This message will be used in the logging in the case <paramref name="exception" /> is of type
-        ///     <see cref="Exceptions.IV.Error" />.
+        ///     <see cref="Error" />.
         /// </param>
         /// <param name="exception">The hibernate exception we are triaging.</param>
         /// <returns>
-        ///     An exception that is a sub class either from <see cref="Exceptions.IV.SemanticException" />
-        ///     or from <see cref="Exceptions.IV.Error" />.
+        ///     An exception that is a subclass either from <see cref="SemanticException" />
+        ///     or from <see cref="Error" />.
         /// </returns>
-        [NotNull]
-        Exception Convert([NotNull] string message, [NotNull] Exception exception);
+        Exception Convert(string message, Exception exception);
     }
 }

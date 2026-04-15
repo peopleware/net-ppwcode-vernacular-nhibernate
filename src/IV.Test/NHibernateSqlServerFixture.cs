@@ -14,17 +14,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Cfg;
-using NHibernate.Event;
 using NHibernate.Mapping;
 
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.SqlServer;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 using Environment = NHibernate.Cfg.Environment;
 
@@ -34,24 +31,21 @@ using Environment = NHibernate.Cfg.Environment;
 namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     [Category("SqlServer")]
-    public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>
+    public abstract class NHibernateSqlServerFixture<TId, TAuditEntity>
         : NHibernateFixture<TId>
         where TId : IEquatable<TId>
-        where TAuditEntity : AuditLog<TId>, new()
+        where TAuditEntity : AuditLog<TId, DateTime>, new()
     {
-        private Configuration _configuration;
-        private string _connectionString;
+        private Configuration? _configuration;
+        private string? _connectionString;
 
-        [NotNull]
         protected abstract string CatalogName { get; }
 
         protected abstract bool UseUtc { get; }
 
-        [NotNull]
         protected virtual string ConnectionString
-            => _connectionString ?? (_connectionString = RandomizedConnectionString);
+            => _connectionString ??= RandomizedConnectionString;
 
-        [NotNull]
         protected virtual string RandomizedConnectionString
         {
             get
@@ -63,13 +57,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             }
         }
 
-        [NotNull]
         protected override string FixedConnectionString
             => !string.IsNullOrWhiteSpace(base.FixedConnectionString)
                    ? base.FixedConnectionString
                    : DefaultFixedConnectionString;
 
-        [NotNull]
         protected virtual string DefaultFixedConnectionString
         {
             get
@@ -85,7 +77,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             }
         }
 
-        [NotNull]
         protected override Configuration Configuration
         {
             get
@@ -94,24 +85,21 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                 {
                     _configuration = new Configuration()
                         .DataBaseIntegration(db =>
-                                             {
-                                                 db.Dialect<MsSqlDialect>();
-                                                 db.ConnectionString = ConnectionString;
-                                                 db.IsolationLevel = IsolationLevel.ReadCommitted;
-                                                 db.BatchSize = 0;
-                                             })
+                        {
+                            db.Dialect<MsSqlDialect>();
+                            db.ConnectionString = ConnectionString;
+                            db.IsolationLevel = IsolationLevel.ReadCommitted;
+                            db.BatchSize = 0;
+                        })
                         .Configure()
                         .SetProperty(Environment.ShowSql, ShowSql.ToString())
                         .SetProperty(Environment.FormatSql, FormatSql.ToString())
                         .SetProperty(Environment.GenerateStatistics, GenerateStatistics.ToString());
 
                     IDictionary<string, string> props = _configuration.Properties;
-                    if (props.ContainsKey(Environment.ConnectionStringName))
-                    {
-                        props.Remove(Environment.ConnectionStringName);
-                    }
+                    props.Remove(Environment.ConnectionStringName);
 
-                    IInterceptor interceptor = Interceptor?.GetInterceptor();
+                    IInterceptor? interceptor = Interceptor?.GetInterceptor();
                     if (interceptor != null)
                     {
                         _configuration.SetInterceptor(interceptor);
@@ -122,7 +110,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                         registerListener.Register(_configuration);
                     }
 
-                    IPpwHbmMapping ppwHbmMapping = PpwHbmMapping;
+                    IPpwHbmMapping? ppwHbmMapping = PpwHbmMapping;
                     if (ppwHbmMapping != null)
                     {
                         _configuration.AddMapping(ppwHbmMapping.HbmMapping);
@@ -130,7 +118,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
                     foreach (IAuxiliaryDatabaseObject auxiliaryDatabaseObject in AuxiliaryDatabaseObjects)
                     {
-                        IPpwAuxiliaryDatabaseObject ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
+                        IPpwAuxiliaryDatabaseObject? ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
                         ppwAuxiliaryDatabaseObject?.SetConfiguration(_configuration);
                         _configuration.AddAuxiliaryDatabaseObject(auxiliaryDatabaseObject);
                     }
@@ -140,28 +128,27 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             }
         }
 
-        [CanBeNull]
-        protected virtual IPpwHbmMapping PpwHbmMapping
+        protected virtual IPpwHbmMapping? PpwHbmMapping
             => null;
 
-        [NotNull]
         protected virtual IEnumerable<IAuxiliaryDatabaseObject> AuxiliaryDatabaseObjects
         {
             get { yield break; }
         }
 
-        [NotNull]
         protected virtual IEnumerable<IRegisterEventListener> RegisterEventListeners
         {
             get
             {
                 yield return new CivilizedEventListener();
-                yield return new TestAuditLogEventListener(new TestIdentityProvider(IdentityName), new TestTimeProvider(UtcNow), UseUtc);
+                yield return new TestAuditLogEventListener<TId, TAuditEntity>(
+                    new TestTimeProvider(UtcNow),
+                    UseUtc,
+                    new TestIdentityProvider(IdentityName));
             }
         }
 
-        [CanBeNull]
-        protected virtual INhInterceptor Interceptor
+        protected virtual INhInterceptor? Interceptor
             => null;
 
         protected virtual void ResetConfiguration()
@@ -188,32 +175,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             {
                 SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);
             }
-        }
-
-        public class TestAuditLogEventListener
-            : AuditLogEventListener<TId, TAuditEntity, AuditLogEventContext>
-        {
-            public TestAuditLogEventListener(
-                [NotNull] IIdentityProvider identityProvider,
-                [NotNull] ITimeProvider timeProvider,
-                bool useUtc)
-                : base(identityProvider, timeProvider, useUtc)
-            {
-            }
-
-            /// <inheritdoc />
-            protected override bool CanAuditLogFor(AbstractEvent @event, AuditLogItem auditLogItem, AuditLogActionEnum requestedLogAction)
-                => true;
-
-            /// <inheritdoc />
-            protected override void OnAddAuditEntities(AuditLogEventContext context)
-            {
-                // NOP
-            }
-
-            /// <inheritdoc />
-            protected override AuditLogEventContext CreateContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
-                => new AuditLogEventContext(postDatabaseOperationEventArgs);
         }
     }
 }

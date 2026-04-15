@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,28 +11,14 @@
 
 using System;
 
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode;
 
 namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
-    public class CachedEntityType
+    public class CachedEntityType(Type type, string? regionName = null, CacheUsage? cacheUsage = null)
     {
-        public CachedEntityType([NotNull] Type type, [CanBeNull] string regionName = null, [CanBeNull] CacheUsage cacheUsage = null)
-        {
-            Type = type;
-            RegionName = regionName;
-            CacheUsage = cacheUsage;
-        }
-
-        [NotNull]
-        public Type Type { get; }
-
-        [CanBeNull]
-        public string RegionName { get; }
-
-        [CanBeNull]
-        public CacheUsage CacheUsage { get; }
+        public Type Type { get; } = type;
+        public string? RegionName { get; } = regionName;
+        public CacheUsage? CacheUsage { get; } = cacheUsage;
     }
 }

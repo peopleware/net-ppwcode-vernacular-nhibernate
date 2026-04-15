@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,40 +14,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 using PPWCode.Vernacular.NHibernate.IV.Providers;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public abstract class RepositoryBase<TRoot, TId>
+    public abstract class RepositoryBase<TRoot, TId>(ISessionProvider sessionProvider)
         where TRoot : class, IIdentity<TId>
         where TId : IEquatable<TId>
     {
-        protected RepositoryBase([NotNull] ISessionProvider sessionProvider)
-        {
-            SessionProvider = sessionProvider ?? throw new ArgumentNullException(nameof(sessionProvider));
-        }
-
         /// <inheritdoc cref="ISessionProvider" />
-        [NotNull]
         public ISessionProvider SessionProvider { get; }
+            = sessionProvider ?? throw new ArgumentNullException(nameof(sessionProvider));
 
         /// <inheritdoc cref="ISession" />
-        [NotNull]
         protected ISession Session
             => SessionProvider.Session;
 
         /// <inheritdoc cref="ITransactionProvider" />
-        [NotNull]
         protected ITransactionProvider TransactionProvider
             => SessionProvider.TransactionProvider;
 
         /// <inheritdoc cref="ISafeEnvironmentProvider" />
-        [NotNull]
         protected ISafeEnvironmentProvider SafeEnvironmentProvider
             => SessionProvider.SafeEnvironmentProvider;
 
@@ -58,23 +48,19 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected virtual int SegmentedBatchSize
             => 320;
 
-        protected virtual void Execute([NotNull] string requestDescription, [NotNull] Action action)
+        protected virtual void Execute(string requestDescription, Action action)
             => Execute(requestDescription, action, null);
 
-        [CanBeNull]
-        protected virtual TResult Execute<TResult>([NotNull] string requestDescription, [NotNull] Func<TResult> func, [CanBeNull] TRoot entity)
+        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult> func, TRoot? entity)
             => TransactionProvider.Run(Session, IsolationLevel, () => SafeEnvironmentProvider.Run<TRoot, TId, TResult>(requestDescription, func, entity));
 
-        protected virtual void Execute([NotNull] string requestDescription, [NotNull] Action action, [CanBeNull] TRoot entity)
+        protected virtual void Execute(string requestDescription, Action action, TRoot? entity)
             => TransactionProvider.Run(Session, IsolationLevel, () => SafeEnvironmentProvider.Run<TRoot, TId>(requestDescription, action, entity));
 
-        [CanBeNull]
-        protected virtual TResult Execute<TResult>([NotNull] string requestDescription, [NotNull] Func<TResult> func)
+        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult> func)
             => Execute(requestDescription, func, null);
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual IEnumerable<TId[]> GetSegmentedIds([NotNull] [ItemNotNull] IEnumerable<TId> ids)
+        protected virtual IEnumerable<TId[]> GetSegmentedIds(IEnumerable<TId> ids)
         {
             ISet<TId> uniqueIds = new HashSet<TId>(ids);
             int count = uniqueIds.Count;

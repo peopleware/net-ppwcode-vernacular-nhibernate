@@ -9,63 +9,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
 using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     [AuditLog(AuditLogAction = AuditLogActionEnum.ALL)]
-    public class Company : AuditableVersionedPersistentObject<int, int>
+    public class Company : AuditableVersionedPersistentObject
     {
-        [DataMember]
-        private ExtendedCompany _extendedCompany;
+        private readonly ISet<CompanyIdentification> _identifications = new HashSet<CompanyIdentification>();
+        private readonly ISet<CompanyIdentification> _parentIdentifications = new HashSet<CompanyIdentification>();
+        private ExtendedCompany? _extendedCompany;
+        private FailedCompany? _failedCompany;
 
-        [DataMember]
-        private FailedCompany _failedCompany;
-
-        [DataMember]
-        private ISet<CompanyIdentification> _identifications = new HashSet<CompanyIdentification>();
-
-        [DataMember]
-        private ISet<CompanyIdentification> _parentIdentifications = new HashSet<CompanyIdentification>();
-
-        public Company(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
-
-        public Company(int id)
-            : base(id)
-        {
-        }
-
-        public Company()
-        {
-        }
-
-        [DataMember]
         [Required]
         [StringLength(128)]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         [AuditLogPropertyIgnore]
-        public virtual FailedCompany FailedCompany
+        public virtual FailedCompany? FailedCompany
         {
             get => _failedCompany;
             set
@@ -92,7 +59,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             => FailedCompany != null;
 
         [AuditLogPropertyIgnore]
-        public virtual ExtendedCompany ExtendedCompany
+        public virtual ExtendedCompany? ExtendedCompany
         {
             get => _extendedCompany;
             set
@@ -128,7 +95,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
         public virtual ISet<CompanyIdentification> ParentIdentifications
             => _parentIdentifications;
 
-        public virtual void RemoveIdentification(CompanyIdentification companyIdentification)
+        public virtual void RemoveIdentification(CompanyIdentification? companyIdentification)
         {
             if ((companyIdentification != null) && Identifications.Remove(companyIdentification))
             {
@@ -136,7 +103,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual void AddIdentification(CompanyIdentification companyIdentification)
+        public virtual void AddIdentification(CompanyIdentification? companyIdentification)
         {
             if ((companyIdentification != null) && Identifications.Add(companyIdentification))
             {
@@ -144,7 +111,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual void RemoveParentIdentification(CompanyIdentification companyIdentification)
+        public virtual void RemoveParentIdentification(CompanyIdentification? companyIdentification)
         {
             if ((companyIdentification != null) && ParentIdentifications.Remove(companyIdentification))
             {
@@ -152,57 +119,56 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual void AddParentIdentification(CompanyIdentification companyIdentification)
+        public virtual void AddParentIdentification(CompanyIdentification? companyIdentification)
         {
             if ((companyIdentification != null) && ParentIdentifications.Add(companyIdentification))
             {
                 companyIdentification.ParentCompany = this;
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class CompanyMapper : AuditableVersionedPersistentObjectMapper<Company, int, int>
-    {
-        public CompanyMapper()
+        public class CompanyMapper : AuditableVersionedPersistentObjectMapper<Company>
         {
-            Property(c => c.Name);
+            public CompanyMapper()
+            {
+                Property(c => c.Name);
 
-            Set(
-                c => c.Identifications,
-                c => c.Cascade(Cascade.All.Include(Cascade.DeleteOrphans)),
-                r => r.OneToMany());
+                Set(
+                    c => c.Identifications,
+                    c => c.Cascade(Cascade.All.Include(Cascade.DeleteOrphans)),
+                    r => r.OneToMany());
 
-            Set(
-                c => c.ParentIdentifications,
-                c => c.Cascade(Cascade.All.Include(Cascade.DeleteOrphans)),
-                r => r.OneToMany());
+                Set(
+                    c => c.ParentIdentifications,
+                    c => c.Cascade(Cascade.All.Include(Cascade.DeleteOrphans)),
+                    r => r.OneToMany());
 
-            OneToOne(
-                c => c.FailedCompany,
-                m =>
-                {
-                    m.Lazy(LazyRelation.NoLazy);
-                    m.ForeignKey(null);
-                    m.Cascade(Cascade.All.Include(Cascade.DeleteOrphans));
-                });
+                OneToOne(
+                    c => c.FailedCompany,
+                    m =>
+                    {
+                        m.Lazy(LazyRelation.NoLazy);
+                        m.ForeignKey(null);
+                        m.Cascade(Cascade.All.Include(Cascade.DeleteOrphans));
+                    });
 
-            ManyToOne(
-                c => c.ExtendedCompany,
-                m =>
-                {
-                    m.Index(null);
-                    m.Cascade(Cascade.All.Include(Cascade.DeleteOrphans));
-                });
+                ManyToOne(
+                    c => c.ExtendedCompany,
+                    m =>
+                    {
+                        m.Index(null);
+                        m.Cascade(Cascade.All.Include(Cascade.DeleteOrphans));
+                    });
+            }
         }
-    }
 
-    public class UniqueConstraintsForExtendedCompany : UniqueConstraintsForNullableColumn<Company>
-    {
-        public UniqueConstraintsForExtendedCompany(IPpwHbmMapping ppwHbmMapping)
-            : base(ppwHbmMapping)
+        public class UniqueConstraintsForExtendedCompany : UniqueConstraintsForNullableColumn<Company>
         {
-            ColumnName = c => c.ExtendedCompany;
+            public UniqueConstraintsForExtendedCompany(IPpwHbmMapping ppwHbmMapping)
+                : base(ppwHbmMapping)
+            {
+                ColumnName = c => c.ExtendedCompany!;
+            }
         }
     }
 }

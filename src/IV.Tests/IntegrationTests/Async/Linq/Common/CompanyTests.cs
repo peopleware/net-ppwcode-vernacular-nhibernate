@@ -19,7 +19,7 @@ using NHibernate.Linq;
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common
 {
@@ -67,7 +67,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             }
 
             SessionProviderAsync.Session.Clear();
-            Company companyAtIndex =
+            Company? companyAtIndex =
                 await Repository
                     .GetAtIndexAsync(
                         query => query.OrderBy(c => c.Id),
@@ -146,7 +146,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
         {
             Company company = await CreateCompanyAsync(CompanyCreationType.NO_CHILDREN, CancellationToken);
             SessionProviderAsync.Session.Clear();
-            Company loadedCompany = await Repository.GetByIdAsync(company.Id, CancellationToken);
+            Company? loadedCompany = await Repository.GetByIdAsync(company.Id, CancellationToken);
 
             Assert.That(loadedCompany, Is.Not.Null);
             Assert.That(loadedCompany.Id, Is.EqualTo(company.Id));
@@ -158,7 +158,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
             SessionProviderAsync.Session.Clear();
 
-            Company company =
+            Company? company =
                 await Repository
                     .GetAsync(
                         query =>
@@ -177,7 +177,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
             SessionProviderAsync.Session.Clear();
 
-            Company company =
+            Company? company =
                 await Repository
                     .GetAsync(
                         qry => qry.Where(c => c.Identifications.Any(i => i.Identification == "1")),
@@ -193,7 +193,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
             SessionProviderAsync.Session.Clear();
 
-            Company company =
+            Company? company =
                 await Repository
                     .GetAsync(
                         qry =>
@@ -214,7 +214,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await CreateCompanyAsync(CompanyCreationType.WITH_2_CHILDREN, CancellationToken);
             SessionProviderAsync.Session.Clear();
 
-            Company company =
+            Company? company =
                 await Repository
                     .GetAsync(
                         query => query.Where(c => c.Name == "Peopleware NV"),

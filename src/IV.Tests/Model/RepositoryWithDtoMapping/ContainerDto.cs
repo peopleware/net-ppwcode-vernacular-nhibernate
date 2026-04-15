@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,19 +13,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping
 {
     public class ContainerDto
     {
-        public ContainerDto()
+        private ContainerDto()
         {
         }
 
-        public ContainerDto(string shipCode, string containerCode, int load)
+        public ContainerDto(string? shipCode, string? containerCode, int? load)
         {
             ShipCode = shipCode;
             ContainerCode = containerCode;
             Load = load;
         }
 
-        public string ShipCode { get; set; }
-        public string ContainerCode { get; set; }
-        public int Load { get; set; }
+        public string? ShipCode { get; set; }
+        public string? ContainerCode { get; set; }
+        public int? Load { get; set; }
     }
 }

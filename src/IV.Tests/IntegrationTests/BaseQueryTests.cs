@@ -23,13 +23,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
     [Parallelizable(ParallelScope.Fixtures)]
     public abstract class BaseQueryTests : BaseRepositoryFixture<int, TestIntAuditLog>
     {
-        private IPpwHbmMapping _ppwHbmMapping;
+        private IPpwHbmMapping? _ppwHbmMapping;
 
         protected override string CatalogName
             => $"Test.{GetType().Assembly.GetName().Name}";
 
         protected override IPpwHbmMapping PpwHbmMapping
-            => _ppwHbmMapping ?? (_ppwHbmMapping = new TestsSimpleModelMapper(new TestsMappingAssemblies()));
+            => _ppwHbmMapping ??= new TestsSimpleModelMapper(new TestsMappingAssemblies());
 
         protected override string IdentityName
             => "Test - IdentityName";
@@ -39,7 +39,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
             get
             {
                 yield return new TestHighLowPerTableAuxiliaryDatabaseObject(PpwHbmMapping);
-                yield return new UniqueConstraintsForExtendedCompany(PpwHbmMapping);
+                yield return new Company.UniqueConstraintsForExtendedCompany(PpwHbmMapping);
             }
         }
     }

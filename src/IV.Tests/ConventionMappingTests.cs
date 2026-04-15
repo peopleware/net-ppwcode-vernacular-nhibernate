@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -41,11 +41,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests
             IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects =
             {
                 new TestHighLowPerTableAuxiliaryDatabaseObject(mapper),
-                new UniqueConstraintsForExtendedCompany(mapper)
+                new Company.UniqueConstraintsForExtendedCompany(mapper)
             };
             foreach (IAuxiliaryDatabaseObject auxiliaryDatabaseObject in auxiliaryDatabaseObjects)
             {
-                IPpwAuxiliaryDatabaseObject ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
+                IPpwAuxiliaryDatabaseObject? ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
                 ppwAuxiliaryDatabaseObject?.SetConfiguration(configuration);
                 configuration.AddAuxiliaryDatabaseObject(auxiliaryDatabaseObject);
             }

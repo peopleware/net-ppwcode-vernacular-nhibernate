@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode;
 
 namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
@@ -25,54 +23,46 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
     /// </summary>
     public static class PropertyPathExtensions
     {
-        public static Type Owner([NotNull] this PropertyPath member)
-            => member.GetRootMember().DeclaringType;
+        public static Type Owner(this PropertyPath member)
+            => member.GetRootMember().DeclaringType!;
 
-        [CanBeNull]
-        public static Type CollectionElementType([NotNull] this PropertyPath member)
+        public static Type? CollectionElementType(this PropertyPath member)
             => member.LocalMember.GetPropertyOrFieldType().DetermineCollectionElementOrDictionaryValueType();
 
-        [NotNull]
-        public static IEnumerable<MemberInfo> OneToManyOtherSideProperties([NotNull] this PropertyPath member)
+        public static IEnumerable<MemberInfo> OneToManyOtherSideProperties(this PropertyPath member)
             => member.CollectionElementType().GetAllPropertiesOfType(member.Owner());
 
-        [NotNull]
-        public static string ManyToManyIntermediateTableName([NotNull] this PropertyPath member, [NotNull] string manyToManyIntermediateTableInfix)
+        public static string ManyToManyIntermediateTableName(this PropertyPath member, string manyToManyIntermediateTableInfix)
         {
             return string.Join(manyToManyIntermediateTableInfix, member.ManyToManySidesNames().OrderBy(x => x));
         }
 
-        [NotNull]
-        public static Type MemberType([NotNull] this PropertyPath member)
+        public static Type MemberType(this PropertyPath member)
             => member.LocalMember.GetPropertyOrFieldType();
 
-        [NotNull]
-        private static IEnumerable<string> ManyToManySidesNames([NotNull] this PropertyPath member)
+        private static IEnumerable<string> ManyToManySidesNames(this PropertyPath member)
         {
             yield return member.Owner().Name;
-            Type collectionElementType = member.CollectionElementType();
+
+            Type? collectionElementType = member.CollectionElementType();
             if (collectionElementType != null)
             {
                 yield return collectionElementType.Name;
             }
         }
 
-        [NotNull]
-        public static IEnumerable<MemberInfo> GetAllPropertiesOfType([CanBeNull] this Type propertyContainerType, [CanBeNull] Type propertyType)
-            => GetAllPropertiesOfType(propertyContainerType, propertyType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+        public static IEnumerable<MemberInfo> GetAllPropertiesOfType(this Type? propertyContainerType, Type? propertyType)
+            => propertyContainerType.GetAllPropertiesOfType(propertyType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
 
-        [NotNull]
-        public static IEnumerable<MemberInfo> GetAllPropertiesOfType([CanBeNull] this Type propertyContainerType, [CanBeNull] Type propertyType, [NotNull] Func<PropertyInfo, bool> acceptPropertyClauses)
-            => GetAllPropertiesOfType(propertyContainerType, propertyType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic, acceptPropertyClauses);
+        public static IEnumerable<MemberInfo> GetAllPropertiesOfType(this Type? propertyContainerType, Type? propertyType, Func<PropertyInfo, bool> acceptPropertyClauses)
+            => propertyContainerType.GetAllPropertiesOfType(propertyType, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic, acceptPropertyClauses);
 
-        [NotNull]
-        public static IEnumerable<MemberInfo> GetAllPropertiesOfType([CanBeNull] this Type propertyContainerType, [CanBeNull] Type propertyType, BindingFlags bindingFlags)
+        public static IEnumerable<MemberInfo> GetAllPropertiesOfType(this Type? propertyContainerType, Type? propertyType, BindingFlags bindingFlags)
         {
-            return GetAllPropertiesOfType(propertyContainerType, propertyType, bindingFlags, x => true);
+            return propertyContainerType.GetAllPropertiesOfType(propertyType, bindingFlags, x => true);
         }
 
-        [NotNull]
-        public static IEnumerable<MemberInfo> GetAllPropertiesOfType([CanBeNull] this Type propertyContainerType, [CanBeNull] Type propertyType, BindingFlags bindingFlags, [NotNull] Func<PropertyInfo, bool> acceptPropertyClauses)
+        public static IEnumerable<MemberInfo> GetAllPropertiesOfType(this Type? propertyContainerType, Type? propertyType, BindingFlags bindingFlags, Func<PropertyInfo, bool> acceptPropertyClauses)
         {
             if ((propertyContainerType == null) || (propertyType == null))
             {

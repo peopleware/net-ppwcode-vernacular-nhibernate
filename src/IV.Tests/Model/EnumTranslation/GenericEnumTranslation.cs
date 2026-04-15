@@ -10,19 +10,14 @@
 // limitations under the License.
 
 using System;
-using System.Runtime.Serialization;
 
 using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Type;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public abstract class GenericEnumTranslation<T> : EnumTranslation
         where T : struct, IComparable, IConvertible, IFormattable
     {
@@ -34,12 +29,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
             }
         }
 
-        protected GenericEnumTranslation(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
         public virtual T? Code { get; set; }
     }
 

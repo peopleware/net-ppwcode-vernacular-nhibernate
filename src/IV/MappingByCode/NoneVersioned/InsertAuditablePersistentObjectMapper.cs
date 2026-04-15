@@ -11,14 +11,15 @@
 
 using System;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
-    public abstract class InsertAuditablePersistentObjectMapper<T, TId>
+    public abstract class InsertAuditablePersistentObjectMapper<T, TId, TTimestamp>
         : PersistentObjectMapper<T, TId>
-        where T : class, IPersistentObject<TId>, IInsertAuditable
+        where T : class, IPersistentObject<TId>, IInsertAuditable<TTimestamp>
         where TId : IEquatable<TId>
+        where TTimestamp : struct, IComparable<TTimestamp>, IEquatable<TTimestamp>
     {
         protected InsertAuditablePersistentObjectMapper()
         {

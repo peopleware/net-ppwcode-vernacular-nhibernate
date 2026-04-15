@@ -13,9 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -24,10 +22,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public static class SqlServerUtils
     {
-        [NotNull]
         private static string GetConnectionString(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog,
+            string sqlConnectionString,
+            string? catalog,
             bool pooling)
         {
             SqlConnectionStringBuilder builder =
@@ -39,17 +36,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             return builder.ConnectionString;
         }
 
-        [NotNull]
         private static SqlConnection GetConnection(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog,
+            string sqlConnectionString,
+            string? catalog,
             bool pooling)
             => new SqlConnection(GetConnectionString(sqlConnectionString, catalog, pooling));
 
         private static void ExecuteCommands(
-            [NotNull] SqlConnection connection,
+            SqlConnection connection,
             int commandTimeout,
-            [NotNull] IEnumerable<string> scripts)
+            IEnumerable<string> scripts)
         {
             bool wasOpen = connection.State == ConnectionState.Open;
             if (!wasOpen)
@@ -59,18 +55,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
             try
             {
-                using (SqlCommand command = connection.CreateCommand())
+                using SqlCommand command = connection.CreateCommand();
+                foreach (string script in scripts)
                 {
-                    foreach (string script in scripts)
+                    if (commandTimeout > 0)
                     {
-                        if (commandTimeout > 0)
-                        {
-                            command.CommandTimeout = commandTimeout;
-                        }
-
-                        command.CommandText = script;
-                        command.ExecuteNonQuery();
+                        command.CommandTimeout = commandTimeout;
                     }
+
+                    command.CommandText = script;
+                    command.ExecuteNonQuery();
                 }
             }
             finally
@@ -83,51 +77,38 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         }
 
         private static void ExecuteCommands(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog,
+            string sqlConnectionString,
+            string? catalog,
             bool pooling,
             int commandTimeout,
-            [NotNull] IEnumerable<string> scripts)
+            IEnumerable<string> scripts)
         {
-            using (SqlConnection connection = GetConnection(sqlConnectionString, catalog, pooling))
-            {
-                ExecuteCommands(connection, commandTimeout, scripts);
-            }
+            using SqlConnection connection = GetConnection(sqlConnectionString, catalog, pooling);
+            ExecuteCommands(connection, commandTimeout, scripts);
         }
 
-        private static bool DataSourceExists(
-            [NotNull] string sqlConnectionString)
+        private static bool DataSourceExists(string sqlConnectionString)
             => true;
 
-        public static bool CatalogExists(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog)
+        public static bool CatalogExists(string sqlConnectionString, string? catalog)
         {
             const string CmdText = @"select null from master.dbo.sysdatabases where name=@name";
 
-            using (SqlConnection connection = GetConnection(sqlConnectionString, null, false))
-            {
-                connection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(CmdText, connection))
+            using SqlConnection connection = GetConnection(sqlConnectionString, null, false);
+            connection.Open();
+            using SqlCommand sqlCommand = new SqlCommand(CmdText, connection);
+            SqlParameter param =
+                new SqlParameter
                 {
-                    SqlParameter param =
-                        new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            Value = catalog
-                        };
-                    sqlCommand.Parameters.Add(param);
-                    using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
-                    {
-                        return dataReader.HasRows;
-                    }
-                }
-            }
+                    ParameterName = "@name",
+                    Value = catalog
+                };
+            sqlCommand.Parameters.Add(param);
+            using SqlDataReader dataReader = sqlCommand.ExecuteReader();
+            return dataReader.HasRows;
         }
 
-        public static void DropCatalog(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog)
+        public static void DropCatalog(string sqlConnectionString, string? catalog)
         {
             if (!DataSourceExists(sqlConnectionString))
             {
@@ -146,8 +127,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         }
 
         public static void CreateCatalog(
-            [NotNull] string sqlConnectionString,
-            [CanBeNull] string catalog,
+            string sqlConnectionString,
+            string? catalog,
             bool simpleMode)
         {
             IList<string> commands =

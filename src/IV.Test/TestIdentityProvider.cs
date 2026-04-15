@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,18 +9,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using PPWCode.Util.Authorization.I;
+
 namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
-    public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>
+    public class TestIdentityProvider : IIdentityProvider
     {
-        private class TestIdentityProvider : IIdentityProvider
+        public TestIdentityProvider(string identityName)
         {
-            public TestIdentityProvider(string identityName)
-            {
-                IdentityName = identityName;
-            }
-
-            public string IdentityName { get; }
+            IdentityName = identityName;
         }
+
+        public string IdentityName { get; }
     }
 }

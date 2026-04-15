@@ -17,7 +17,7 @@ using NHibernate.Transform;
 using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DtoMapping.Repositories
 {
@@ -28,20 +28,20 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
         }
 
-        public IList<ContainerDto> FindContainersFromShipsMatchingCode(string code)
+        public IList<ContainerDto>? FindContainersFromShipsMatchingCode(string code)
             => Execute(
                 nameof(FindContainersFromShipsMatchingCode),
                 () => FindContainersFromShipsMatchingCodeQuery(code).List<ContainerDto>());
 
-        public PagedList<ContainerDto> FindContainersFromShipsMatchingCodePaged(int pageIndex, int pageSize, string code)
+        public PagedList<ContainerDto>? FindContainersFromShipsMatchingCodePaged(int pageIndex, int pageSize, string code)
             => Execute(
                 nameof(FindContainersFromShipsMatchingCode),
                 () => FindPagedInternal<ContainerDto>(pageIndex, pageSize, () => FindContainersFromShipsMatchingCodeQuery(code)));
 
         protected virtual IQueryOver<Ship, Ship> FindContainersFromShipsMatchingCodeQuery(string code)
         {
-            CargoContainer cargoContainer = null;
-            ContainerDto dto = null;
+            CargoContainer? cargoContainer = null;
+            ContainerDto? dto = null;
 
             return
                 CreateQueryOver()
@@ -50,9 +50,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                     .SelectList(
                         list =>
                             list
-                                .SelectGroup(ship => ship.Code).WithAlias(() => dto.ShipCode)
-                                .SelectGroup(ship => cargoContainer.Code).WithAlias(() => dto.ContainerCode)
-                                .SelectGroup(ship => cargoContainer.Load).WithAlias(() => dto.Load))
+                                .SelectGroup(ship => ship.Code).WithAlias(() => dto!.ShipCode)
+                                .SelectGroup(ship => cargoContainer!.Code).WithAlias(() => dto!.ContainerCode)
+                                .SelectGroup(ship => cargoContainer!.Load).WithAlias(() => dto!.Load))
                     .TransformUsing(Transformers.AliasToBean<ContainerDto>());
         }
     }

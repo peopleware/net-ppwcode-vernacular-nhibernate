@@ -14,8 +14,6 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
@@ -29,16 +27,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
         : IViolatedConstraintNameExtracter,
           IDbConstraints
     {
-        [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public MsSqlViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new MsSqlDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new MsSqlDbConstraints();
 
         /// <inheritdoc />
-        public DbConstraintMetadata GetByConstraintName(string constraintName)
+        public DbConstraintMetadata? GetByConstraintName(string constraintName)
             => _dbConstraints.GetByConstraintName(constraintName);
 
         /// <inheritdoc />
@@ -52,12 +44,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
             => _dbConstraints.Constraints;
 
         /// <inheritdoc />
-        [CanBeNull]
-        public string ExtractConstraintName([NotNull] DbException dbException)
+        public string? ExtractConstraintName(DbException dbException)
         {
             if (ADOExceptionHelper.ExtractDbException(dbException) is SqlException sqle)
             {
-                DbConstraintMetadata dbConstraint =
+                DbConstraintMetadata? dbConstraint =
                     _dbConstraints
                         .Constraints
                         .FirstOrDefault(c => sqle.Message.Contains(c.ConstraintName));

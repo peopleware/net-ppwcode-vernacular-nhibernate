@@ -9,48 +9,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Author : PersistentObject<int>
+    public class Author : PersistentObject
     {
-        [DataMember]
         private readonly ISet<Book> _books = new HashSet<Book>();
 
-        public Author()
-        {
-        }
-
-        public Author(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         [AuditLogPropertyIgnore]
         public virtual ISet<Book> Books
             => _books;
 
-        public virtual void AddBook(Book book)
+        public virtual void AddBook(Book? book)
         {
             if ((book != null) && Books.Add(book))
             {
@@ -58,7 +35,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
             }
         }
 
-        public virtual void RemoveBook(Book book)
+        public virtual void RemoveBook(Book? book)
         {
             if ((book != null) && Books.Remove(book))
             {
@@ -67,8 +44,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
         }
     }
 
-    [UsedImplicitly]
-    public class AuthorMapper : PersistentObjectMapper<Author, int>
+    public class AuthorMapper : PersistentObjectMapper<Author>
     {
         public AuthorMapper()
         {

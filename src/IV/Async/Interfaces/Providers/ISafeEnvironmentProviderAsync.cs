@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,44 +13,36 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using PPWCode.Vernacular.NHibernate.IV.Providers;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers
 {
     /// <inheritdoc />
     public interface ISafeEnvironmentProviderAsync : ISafeEnvironmentProvider
     {
-        [NotNull]
         Task RunAsync(
-            [NotNull] string requestDescription,
-            [NotNull] Func<CancellationToken, Task> lambda,
+            string requestDescription,
+            Func<CancellationToken, Task> lambda,
             CancellationToken cancellationToken = default);
 
-        [NotNull]
-        [ItemCanBeNull]
-        Task<TResult> RunAsync<TResult>(
-            [NotNull] string requestDescription,
-            [NotNull] Func<CancellationToken, Task<TResult>> lambda,
+        Task<TResult?> RunAsync<TResult>(
+            string requestDescription,
+            Func<CancellationToken, Task<TResult?>> lambda,
             CancellationToken cancellationToken = default);
 
-        [NotNull]
         Task RunAsync<TEntity, TId>(
-            [NotNull] string requestDescription,
-            [NotNull] Func<CancellationToken, Task> lambda,
-            [CanBeNull] TEntity entity,
+            string requestDescription,
+            Func<CancellationToken, Task> lambda,
+            TEntity? entity,
             CancellationToken cancellationToken = default)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;
 
-        [NotNull]
-        [ItemCanBeNull]
-        Task<TResult> RunAsync<TEntity, TId, TResult>(
-            [NotNull] string requestDescription,
-            [NotNull] Func<CancellationToken, Task<TResult>> lambda,
-            [CanBeNull] TEntity entity,
+        Task<TResult?> RunAsync<TEntity, TId, TResult>(
+            string requestDescription,
+            Func<CancellationToken, Task<TResult?>> lambda,
+            TEntity? entity,
             CancellationToken cancellationToken = default)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;

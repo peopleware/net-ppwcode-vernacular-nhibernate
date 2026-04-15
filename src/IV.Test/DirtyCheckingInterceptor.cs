@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,8 +11,6 @@
 
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.Persister.Entity;
@@ -24,15 +22,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
     public class DirtyCheckingInterceptor
         : EmptyInterceptor
     {
-        [CanBeNull]
-        private ISession _session;
+        private ISession? _session;
 
-        public DirtyCheckingInterceptor([NotNull] IList<string> dirtyProps)
+        public DirtyCheckingInterceptor(IList<string> dirtyProps)
         {
             DirtyProps = dirtyProps;
         }
 
-        [NotNull]
         protected IList<string> DirtyProps { get; }
 
         public override void SetSession(ISession session)
@@ -41,12 +37,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         }
 
         public override bool OnFlushDirty(
-            [NotNull] object entity,
-            [NotNull] object id,
-            [NotNull] object[] currentState,
-            [NotNull] object[] previousState,
-            [NotNull] string[] propertyNames,
-            [NotNull] IType[] types)
+            object entity,
+            object id,
+            object[] currentState,
+            object[] previousState,
+            string[] propertyNames,
+            IType[] types)
         {
             string msg = $"Flush Dirty {entity.GetType().FullName}";
             DirtyProps.Add(msg);
@@ -55,11 +51,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         }
 
         public override bool OnSave(
-            [NotNull] object entity,
-            [NotNull] object id,
-            [NotNull] object[] state,
-            [NotNull] string[] propertyNames,
-            [NotNull] IType[] types)
+            object entity,
+            object id,
+            object[] state,
+            string[] propertyNames,
+            IType[] types)
         {
             string msg = $"Save {entity.GetType().FullName}";
             DirtyProps.Add(msg);
@@ -67,21 +63,21 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         }
 
         public override void OnDelete(
-            [NotNull] object entity,
-            [NotNull] object id,
-            [NotNull] object[] state,
-            [NotNull] string[] propertyNames,
-            [NotNull] IType[] types)
+            object entity,
+            object id,
+            object[] state,
+            string[] propertyNames,
+            IType[] types)
         {
             string msg = $"Delete {entity.GetType().FullName}";
             DirtyProps.Add(msg);
         }
 
-        private void ListDirtyProperties([NotNull] object entity)
+        private void ListDirtyProperties(object entity)
         {
             if (_session != null)
             {
-                string className = NHibernateProxyHelper.GuessClass(entity).FullName;
+                string? className = NHibernateProxyHelper.GuessClass(entity).FullName;
                 ISessionImplementor sessionImpl = _session.GetSessionImplementation();
                 IEntityPersister persister = sessionImpl.Factory.GetEntityPersister(className);
                 EntityEntry oldEntry = sessionImpl.PersistenceContext.GetEntry(entity);

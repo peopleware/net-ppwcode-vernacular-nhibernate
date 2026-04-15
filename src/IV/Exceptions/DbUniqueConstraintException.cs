@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,16 +9,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading;
+using System;
 
-namespace PPWCode.Vernacular.NHibernate.IV.DI
+namespace PPWCode.Vernacular.NHibernate.IV.Exceptions
 {
-    public class IdentityProvider : IIdentityProvider
-    {
-        /// <inheritdoc />
-        public string IdentityName
-            => Thread.CurrentPrincipal?.Identity?.IsAuthenticated == true
-                   ? Thread.CurrentPrincipal.Identity.Name ?? "Authenticated"
-                   : "Not Authenticated";
-    }
+    public class DbUniqueConstraintException(
+        string? message,
+        object entityId,
+        string entityName,
+        string sql,
+        string constraintName,
+        string? extraInfo,
+        Exception? innerException = null)
+        : DbConstraintException(message, entityId, entityName, sql, DbConstraintTypeEnum.UNIQUE, constraintName, extraInfo, innerException);
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,27 +13,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Linq;
 
 using PPWCode.Vernacular.NHibernate.IV.Providers;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
+using PPWCode.Vernacular.Persistence.V.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-    public abstract class LinqRepository<TRoot, TId>
-        : Repository<TRoot, TId>
+    public abstract class LinqRepository<TRoot, TId>(ISessionProvider sessionProvider)
+        : Repository<TRoot, TId>(sessionProvider)
         where TRoot : class, IIdentity<TId>
         where TId : IEquatable<TId>
     {
-        protected LinqRepository(ISessionProvider sessionProvider)
-            : base(sessionProvider)
-        {
-        }
-
         /// <summary>
         ///     Gets an entity by the given query, expressed as a <paramref name="lambda" />.
         /// </summary>
@@ -47,14 +41,13 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     <para>If no entity is found, <c>null</c> will be returned</para>
         /// </returns>
         /// <remarks>
-        ///     <h3>Extra post conditions</h3>
+        ///     <h3>Extra post-conditions</h3>
         ///     <para>If an entity is found, it fulfills the query, expressed by <paramref name="lambda" />.</para>
         /// </remarks>
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, a <c>null</c> will be returned.
         /// </exception>
-        [CanBeNull]
-        public TResult Get<TResult>([NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
+        public TResult? Get<TResult>(Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
             => Execute(nameof(Get), () => GetInternal(lambda));
 
         /// <summary>
@@ -73,14 +66,13 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     <para>If no entity is found, <c>null</c> will be returned</para>
         /// </returns>
         /// <remarks>
-        ///     <h3>Extra post conditions</h3>
+        ///     <h3>Extra post-conditions</h3>
         ///     <para>If an entity is found, it fulfills the query, expressed by <paramref name="lambda" />.</para>
         /// </remarks>
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, a <c>null</c> will be returned.
         /// </exception>
-        [CanBeNull]
-        public TResult GetAtIndex<TResult>([NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda, int index)
+        public TResult? GetAtIndex<TResult>(Func<IQueryable<TRoot>, IQueryable<TResult>> lambda, int index)
             => Execute(nameof(GetAtIndex), () => GetAtIndexInternal(lambda, index));
 
         /// <summary>
@@ -102,9 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, an <c>empty list</c> will be returned.
         /// </exception>
-        [NotNull]
-        [ItemNotNull]
-        public virtual IList<TResult> Find<TResult>([NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
+        public virtual IList<TResult> Find<TResult>(Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
             => Execute(nameof(Find), () => FindInternal(() => lambda(CreateQueryable()), null, null))
                ?? new List<TResult>();
 
@@ -127,16 +117,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     <para>If no information is found, an empty list will be returned.</para>
         /// </returns>
         /// <remarks>
-        ///     <h3>Extra post conditions</h3>
-        ///     <para>All elements of the resulting set fulfills the query, expressed by <paramref name="lambda" />.</para>
+        ///     <h3>Extra post-conditions</h3>
+        ///     <para>All elements of the resulting set fulfill the query, expressed by <paramref name="lambda" />.</para>
         /// </remarks>
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, an <c>empty list</c> will be returned.
         /// </exception>
-        [NotNull]
-        [ItemNotNull]
         public virtual IList<TResult> Find<TResult>(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
+            Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
             int? skip,
             int? count)
             => Execute(nameof(Find), () => FindInternal(() => lambda(CreateQueryable()), skip, count))
@@ -158,15 +146,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     of type <typeparamref name="TResult" />.
         /// </returns>
         /// <remarks>
-        ///     <h3>Extra post conditions</h3>
-        ///     <para>All elements of the resulting set fulfills the query, expressed by <paramref name="lambda" />.</para>
+        ///     <h3>Extra post-conditions</h3>
+        ///     <para>All elements of the resulting set fulfill the query, expressed by <paramref name="lambda" />.</para>
         /// </remarks>
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, an <c>empty page</c> will be returned.
         /// </exception>
-        [NotNull]
         public virtual IPagedList<TResult> FindPaged<TResult>(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
+            Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
             int pageIndex,
             int pageSize)
             => Execute(nameof(FindPaged), () => FindPagedInternal(() => lambda(CreateQueryable()), pageIndex, pageSize))
@@ -182,7 +169,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, a <c>0</c> will be returned.
         /// </exception>
-        public virtual int Count([NotNull] Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
+        public virtual int Count(Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
             => Execute(nameof(Count), () => CountInternal(lambda));
 
         /// <inheritdoc />
@@ -194,9 +181,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
             => FindInternal(() => CreateQueryable().Where(e => ids.Contains(e.Id)), null, null);
 
         /// <inheritdoc cref="Get{TResult}" />
-        [CanBeNull]
-        protected virtual TResult GetInternal<TResult>(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
+        protected virtual TResult? GetInternal<TResult>(
+            Func<IQueryable<TRoot>, IQueryable<TResult>> lambda)
         {
             try
             {
@@ -209,9 +195,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="GetAtIndex{TResult}" />
-        [CanBeNull]
-        protected virtual TResult GetAtIndexInternal<TResult>(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
+        protected virtual TResult? GetAtIndexInternal<TResult>(
+            Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
             int index)
         {
             try
@@ -223,8 +208,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 return default;
             }
         }
-
-        // TODO, i don't get it why <inheritdoc cref="Find{TResult}(Func{IQuerable{TRoot},IQuerable{TResult}},int?,int?)" />doesn't work
 
         /// <summary>
         ///     Executes the given query, expressed as a <paramref name="lambda" />.
@@ -245,18 +228,16 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     <para>If no information is found, an empty list will be returned.</para>
         /// </returns>
         /// <remarks>
-        ///     <h3>Extra post conditions</h3>
-        ///     <para>All elements of the resulting set fulfills the query, expressed by <paramref name="lambda" />.</para>
+        ///     <h3>Extra post-conditions</h3>
+        ///     <para>All elements of the resulting set fulfill the query, expressed by <paramref name="lambda" />.</para>
         /// </remarks>
         /// <exception cref="EmptyResultException">
         ///     If <paramref name="lambda" /> throws this type of exception, an <c>empty list</c> will be returned.
         /// </exception>
-        [NotNull]
-        [ItemNotNull]
         protected virtual IList<TResult> FindInternal<TResult>(
-            [NotNull] Func<IQueryable<TResult>> lambda,
-            [CanBeNull] int? skip,
-            [CanBeNull] int? count)
+            Func<IQueryable<TResult>> lambda,
+            int? skip,
+            int? count)
         {
             try
             {
@@ -280,9 +261,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="FindPaged{TResult}" />
-        [NotNull]
         protected virtual PagedList<TResult> FindPagedInternal<TResult>(
-            [NotNull] Func<IQueryable<TResult>> lambda,
+            Func<IQueryable<TResult>> lambda,
             int pageIndex,
             int pageSize)
         {
@@ -310,7 +290,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         /// <inheritdoc cref="Count" />
         protected virtual int CountInternal(
-            [NotNull] Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
+            Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda)
         {
             try
             {
@@ -322,7 +302,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
             }
         }
 
-        [NotNull]
         protected virtual IQueryable<TRoot> CreateQueryable()
             => Session.Query<TRoot>();
     }

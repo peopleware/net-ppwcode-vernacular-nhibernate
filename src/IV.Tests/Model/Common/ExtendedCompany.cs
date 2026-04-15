@@ -9,40 +9,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class ExtendedCompany : AuditablePersistentObject<int>
+    public class ExtendedCompany : AuditablePersistentObject
     {
-        [DataMember]
-        private Company _company;
+        private Company? _company;
 
-        public ExtendedCompany(int id)
-            : base(id)
-        {
-        }
-
-        public ExtendedCompany()
-        {
-        }
-
-        public virtual Company Company
+        public virtual Company? Company
         {
             get => _company;
             set
@@ -65,9 +42,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        [DataMember]
         [StringLength(200)]
-        public virtual string ExtraData { get; set; }
+        public virtual string? ExtraData { get; set; }
 
         public override CompoundSemanticException WildExceptions()
         {
@@ -75,14 +51,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 
             if (Company == null)
             {
-                sce.AddElement(new PropertyException(this, nameof(Company), PropertyException.MandatoryMessage, null));
+                sce.AddElement(new PropertyException(this, nameof(Company), PropertyException.MandatoryMessage));
             }
 
             return sce;
         }
 
-        [UsedImplicitly]
-        public class ExtendedCompanyMapper : InsertAuditablePersistentObjectMapper<ExtendedCompany, int>
+        public class ExtendedCompanyMapper : AuditablePersistentObjectMapper<ExtendedCompany>
         {
             public ExtendedCompanyMapper()
             {
@@ -92,7 +67,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
                     m =>
                     {
                         m.Constrained(true);
-                        m.PropertyReference(c => c.ExtendedCompany);
+                        m.PropertyReference(c => c!.ExtendedCompany);
                     });
             }
         }

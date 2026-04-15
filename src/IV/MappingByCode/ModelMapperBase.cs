@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,10 +11,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-
-using JetBrains.Annotations;
 
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
@@ -26,9 +25,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
     {
         private readonly object _locker = new object();
         private readonly IMappingAssemblies _mappingAssemblies;
-        private HbmMapping _hbmMapping;
+        private HbmMapping? _hbmMapping;
 
-        protected ModelMapperBase([NotNull] IMappingAssemblies mappingAssemblies)
+        protected ModelMapperBase(IMappingAssemblies mappingAssemblies)
         {
             _mappingAssemblies = mappingAssemblies;
             ModelMapper = new ModelMapper();
@@ -74,23 +73,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             ModelMapper.AfterMapUnionSubclass += OnAfterMapUnionSubclass;
         }
 
-        [NotNull]
         protected IModelInspector ModelInspector
             => ModelMapper.ModelInspector;
 
-        [CanBeNull]
-        protected virtual IEnumerable<Type> MappingTypes
+        protected virtual IEnumerable<Type>? MappingTypes
             => null;
 
-        [CanBeNull]
-        protected virtual string DefaultAccess
+        protected virtual string? DefaultAccess
             => null;
 
         protected virtual bool DefaultLazy
             => true;
 
-        [CanBeNull]
-        protected virtual string DefaultCascade
+        protected virtual string? DefaultCascade
             => null;
 
         public abstract ICandidatePersistentMembersProvider MembersProvider { get; }
@@ -119,11 +114,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                             HbmMapping hbmMapping;
 
                             // Following code is an improvement to pre-order our types topological, nHibernate doesn't do this right at this moment v5.1.3
-                            FieldInfo customizerHolderFieldInfo = typeof(ModelMapper).GetField("customizerHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+                            FieldInfo? customizerHolderFieldInfo = typeof(ModelMapper).GetField("customizerHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                             if (customizerHolderFieldInfo != null)
                             {
-                                ICustomizersHolder customizerHolder = (ICustomizersHolder)customizerHolderFieldInfo.GetValue(ModelMapper);
-                                IEnumerable<Type> types = customizerHolder.GetAllCustomizedEntities();
+                                ICustomizersHolder? customizerHolder = customizerHolderFieldInfo.GetValue(ModelMapper) as ICustomizersHolder;
+                                IEnumerable<Type> types = customizerHolder?.GetAllCustomizedEntities() ?? [];
                                 HashSet<Type> rootClasses =
                                     new HashSet<Type>(
                                         types
@@ -142,7 +137,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                                     HashSet<Type> nextLevelEntities = new HashSet<Type>();
                                     foreach (Type subClass in subClasses.ToList())
                                     {
-                                        if (processedClasses.Contains(subClass.BaseType))
+                                        if ((subClass.BaseType != null) && processedClasses.Contains(subClass.BaseType))
                                         {
                                             nextLevelEntities.Add(subClass);
                                             subClasses.Remove(subClass);
@@ -182,292 +177,292 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             }
         }
 
+        [return: NotNullIfNotNull(nameof(identifier))]
+        public virtual string? GetIdentifier(string? identifier)
+            => IdentifierFormat switch
+               {
+                   IdentifierFormat.AS_IS
+                       => identifier,
+                   IdentifierFormat.PASCAL_CASE_TO_SNAKE_CASE
+                       => StringUtil.ConvertFromPascalCaseToSnakeCase(identifier),
+                   IdentifierFormat.PASCAL_CASE_TO_SCREAMING_SNAKE_CASE
+                       => StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(identifier),
+                   _ => throw new ArgumentOutOfRangeException(
+                            $"IdentifierTransform ({IdentifierFormat}) not supported.")
+               };
+
+        [return: NotNullIfNotNull(nameof(identifier))]
+        public virtual string? ConditionalQuoteIdentifier(string? identifier, bool? quoteIdentifier)
+            => quoteIdentifier ?? QuoteIdentifiers ? QuoteIdentifier(identifier) : identifier;
+
         protected virtual void OnModelMapperOnBeforeMapUnionSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IUnionSubclassAttributesMapper unionSubclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IUnionSubclassAttributesMapper unionSubclassCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] ISubclassAttributesMapper subclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            ISubclassAttributesMapper subclassCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapSet(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] ISetPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            ISetPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapProperty(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IPropertyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IPropertyMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapOneToOne(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IOneToOneMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IOneToOneMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapOneToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IOneToManyMapper collectionRelationOneToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IOneToManyMapper collectionRelationOneToManyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapMapKeyManyToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapKeyManyToManyMapper mapKeyManyToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapKeyManyToManyMapper mapKeyManyToManyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapMapKey(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapKeyMapper mapKeyElementCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapKeyMapper mapKeyElementCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapMap(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapManyToOne(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IManyToOneMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IManyToOneMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapManyToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IManyToManyMapper collectionRelationManyToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IManyToManyMapper collectionRelationManyToManyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapList(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IListPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IListPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapJoinedSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IJoinedSubclassAttributesMapper joinedSubclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IJoinedSubclassAttributesMapper joinedSubclassCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapIdBag(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IIdBagPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IIdBagPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapElement(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IElementMapper collectionRelationElementCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IElementMapper collectionRelationElementCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapComponent(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IComponentAttributesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IComponentAttributesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapClass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IClassAttributesMapper classCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IClassAttributesMapper classCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapBag(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IBagPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IBagPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnBeforeMapAny(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IAnyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IAnyMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapUnionSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IUnionSubclassAttributesMapper unionSubclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IUnionSubclassAttributesMapper unionSubclassCustomizer)
         {
         }
 
         protected virtual void OnAfterMapSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] ISubclassAttributesMapper subclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            ISubclassAttributesMapper subclassCustomizer)
         {
         }
 
         protected virtual void OnAfterMapSet(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] ISetPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            ISetPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapProperty(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IPropertyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IPropertyMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapOneToOne(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IOneToOneMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IOneToOneMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapOneToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IOneToManyMapper collectionRelationOneToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IOneToManyMapper collectionRelationOneToManyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapMapKeyManyToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapKeyManyToManyMapper mapKeyManyToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapKeyManyToManyMapper mapKeyManyToManyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapMapKey(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapKeyMapper mapKeyElementCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapKeyMapper mapKeyElementCustomizer)
         {
         }
 
         protected virtual void OnAfterMapMap(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IMapPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IMapPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapManyToOne(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IManyToOneMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IManyToOneMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapManyToMany(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IManyToManyMapper collectionRelationManyToManyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IManyToManyMapper collectionRelationManyToManyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapList(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IListPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IListPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapJoinedSubclass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IJoinedSubclassAttributesMapper joinedSubclassCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IJoinedSubclassAttributesMapper joinedSubclassCustomizer)
         {
         }
 
         protected virtual void OnAfterMapIdBag(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IIdBagPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IIdBagPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapElement(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IElementMapper collectionRelationElementCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IElementMapper collectionRelationElementCustomizer)
         {
         }
 
         protected virtual void OnAfterMapComponent(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IComponentAttributesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IComponentAttributesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapClass(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] Type type,
-            [NotNull] IClassAttributesMapper classCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IClassAttributesMapper classCustomizer)
         {
         }
 
         protected virtual void OnAfterMapBag(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IBagPropertiesMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IBagPropertiesMapper propertyCustomizer)
         {
         }
 
         protected virtual void OnAfterMapAny(
-            [NotNull] IModelInspector modelInspector,
-            [NotNull] PropertyPath member,
-            [NotNull] IAnyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IAnyMapper propertyCustomizer)
         {
         }
 
-        [ContractAnnotation("null => null; notnull => notnull")]
-        public virtual string GetIdentifier(string identifier)
-            => IdentifierFormat switch
-            {
-                IdentifierFormat.AS_IS
-                    => identifier,
-                IdentifierFormat.PASCAL_CASE_TO_SNAKE_CASE
-                    => StringUtil.ConvertFromPascalCaseToSnakeCase(identifier),
-                IdentifierFormat.PASCAL_CASE_TO_SCREAMING_SNAKE_CASE
-                    => StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(identifier),
-                _ => throw new ArgumentOutOfRangeException(
-                         $"IdentifierTransform ({IdentifierFormat}) not supported.")
-            };
-
-        [ContractAnnotation("identifier:null => null; identifier:notnull => notnull")]
-        public virtual string ConditionalQuoteIdentifier(string identifier, bool? quoteIdentifier)
-            => quoteIdentifier ?? QuoteIdentifiers ? QuoteIdentifier(identifier) : identifier;
-
-        [ContractAnnotation("null => null; notnull => notnull")]
-        public virtual string QuoteIdentifier(string identifier)
+        [return: NotNullIfNotNull(nameof(identifier))]
+        public virtual string? QuoteIdentifier(string? identifier)
             => identifier != null ? $"`{identifier}`" : null;
     }
 }

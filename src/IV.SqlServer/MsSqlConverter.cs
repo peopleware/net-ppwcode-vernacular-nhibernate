@@ -12,13 +12,11 @@
 using System;
 using System.Data.SqlClient;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -27,7 +25,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
 {
     public class MsSqlConverter : BaseExceptionConverter
     {
-        public MsSqlConverter([NotNull] IViolatedConstraintNameExtracter violatedConstraintNameExtracter)
+        public MsSqlConverter(IViolatedConstraintNameExtracter violatedConstraintNameExtracter)
             : base(violatedConstraintNameExtracter)
         {
         }
@@ -36,10 +34,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
         {
             if (ADOExceptionHelper.ExtractDbException(adoExceptionContextInfo.SqlException) is SqlException sqle)
             {
-                string constraintName = GetConstraintName(adoExceptionContextInfo);
+                string? constraintName = GetConstraintName(adoExceptionContextInfo);
                 if (!string.IsNullOrWhiteSpace(constraintName))
                 {
-                    DbConstraintMetadata metadata = DbConstraints?.GetByConstraintName(constraintName);
+                    DbConstraintMetadata? metadata = DbConstraints?.GetByConstraintName(constraintName);
                     if (metadata != null)
                     {
                         switch (metadata.ConstraintType)

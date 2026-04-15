@@ -9,47 +9,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Country : AuditableVersionedPersistentObject<int, int>
+    public class Country : AuditableVersionedPersistentObject
     {
-        public Country(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
-
-        public Country(int id)
-            : base(id)
-        {
-        }
-
-        public Country()
-        {
-        }
-
-        [DataMember]
         [Required]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
     }
 
-    [UsedImplicitly]
-    public class CountryMapper : AuditableVersionedPersistentObjectMapper<Country, int, int>
+    public class CountryMapper : AuditableVersionedPersistentObjectMapper<Country>
     {
         public CountryMapper()
         {

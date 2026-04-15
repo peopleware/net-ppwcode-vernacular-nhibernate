@@ -17,7 +17,7 @@ using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DtoMapping.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DtoMapping
 {
@@ -125,13 +125,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
             GenerateShipAndContainers();
 
-            IList<ContainerDto> dtos = null;
+            IList<ContainerDto>? dtos = null;
 
             RunInsideTransaction(
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("X"); },
                 true);
 
-            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c!.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -139,13 +140,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
             GenerateShipAndContainers();
 
-            PagedList<ContainerDto> dtos = null;
+            PagedList<ContainerDto>? dtos = null;
 
             RunInsideTransaction(
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCodePaged(2, 10, "X"); },
                 true);
 
-            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c!.StartsWith("X")), Is.True);
         }
 
         [Test]
@@ -153,13 +155,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
             GenerateShipAndContainers();
 
-            IList<ContainerDto> dtos = null;
+            IList<ContainerDto>? dtos = null;
 
             RunInsideTransaction(
                 () => { dtos = ShipRepository.FindContainersFromShipsMatchingCode("Z"); },
                 true);
 
-            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c!.StartsWith("Z")), Is.True);
             Assert.That(dtos.Count, Is.EqualTo(3));
             Assert.That(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)), Is.True);
             Assert.That(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")), Is.True);

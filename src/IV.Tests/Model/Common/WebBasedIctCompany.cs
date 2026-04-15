@@ -9,50 +9,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class WebBasedIctCompany : IctCompany
     {
-        public WebBasedIctCompany(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
+        public virtual string? WebBased { get; set; }
 
-        public WebBasedIctCompany(int id)
-            : base(id)
+        public class WebBasedIctCompanyMapper : SubclassMapping<WebBasedIctCompany>
         {
-        }
-
-        public WebBasedIctCompany()
-        {
-        }
-
-        [Required]
-        [DataMember]
-        public virtual string WebBased { get; set; }
-    }
-
-    [UsedImplicitly]
-    public class WebBasedIctCompanyMapper : SubclassMapping<WebBasedIctCompany>
-    {
-        public WebBasedIctCompanyMapper()
-        {
-            Property(c => c.WebBased);
+            public WebBasedIctCompanyMapper()
+            {
+                Property(c => c.WebBased);
+            }
         }
     }
 }

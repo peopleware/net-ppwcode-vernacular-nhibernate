@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,53 +16,36 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-using JetBrains.Annotations;
-
 using NHibernate.Dialect;
 using NHibernate.Engine;
 using NHibernate.Mapping;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-    [UsedImplicitly]
-    public abstract class PpwAuxiliaryIndex<TEntity> : PpwAuxiliaryDatabaseObject
+    public abstract class PpwAuxiliaryIndex<TEntity>(IPpwHbmMapping ppwHbmMapping)
+        : PpwAuxiliaryDatabaseObject(ppwHbmMapping)
         where TEntity : class
     {
-        protected PpwAuxiliaryIndex(IPpwHbmMapping ppwHbmMapping)
-            : base(ppwHbmMapping)
-        {
-        }
+        protected Func<IEnumerable<Column>>[]? ColumnDefinitions { get; set; }
 
-        [CanBeNull]
-        protected Func<IEnumerable<Column>>[] ColumnDefinitions { get; set; }
+        protected Func<IEnumerable<Column>>[]? CoveringColumnDefinitions { get; set; }
 
-        [CanBeNull]
-        protected Func<IEnumerable<Column>>[] CoveringColumnDefinitions { get; set; }
-
-        [CanBeNull]
-        protected virtual string Filter
+        protected virtual string? Filter
             => null;
 
-        [JetBrains.Annotations.NotNull]
         protected abstract string GetIndexName();
-
         protected abstract bool IsUnique();
 
-        [CanBeNull]
-        protected virtual PersistentClass GetPersistentClassFor()
+        protected virtual PersistentClass? GetPersistentClassFor()
             => GetPersistentClassFor(typeof(TEntity));
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
         protected virtual Column[] GetColumns(Expression<Func<TEntity, object>> propertyLambda)
             => base.GetColumns(propertyLambda);
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
-        protected virtual Column[] GetDiscriminatorColumnsFor([JetBrains.Annotations.NotNull] Type type)
+        protected virtual Column[] GetDiscriminatorColumnsFor(Type type)
             => GetPersistentClassFor(type)
                    ?.Discriminator
                    ?.ColumnIterator
@@ -70,16 +53,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
                    .ToArray()
                ?? EmptyColumnArray;
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
         protected virtual string[] GetDiscriminatorValues()
             => GetDiscriminatorValuesFor(typeof(TEntity));
 
         public override string SqlCreateString(
             Dialect dialect,
             IMapping mapping,
-            string defaultCatalog,
-            string defaultSchema)
+            string? defaultCatalog,
+            string? defaultSchema)
         {
             Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
@@ -193,7 +174,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return sb.ToString();
         }
 
-        public override string SqlDropString(Dialect dialect, string defaultCatalog, string defaultSchema)
+        public override string SqlDropString(Dialect dialect, string? defaultCatalog, string? defaultSchema)
             => string.Empty;
 
         [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "reviewed")]
@@ -201,11 +182,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected class Context
         {
             public Context(
-                [JetBrains.Annotations.NotNull] PpwAuxiliaryIndex<TEntity> auxiliaryDatabaseObject,
-                [JetBrains.Annotations.NotNull] Dialect dialect,
-                [JetBrains.Annotations.NotNull] IMapping mapping,
-                [CanBeNull] string defaultCatalog,
-                [CanBeNull] string defaultSchema)
+                PpwAuxiliaryIndex<TEntity> auxiliaryDatabaseObject,
+                Dialect dialect,
+                IMapping mapping,
+                string? defaultCatalog,
+                string? defaultSchema)
             {
                 Dialect = dialect;
                 Mapping = mapping;
@@ -229,7 +210,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
                 IndexName = auxiliaryDatabaseObject.GetIndexName();
 
-                List<Column> columns = auxiliaryDatabaseObject.ColumnDefinitions?.SelectMany(x => x()).ToList();
+                List<Column>? columns =
+                    auxiliaryDatabaseObject
+                        .ColumnDefinitions
+                        ?.SelectMany(x => x())
+                        .ToList();
                 if ((columns == null) || !columns.Any())
                 {
                     throw new ProgrammingError($"Unable to determine the physical column(s) needed for creating a unique key for entity type {typeof(TEntity).FullName}.");
@@ -239,7 +224,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 IEnumerable<string> columnNames = Columns.Select(c => auxiliaryDatabaseObject.QuoteColumnName(dialect, c.Name));
                 ColumnNames = string.Join(",", columnNames);
 
-                CoveringColumns = auxiliaryDatabaseObject.CoveringColumnDefinitions?.SelectMany(x => x()).ToList();
+                CoveringColumns =
+                    auxiliaryDatabaseObject
+                        .CoveringColumnDefinitions
+                        ?.SelectMany(x => x())
+                        .ToList();
                 if (CoveringColumns != null)
                 {
                     IEnumerable<string> coveringColumnNames = CoveringColumns.Select(c => auxiliaryDatabaseObject.QuoteColumnName(dialect, c.Name));
@@ -249,47 +238,20 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 Filter = auxiliaryDatabaseObject.Filter;
             }
 
-            [JetBrains.Annotations.NotNull]
             public PpwAuxiliaryIndex<TEntity> AuxiliaryDatabaseObject { get; }
-
-            [JetBrains.Annotations.NotNull]
             public Dialect Dialect { get; }
-
-            [JetBrains.Annotations.NotNull]
             public IMapping Mapping { get; }
-
-            [CanBeNull]
-            public string DefaultCatalog { get; }
-
-            [CanBeNull]
-            public string DefaultSchema { get; }
-
-            [CanBeNull]
-            public string Schema { get; }
-
-            [JetBrains.Annotations.NotNull]
+            public string? DefaultCatalog { get; }
+            public string? DefaultSchema { get; }
+            public string? Schema { get; }
             public Table Table { get; }
-
-            [JetBrains.Annotations.NotNull]
             public List<Column> Columns { get; }
-
-            [CanBeNull]
-            public List<Column> CoveringColumns { get; }
-
-            [JetBrains.Annotations.NotNull]
+            public List<Column>? CoveringColumns { get; }
             public string TableName { get; }
-
-            [JetBrains.Annotations.NotNull]
             public string IndexName { get; }
-
-            [JetBrains.Annotations.NotNull]
             public string ColumnNames { get; }
-
-            [CanBeNull]
-            public string CoveringColumnNames { get; }
-
-            [CanBeNull]
-            public string Filter { get; }
+            public string? CoveringColumnNames { get; }
+            public string? Filter { get; }
         }
     }
 }

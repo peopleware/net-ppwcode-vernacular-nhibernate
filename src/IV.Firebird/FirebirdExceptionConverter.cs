@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,19 +13,17 @@ using System;
 
 using FirebirdSql.Data.FirebirdClient;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     public class FirebirdExceptionConverter : BaseExceptionConverter
     {
-        public FirebirdExceptionConverter([NotNull] IViolatedConstraintNameExtracter constraintNameExtracter)
+        public FirebirdExceptionConverter(IViolatedConstraintNameExtracter constraintNameExtracter)
             : base(constraintNameExtracter)
         {
         }
@@ -34,24 +32,51 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
         {
             if (ADOExceptionHelper.ExtractDbException(adoExceptionContextInfo.SqlException) is FbException sqle)
             {
-                string constraintName = GetConstraintName(adoExceptionContextInfo);
-                switch (sqle.ErrorCode)
+                string? constraintName = GetConstraintName(adoExceptionContextInfo);
+                if (!string.IsNullOrWhiteSpace(constraintName))
                 {
-                    case 335544349: /* no_dup               */
-                    case 335544665: /* unique_key_violation */
+                    switch (sqle.ErrorCode)
                     {
-                        DbConstraintMetadata metadata = null;
-                        if ((DbConstraints != null) && (constraintName != null))
+                        case 335544349: /* no_dup               */
+                        case 335544665: /* unique_key_violation */
                         {
-                            metadata = DbConstraints.GetByConstraintName(constraintName);
+                            DbConstraintMetadata? metadata = DbConstraints?.GetByConstraintName(constraintName);
+                            if (metadata != null)
+                            {
+                                DbConstraintException constraintException;
+                                if (metadata.ConstraintType == DbConstraintTypeEnum.PRIMARY_KEY)
+                                {
+                                    constraintException =
+                                        new DbPrimaryKeyConstraintException(
+                                            sqle.Message,
+                                            adoExceptionContextInfo.EntityId,
+                                            adoExceptionContextInfo.EntityName,
+                                            adoExceptionContextInfo.Sql,
+                                            constraintName,
+                                            null);
+                                }
+                                else
+                                {
+                                    constraintException =
+                                        new DbUniqueConstraintException(
+                                            sqle.Message,
+                                            adoExceptionContextInfo.EntityId,
+                                            adoExceptionContextInfo.EntityName,
+                                            adoExceptionContextInfo.Sql,
+                                            constraintName,
+                                            null);
+                                }
+
+                                return constraintException;
+                            }
+
+                            break;
                         }
 
-                        DbConstraintException constraintException;
-                        if ((metadata != null)
-                            && (metadata.ConstraintType == DbConstraintTypeEnum.PRIMARY_KEY))
+                        case 335544466: /* foreign_key */
                         {
-                            constraintException =
-                                new DbPrimaryKeyConstraintException(
+                            return
+                                new DbForeignKeyConstraintException(
                                     sqle.Message,
                                     adoExceptionContextInfo.EntityId,
                                     adoExceptionContextInfo.EntityName,
@@ -59,10 +84,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
                                     constraintName,
                                     null);
                         }
-                        else
+
+                        case 335544347: /* NOT NULL */
                         {
-                            constraintException =
-                                new DbUniqueConstraintException(
+                            return
+                                new DbNotNullConstraintException(
                                     sqle.Message,
                                     adoExceptionContextInfo.EntityId,
                                     adoExceptionContextInfo.EntityName,
@@ -71,43 +97,17 @@ namespace PPWCode.Vernacular.NHibernate.IV.Firebird
                                     null);
                         }
 
-                        return constraintException;
-                    }
-
-                    case 335544466: /* foreign_key */
-                    {
-                        return
-                            new DbForeignKeyConstraintException(
-                                sqle.Message,
-                                adoExceptionContextInfo.EntityId,
-                                adoExceptionContextInfo.EntityName,
-                                adoExceptionContextInfo.Sql,
-                                constraintName,
-                                null);
-                    }
-
-                    case 335544347: /* NOT NULL */
-                    {
-                        return
-                            new DbNotNullConstraintException(
-                                sqle.Message,
-                                adoExceptionContextInfo.EntityId,
-                                adoExceptionContextInfo.EntityName,
-                                adoExceptionContextInfo.Sql,
-                                constraintName,
-                                null);
-                    }
-
-                    case 335544558: /* check_constraint */
-                    {
-                        return
-                            new DbCheckConstraintException(
-                                sqle.Message,
-                                adoExceptionContextInfo.EntityId,
-                                adoExceptionContextInfo.EntityName,
-                                adoExceptionContextInfo.Sql,
-                                constraintName,
-                                null);
+                        case 335544558: /* check_constraint */
+                        {
+                            return
+                                new DbCheckConstraintException(
+                                    sqle.Message,
+                                    adoExceptionContextInfo.EntityId,
+                                    adoExceptionContextInfo.EntityName,
+                                    adoExceptionContextInfo.Sql,
+                                    constraintName,
+                                    null);
+                        }
                     }
                 }
             }

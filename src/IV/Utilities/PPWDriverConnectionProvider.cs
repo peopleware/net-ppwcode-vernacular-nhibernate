@@ -16,20 +16,14 @@ using System.Text;
 
 using Common.Logging;
 
-using JetBrains.Annotations;
-
 using NHibernate.Connection;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
     public class PPWDriverConnectionProvider : DriverConnectionProvider
     {
-        [JetBrains.Annotations.NotNull]
         private static readonly ILog _logger = LogManager.GetLogger<PPWDriverConnectionProvider>();
 
         /// <summary>
@@ -44,7 +38,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         ///     </property>
         /// </summary>
         /// <param name="conn">The <see cref="T:System.Data.IDbConnection" /> to clean up.</param>
-        public override void CloseConnection([CanBeNull] DbConnection conn)
+        public override void CloseConnection(DbConnection? conn)
         {
             if (conn != null)
             {

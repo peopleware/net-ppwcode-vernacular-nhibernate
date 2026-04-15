@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,62 +11,44 @@
 
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
 using NHibernate.Cfg;
 using NHibernate.Mapping;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-    public abstract class NhConfigurationBase : INhConfiguration
+    public abstract class NhConfigurationBase(
+        INhInterceptor nhInterceptor,
+        INhProperties nhProperties,
+        IMappingAssemblies mappingAssemblies,
+        IPpwHbmMapping ppwHbmMapping,
+        IRegisterEventListener[] registerEventListeners,
+        IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
+        : INhConfiguration
     {
         private readonly object _locker = new object();
-        private volatile Configuration _configuration;
-
-        protected NhConfigurationBase(
-            [NotNull] INhInterceptor nhInterceptor,
-            [NotNull] INhProperties nhProperties,
-            [NotNull] IMappingAssemblies mappingAssemblies,
-            [NotNull] IPpwHbmMapping ppwHbmMapping,
-            [NotNull] IRegisterEventListener[] registerEventListeners,
-            [NotNull] IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
-        {
-            NhInterceptor = nhInterceptor;
-            NhProperties = nhProperties;
-            MappingAssemblies = mappingAssemblies;
-            PpwHbmMapping = ppwHbmMapping;
-            RegisterEventListeners = registerEventListeners;
-            AuxiliaryDatabaseObjects = auxiliaryDatabaseObjects;
-        }
+        private volatile Configuration? _configuration;
 
         /// <inheritdoc cref="INhProperties" />
-        [NotNull]
-        protected INhProperties NhProperties { get; }
+        protected INhProperties NhProperties { get; } = nhProperties;
 
         /// <inheritdoc cref="IRegisterEventListener" />
-        [NotNull]
-        protected IEnumerable<IRegisterEventListener> RegisterEventListeners { get; }
+        protected IEnumerable<IRegisterEventListener> RegisterEventListeners { get; } = registerEventListeners;
 
         /// <inheritdoc cref="GetConfiguration" />
-        [NotNull]
         protected abstract Configuration Configuration { get; }
 
         /// <inheritdoc cref="INhInterceptor" />
-        [NotNull]
-        protected INhInterceptor NhInterceptor { get; }
+        protected INhInterceptor NhInterceptor { get; } = nhInterceptor;
 
         /// <inheritdoc cref="IPpwHbmMapping" />
-        [NotNull]
-        protected IPpwHbmMapping PpwHbmMapping { get; }
+        protected IPpwHbmMapping PpwHbmMapping { get; } = ppwHbmMapping;
 
         /// <inheritdoc cref="IMappingAssemblies" />
-        [NotNull]
-        protected IMappingAssemblies MappingAssemblies { get; }
+        protected IMappingAssemblies MappingAssemblies { get; } = mappingAssemblies;
 
         /// <inheritdoc cref="IAuxiliaryDatabaseObject" />
-        [NotNull]
-        protected IAuxiliaryDatabaseObject[] AuxiliaryDatabaseObjects { get; }
+        protected IAuxiliaryDatabaseObject[] AuxiliaryDatabaseObjects { get; } = auxiliaryDatabaseObjects;
 
         /// <inheritdoc />
         public Configuration GetConfiguration()

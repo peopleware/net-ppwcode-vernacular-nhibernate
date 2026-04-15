@@ -10,46 +10,28 @@
 // limitations under the License.
 
 using System;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
 using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.GuidPrimaryKey
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class Car : PersistentObject<Guid>
     {
-        public Car()
+        public virtual string? ModelName { get; set; }
+
+        public class CarMapper : PersistentObjectMapper<Car, Guid>
         {
-        }
+            public CarMapper()
+            {
+                Id(
+                    c => c.Id,
+                    m => { m.Generator(Generators.Guid); });
 
-        public Car(Guid id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string ModelName { get; set; }
-    }
-
-    [UsedImplicitly]
-    public class CarMapper : PersistentObjectMapper<Car, Guid>
-    {
-        public CarMapper()
-        {
-            Id(
-                c => c.Id,
-                m => { m.Generator(Generators.Guid); });
-
-            Property(c => c.ModelName);
+                Property(c => c.ModelName);
+            }
         }
     }
 }

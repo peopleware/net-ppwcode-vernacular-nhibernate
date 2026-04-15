@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,11 +14,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
+using PPWCode.Vernacular.Persistence.V.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
 {
@@ -30,17 +29,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemCanBeNull]
-        Task<TRoot> GetByIdAsync([NotNull] TId id, CancellationToken cancellationToken = default);
+        Task<TRoot?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
 
         /// <inheritdoc cref="ISession.LoadAsync{T}(object,System.Threading.CancellationToken)" />
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemNotNull]
-        Task<TRoot> LoadByIdAsync([NotNull] TId id, CancellationToken cancellationToken = default);
+        Task<TRoot> LoadByIdAsync(TId id, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Find all records of type <typeparamref name="TRoot" />.
@@ -52,22 +47,18 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemNotNull]
         Task<IList<TRoot>> FindAllAsync(CancellationToken cancellationToken = default);
 
-        /// <summary>Gets an list of entities by their ids.</summary>
+        /// <summary>Gets a list of entities by their ids.</summary>
         /// <param name="ids">The given primary keys.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the work.</param>
         /// <returns>
-        ///     The entities with the given ids which could be found, if not found no entity with the id is returned.
+        ///     The entities with the given ids that could be found, if not found, no entity with the id is returned.
         /// </returns>
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemNotNull]
-        Task<IList<TRoot>> FindByIdsAsync([NotNull] [ItemNotNull] IEnumerable<TId> ids, CancellationToken cancellationToken = default);
+        Task<IList<TRoot>> FindByIdsAsync(IEnumerable<TId> ids, CancellationToken cancellationToken = default);
 
         /// <inheritdoc cref="ISession.MergeAsync{T}(T,System.Threading.CancellationToken)" />
         /// <exception cref="NotFoundException">
@@ -77,9 +68,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemCanBeNull]
-        Task<TRoot> MergeAsync([CanBeNull] TRoot entity, CancellationToken cancellationToken = default);
+        Task<TRoot?> MergeAsync(TRoot? entity, CancellationToken cancellationToken = default);
 
         /// <inheritdoc cref="ISession.SaveOrUpdateAsync(object,System.Threading.CancellationToken)" />
         /// <exception cref="NotFoundException">
@@ -89,14 +78,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        Task SaveOrUpdateAsync([CanBeNull] TRoot entity, CancellationToken cancellationToken = default);
+        Task SaveOrUpdateAsync(TRoot? entity, CancellationToken cancellationToken = default);
 
         /// <inheritdoc cref="ISession.DeleteAsync(object,System.Threading.CancellationToken)" />
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        Task DeleteAsync([CanBeNull] TRoot entity, CancellationToken cancellationToken = default);
+        Task DeleteAsync(TRoot? entity, CancellationToken cancellationToken = default);
     }
 }

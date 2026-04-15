@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,9 +13,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
@@ -23,7 +21,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
     public abstract class SchemaBasedDbConstraints : DbConstraints
     {
         /// <summary>
-        ///     Get the SQL command necessary to retrieve following columns (order is important!):
+        ///     Get the SQL command necessary to retrieve the following columns (order is important!):
         ///     <list type="number">
         ///         <item>
         ///             <description>Constraint Name</description>
@@ -76,10 +74,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
         protected override DbConstraintMetadata GetDbConstraintMetadata(DbDataReader reader)
         {
             int index = 0;
-            string constraintName = GetNullableString(reader, index++);
-            string tableName = GetNullableString(reader, index++);
-            string tableSchema = GetNullableString(reader, index++);
-            string constraintType = GetNullableString(reader, index);
+            string? constraintName = GetNullableString(reader, index++);
+            string? tableName = GetNullableString(reader, index++);
+            string? tableSchema = GetNullableString(reader, index++);
+            string? constraintType = GetNullableString(reader, index);
 
             if ((constraintName == null)
                 || (tableName == null)
@@ -90,18 +88,18 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
             }
 
             return
-                new DbConstraintMetadataBuilder()
-                    .ConstraintName(constraintName)
-                    .TableSchema(tableSchema)
-                    .TableName(tableName)
-                    .DbConstraintType(constraintType);
+                new DbConstraintMetadataBuilder(
+                        constraintName,
+                        tableSchema,
+                        tableName)
+                    .DbConstraintType(constraintType)
+                    .Build();
         }
 
-        [CanBeNull]
-        private string GetNullableString([NotNull] DbDataReader reader, int index)
+        private string? GetNullableString(DbDataReader reader, int index)
         {
             object value = reader.GetValue(index);
-            if ((value == null) || (value == DBNull.Value))
+            if (value == DBNull.Value)
             {
                 return null;
             }

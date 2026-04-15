@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -10,40 +10,33 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
-using JetBrains.Annotations;
 
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Mapping;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc cref="IPpwAuxiliaryDatabaseObject" />
-    public abstract class PpwAuxiliaryDatabaseObject
+    public abstract class PpwAuxiliaryDatabaseObject(IPpwHbmMapping ppwHbmMapping)
         : AbstractAuxiliaryDatabaseObject,
           IPpwAuxiliaryDatabaseObject
     {
-        protected static readonly string[] EmptyStringArray = new string[0];
-        protected static readonly Column[] EmptyColumnArray = new Column[0];
+        protected static readonly string[] EmptyStringArray = [];
+        protected static readonly Column[] EmptyColumnArray = [];
 
-        private Configuration _configuration;
-
-        protected PpwAuxiliaryDatabaseObject([NotNull] IPpwHbmMapping ppwHbmMapping)
-        {
-            PpwHbmMapping = ppwHbmMapping;
-        }
+        private Configuration? _configuration;
 
         /// <inheritdoc cref="IPpwHbmMapping" />
-        [NotNull]
-        public IPpwHbmMapping PpwHbmMapping { get; }
+        public IPpwHbmMapping PpwHbmMapping { get; } = ppwHbmMapping;
 
-        protected Configuration Configuration
+        protected Configuration? Configuration
             => _configuration;
 
         public void SetConfiguration(Configuration configuration)
@@ -51,58 +44,43 @@ namespace PPWCode.Vernacular.NHibernate.IV
             _configuration = configuration;
         }
 
-        [CanBeNull]
-        protected virtual PersistentClass GetPersistentClassFor([NotNull] Type type)
-        {
-            return
-                Configuration
-                    .ClassMappings
-                    .SingleOrDefault(m => m.MappedClass == type);
-        }
+        protected virtual PersistentClass? GetPersistentClassFor(Type type)
+            => Configuration
+                ?.ClassMappings
+                .SingleOrDefault(m => m.MappedClass == type);
 
-        [CanBeNull]
-        protected virtual string GetTableNameFor([NotNull] Type type)
+        protected virtual string? GetTableNameFor(Type type)
             => GetPersistentClassFor(type)?.Table.Name;
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual string[] GetDiscriminatorColumnNameFor([NotNull] Type type)
-        {
-            return
-                GetPersistentClassFor(type)
-                    ?.Discriminator
-                    ?.ColumnIterator
-                    .OfType<Column>()
-                    .Select(c => c.Name)
-                    .ToArray()
-                ?? EmptyStringArray;
-        }
+        protected virtual string[] GetDiscriminatorColumnNameFor(Type type)
+            => GetPersistentClassFor(type)
+                   ?.Discriminator
+                   ?.ColumnIterator
+                   .OfType<Column>()
+                   .Select(c => c.Name)
+                   .ToArray()
+               ?? EmptyStringArray;
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual string[] GetDiscriminatorValuesFor([NotNull] Type type)
-        {
-            return
-                Configuration
-                    .ClassMappings
-                    .SelectMany(classMapping => classMapping.DirectSubclasses, (classMapping, subclass) => new { classMapping, subclass })
-                    .Where(t => (t.classMapping.MappedClass == type) && !t.subclass.MappedClass.IsAbstract)
-                    .Select(t => t.subclass.DiscriminatorValue)
-                    .Union(
-                        Configuration
-                            .ClassMappings
-                            .Where(m => (m.MappedClass == type) && !m.MappedClass.IsAbstract)
-                            .Select(m => m.DiscriminatorValue))
-                    .ToArray();
-        }
+        protected virtual string[] GetDiscriminatorValuesFor(Type type)
+            => Configuration != null
+                   ? Configuration
+                       .ClassMappings
+                       .SelectMany(classMapping => classMapping.DirectSubclasses, (classMapping, subclass) => new { classMapping, subclass })
+                       .Where(t => (t.classMapping.MappedClass == type) && !t.subclass.MappedClass.IsAbstract)
+                       .Select(t => t.subclass.DiscriminatorValue)
+                       .Union(
+                           Configuration
+                               .ClassMappings
+                               .Where(m => (m.MappedClass == type) && !m.MappedClass.IsAbstract)
+                               .Select(m => m.DiscriminatorValue))
+                       .ToArray()
+                   : [];
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual Column[] GetColumns<TSource>([NotNull] Expression<Func<TSource, object>> propertyLambda)
+        protected virtual Column[] GetColumns<TSource>(Expression<Func<TSource, object>> propertyLambda)
         {
             PropertyInfo propInfo = GetPropertyInfo(propertyLambda);
-            PersistentClass persistentClass = GetPersistentClassFor(typeof(TSource));
-            Property nhProperty =
+            PersistentClass? persistentClass = GetPersistentClassFor(typeof(TSource));
+            Property? nhProperty =
                 persistentClass
                     ?.PropertyIterator
                     .SingleOrDefault(p => string.Equals(p.Name, propInfo.Name, StringComparison.Ordinal));
@@ -116,18 +94,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
                     : EmptyColumnArray;
         }
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual string[] GetColumnNames<TSource>([NotNull] Expression<Func<TSource, object>> propertyLambda)
+        protected virtual string[] GetColumnNames<TSource>(Expression<Func<TSource, object>> propertyLambda)
             => GetColumns(propertyLambda)
                 .Select(c => c.Name)
                 .ToArray();
 
-        [NotNull]
-        [ItemNotNull]
-        protected virtual string[] GetIdentifierColumnNames([NotNull] Type type)
+        protected virtual string[] GetIdentifierColumnNames(Type type)
         {
-            PersistentClass persistentClass = GetPersistentClassFor(type);
+            PersistentClass? persistentClass = GetPersistentClassFor(type);
             if (persistentClass != null)
             {
                 return
@@ -142,17 +116,16 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return EmptyStringArray;
         }
 
-        [NotNull]
-        protected virtual PropertyInfo GetPropertyInfo<TSource>([NotNull] Expression<Func<TSource, object>> propertyLambda)
+        protected virtual PropertyInfo GetPropertyInfo<TSource>(Expression<Func<TSource, object>> propertyLambda)
         {
             Expression body = propertyLambda.Body;
-            MemberExpression member = body as MemberExpression;
+            MemberExpression? member = body as MemberExpression;
             if ((member == null) && !(body is UnaryExpression unary && ((member = unary.Operand as MemberExpression) != null)))
             {
                 throw new ProgrammingError($"Expression \'{propertyLambda}\' does not refer to a property.");
             }
 
-            PropertyInfo propInfo = member.Member as PropertyInfo;
+            PropertyInfo? propInfo = member.Member as PropertyInfo;
             if (propInfo == null)
             {
                 throw new ProgrammingError($"Expression \'{propertyLambda}\' refers to a field, not a property.");
@@ -167,24 +140,24 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return propInfo;
         }
 
-        [ContractAnnotation("null => null; notnull => notnull")]
-        protected virtual string RemoveBackTicks(string identifier)
+        [return: NotNullIfNotNull(nameof(identifier))]
+        protected virtual string? RemoveBackTicks(string? identifier)
             => identifier?.Replace("`", string.Empty);
 
-        [ContractAnnotation("columnName:null => null; columnName:notnull => notnull")]
-        protected virtual string QuoteColumnName([NotNull] Dialect dialect, string columnName)
+        [return: NotNullIfNotNull(nameof(columnName))]
+        protected virtual string? QuoteColumnName(Dialect dialect, string? columnName)
             => !string.IsNullOrEmpty(columnName) && !dialect.IsQuoted(columnName) && PpwHbmMapping.QuoteIdentifiers
                    ? dialect.QuoteForColumnName(columnName)
                    : columnName;
 
-        [ContractAnnotation("tableName:null => null; tableName:notnull => notnull")]
-        protected virtual string QuoteTableName([NotNull] Dialect dialect, string tableName)
+        [return: NotNullIfNotNull(nameof(tableName))]
+        protected virtual string? QuoteTableName([NotNull] Dialect dialect, string? tableName)
             => !string.IsNullOrEmpty(tableName) && !dialect.IsQuoted(tableName) && PpwHbmMapping.QuoteIdentifiers
                    ? dialect.QuoteForTableName(tableName)
                    : tableName;
 
-        [ContractAnnotation("schemaName:null => null; schemaName:notnull => notnull")]
-        protected virtual string QuoteSchemaName([NotNull] Dialect dialect, string schemaName)
+        [return: NotNullIfNotNull(nameof(schemaName))]
+        protected virtual string? QuoteSchemaName([NotNull] Dialect dialect, string? schemaName)
             => !string.IsNullOrEmpty(schemaName) && !dialect.IsQuoted(schemaName) && PpwHbmMapping.QuoteIdentifiers
                    ? dialect.QuoteForSchemaName(schemaName)
                    : schemaName;

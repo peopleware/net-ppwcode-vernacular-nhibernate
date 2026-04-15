@@ -9,42 +9,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
 using System;
-#endif
-
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class CompanyIdentification : AuditablePersistentObject<int>
+    public class CompanyIdentification : AuditablePersistentObject<int, DateTime>
     {
-        [DataMember]
-        private Company _company;
-
-        [DataMember]
-        private Company _parentCompany;
+        private Company? _company;
+        private Company? _parentCompany;
 
         [Required]
         [StringLength(256)]
-        [DataMember]
-        public virtual string Identification { get; set; }
+        public virtual string? Identification { get; set; }
 
-        [DataMember]
         public virtual int Number { get; set; }
 
         [Required]
-        public virtual Company Company
+        public virtual Company? Company
         {
             get => _company;
             set
@@ -64,7 +49,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual Company ParentCompany
+        public virtual Company? ParentCompany
         {
             get => _parentCompany;
             set
@@ -83,17 +68,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
                 }
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class CompanyIdentificationMapper : AuditablePersistentObjectMapper<CompanyIdentification, int>
-    {
-        public CompanyIdentificationMapper()
+        public class CompanyIdentificationMapper : AuditablePersistentObjectMapper<CompanyIdentification, int, DateTime>
         {
-            Property(ci => ci.Identification);
-            Property(ci => ci.Number);
-            ManyToOne(ci => ci.Company);
-            ManyToOne(ci => ci.ParentCompany);
+            public CompanyIdentificationMapper()
+            {
+                Property(ci => ci.Identification);
+                Property(ci => ci.Number);
+                ManyToOne(ci => ci.Company);
+                ManyToOne(ci => ci.ParentCompany);
+            }
         }
     }
 }

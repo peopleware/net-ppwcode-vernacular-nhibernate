@@ -9,48 +9,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class IctCompany : Company
     {
-        public IctCompany(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
+        public virtual Address? Address { get; set; }
 
-        public IctCompany(int id)
-            : base(id)
+        public class IctCompanyMapper : SubclassMapping<IctCompany>
         {
-        }
-
-        public IctCompany()
-        {
-        }
-
-        [DataMember]
-        public virtual Address Address { get; set; }
-    }
-
-    [UsedImplicitly]
-    public class IctCompanyMapper : SubclassMapping<IctCompany>
-    {
-        public IctCompanyMapper()
-        {
-            Component(c => c.Address);
+            public IctCompanyMapper()
+            {
+                Component(c => c.Address);
+            }
         }
     }
 }

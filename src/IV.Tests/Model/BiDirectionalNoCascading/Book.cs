@@ -9,47 +9,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Book : PersistentObject<int>
+    public class Book : PersistentObject
     {
-        [DataMember]
         private readonly ISet<Keyword> _keywords = new HashSet<Keyword>();
+        private Author? _author;
+        public virtual string? Name { get; set; }
 
-        [DataMember]
-        private Author _author;
-
-        public Book()
-        {
-        }
-
-        public Book(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string Name { get; set; }
-
-        public virtual Author Author
+        public virtual Author? Author
         {
             get => _author;
             set
@@ -73,7 +47,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
         public virtual ISet<Keyword> Keywords
             => _keywords;
 
-        public virtual void AddKeyword(Keyword keyword)
+        public virtual void AddKeyword(Keyword? keyword)
         {
             if ((keyword != null) && Keywords.Add(keyword))
             {
@@ -81,32 +55,31 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
             }
         }
 
-        public virtual void RemoveKeyword(Keyword keyword)
+        public virtual void RemoveKeyword(Keyword? keyword)
         {
             if ((keyword != null) && Keywords.Remove(keyword))
             {
                 keyword.RemoveBook(this);
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class BookMapper : PersistentObjectMapper<Book, int>
-    {
-        public BookMapper()
+        public class BookMapper : PersistentObjectMapper<Book>
         {
-            Property(b => b.Name);
+            public BookMapper()
+            {
+                Property(b => b.Name);
 
-            ManyToOne(b => b.Author);
+                ManyToOne(b => b.Author);
 
-            Set(
-                b => b.Keywords,
-                m =>
-                {
-                    m.Inverse(true);
-                    m.Cascade(Cascade.None);
-                },
-                r => r.ManyToMany());
+                Set(
+                    b => b.Keywords,
+                    m =>
+                    {
+                        m.Inverse(true);
+                        m.Cascade(Cascade.None);
+                    },
+                    r => r.ManyToMany());
+            }
         }
     }
 }

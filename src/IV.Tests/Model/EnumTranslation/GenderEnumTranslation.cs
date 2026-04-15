@@ -9,36 +9,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class GenderEnumTranslation : GenericEnumTranslation<GenderEnum>
     {
-        public GenderEnumTranslation()
+        public class GenderEnumTranslationMapper : SubclassMapping<GenderEnumTranslation>
         {
         }
-
-        public GenderEnumTranslation(int id)
-            : base(id)
-        {
-        }
-    }
-
-    [UsedImplicitly]
-    public class GenderEnumTranslationMapper : SubclassMapping<GenderEnumTranslation>
-    {
     }
 }

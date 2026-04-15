@@ -18,7 +18,7 @@ using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping
 {
@@ -118,7 +118,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
         public async Task TestDtoMappingShipsX()
         {
             await GenerateShipAndContainersAsync(CancellationToken).ConfigureAwait(false);
-            IList<ContainerDto> dtos = null;
+            IList<ContainerDto>? dtos = null;
 
             async Task Action(CancellationToken cancellationToken)
             {
@@ -127,14 +127,15 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
 
             await RunInsideTransactionAsync(Action, true, CancellationToken).ConfigureAwait(false);
 
-            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c!.StartsWith("X")), Is.True);
         }
 
         [Test]
         public async Task TestDtoMappingShipsXPaged()
         {
             await GenerateShipAndContainersAsync(CancellationToken).ConfigureAwait(false);
-            IPagedList<ContainerDto> dtos = null;
+            IPagedList<ContainerDto>? dtos = null;
 
             async Task Action(CancellationToken cancellationToken)
             {
@@ -143,14 +144,15 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
 
             await RunInsideTransactionAsync(Action, true, CancellationToken).ConfigureAwait(false);
 
-            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c.StartsWith("X")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Items.Select(d => d.ShipCode).All(c => c!.StartsWith("X")), Is.True);
         }
 
         [Test]
         public async Task TestDtoMappingShipsZ()
         {
             await GenerateShipAndContainersAsync(CancellationToken).ConfigureAwait(false);
-            IList<ContainerDto> dtos = null;
+            IList<ContainerDto>? dtos = null;
 
             async Task Action(CancellationToken cancellationToken)
             {
@@ -159,7 +161,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
 
             await RunInsideTransactionAsync(Action, true, CancellationToken).ConfigureAwait(false);
 
-            Assert.That(dtos.Select(d => d.ShipCode).All(c => c.StartsWith("Z")), Is.True);
+            Assert.That(dtos, Is.Not.Null);
+            Assert.That(dtos.Select(d => d.ShipCode).All(c => c!.StartsWith("Z")), Is.True);
             Assert.That(dtos.Count, Is.EqualTo(3));
             Assert.That(dtos.Select(d => d.Load).All(l => (l == 1100) || (l == 1200) || (l == 1300)), Is.True);
             Assert.That(dtos.Select(d => d.ContainerCode).All(c => (c == "S11") || (c == "S12") || (c == "S13")), Is.True);

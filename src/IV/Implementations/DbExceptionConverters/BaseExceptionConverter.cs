@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-
-using JetBrains.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 using NHibernate.Exceptions;
 
@@ -22,32 +21,25 @@ using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 namespace PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters
 {
     /// <inheritdoc cref="ISQLExceptionConverter" />
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1033", Justification = "Reviewed: Explicit interface implementation is done on purpose")]
-    public abstract class BaseExceptionConverter
+    [SuppressMessage("Design", "CA1033", Justification = "Reviewed: Explicit interface implementation is done on purpose")]
+    public abstract class BaseExceptionConverter(IViolatedConstraintNameExtracter violatedConstraintNameExtracter)
         : ISQLExceptionConverter,
           IConfigurable
     {
-        private IDbConstraints _dbConstraints;
-
-        protected BaseExceptionConverter([NotNull] IViolatedConstraintNameExtracter violatedConstraintNameExtracter)
-        {
-            ViolatedConstraintNameExtracter = violatedConstraintNameExtracter ?? throw new ArgumentNullException(nameof(violatedConstraintNameExtracter));
-        }
+        private IDbConstraints? _dbConstraints;
 
         /// <inheritdoc cref="IViolatedConstraintNameExtracter" />
-        [NotNull]
         public IViolatedConstraintNameExtracter ViolatedConstraintNameExtracter { get; }
+            = violatedConstraintNameExtracter ?? throw new ArgumentNullException(nameof(violatedConstraintNameExtracter));
 
-        [CanBeNull]
-        protected IDictionary<string, string> Configuration { get; private set; }
+        protected IDictionary<string, string>? Configuration { get; private set; }
 
         /// <inheritdoc cref="IDbConstraints" />
-        [CanBeNull]
-        protected IDbConstraints DbConstraints
+        protected IDbConstraints? DbConstraints
             => _dbConstraints ??= ViolatedConstraintNameExtracter as IDbConstraints;
 
         /// <inheritdoc cref="IConfigurable.Configure" />
-        void IConfigurable.Configure([NotNull] IDictionary<string, string> properties)
+        void IConfigurable.Configure(IDictionary<string, string> properties)
         {
             if (properties == null)
             {
@@ -59,15 +51,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters
         }
 
         /// <inheritdoc cref="ISQLExceptionConverter.Convert" />
-        Exception ISQLExceptionConverter.Convert([NotNull] AdoExceptionContextInfo adoExceptionContextInfo)
+        Exception ISQLExceptionConverter.Convert(AdoExceptionContextInfo adoExceptionContextInfo)
             => OnConvert(adoExceptionContextInfo);
 
         /// <inheritdoc cref="ISQLExceptionConverter.Convert" />
-        [NotNull]
-        protected abstract Exception OnConvert([NotNull] AdoExceptionContextInfo adoExceptionContextInfo);
+        protected abstract Exception OnConvert(AdoExceptionContextInfo adoExceptionContextInfo);
 
-        [CanBeNull]
-        protected virtual string GetConstraintName([NotNull] AdoExceptionContextInfo adoExceptionContextInfo)
+        protected virtual string? GetConstraintName(AdoExceptionContextInfo adoExceptionContextInfo)
             => adoExceptionContextInfo.SqlException is DbException sqle
                    ? ViolatedConstraintNameExtracter.ExtractConstraintName(sqle)
                    : null;

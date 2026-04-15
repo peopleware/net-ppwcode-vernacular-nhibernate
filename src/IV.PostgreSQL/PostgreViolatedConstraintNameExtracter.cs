@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using Npgsql;
@@ -26,22 +24,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
         : IViolatedConstraintNameExtracter,
           IDbConstraints
     {
-        [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public PostgreViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new PostgreDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new PostgreDbConstraints();
 
         /// <inheritdoc />
-        public DbConstraintMetadata GetByConstraintName(string constraintName)
+        public DbConstraintMetadata? GetByConstraintName(string constraintName)
             => _dbConstraints.GetByConstraintName(constraintName);
 
         /// <inheritdoc />
-        public void Initialize(IDictionary<string, string> connectionStringSettings)
+        public void Initialize(IDictionary<string, string> properties)
         {
-            _dbConstraints.Initialize(connectionStringSettings);
+            _dbConstraints.Initialize(properties);
         }
 
         /// <inheritdoc />
@@ -49,10 +41,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
             => _dbConstraints.Constraints;
 
         /// <inheritdoc />
-        [CanBeNull]
-        public string ExtractConstraintName([NotNull] DbException dbException)
+        public string? ExtractConstraintName(DbException dbException)
         {
-            PostgresException sqle = ADOExceptionHelper.ExtractDbException(dbException) as PostgresException;
+            PostgresException? sqle = ADOExceptionHelper.ExtractDbException(dbException) as PostgresException;
             return sqle?.ConstraintName;
         }
     }

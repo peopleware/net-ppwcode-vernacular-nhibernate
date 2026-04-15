@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,29 +15,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-using JetBrains.Annotations;
-
 using NHibernate.Dialect;
 using NHibernate.Engine;
 using NHibernate.Mapping;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-    public abstract class UniqueConstraintsForNullableColumn<TEntity>
-        : PpwAuxiliaryDatabaseObject
+    public abstract class UniqueConstraintsForNullableColumn<TEntity>(IPpwHbmMapping ppwHbmMapping)
+        : PpwAuxiliaryDatabaseObject(ppwHbmMapping)
         where TEntity : class
     {
-        protected UniqueConstraintsForNullableColumn([JetBrains.Annotations.NotNull] IPpwHbmMapping ppwHbmMapping)
-            : base(ppwHbmMapping)
-        {
-        }
+        protected Expression<Func<TEntity, object>>? ColumnName { get; set; }
 
-        protected Expression<Func<TEntity, object>> ColumnName { get; set; }
-
-        public override string SqlCreateString(Dialect dialect, IMapping mapping, string defaultCatalog, string defaultSchema)
+        public override string SqlCreateString(Dialect dialect, IMapping mapping, string? defaultCatalog, string? defaultSchema)
         {
             Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
@@ -101,7 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return sb.ToString();
         }
 
-        public override string SqlDropString(Dialect dialect, string defaultCatalog, string defaultSchema)
+        public override string SqlDropString(Dialect dialect, string? defaultCatalog, string? defaultSchema)
             => string.Empty;
 
         [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "reviewed")]
@@ -109,11 +102,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected class Context
         {
             public Context(
-                [JetBrains.Annotations.NotNull] UniqueConstraintsForNullableColumn<TEntity> auxiliaryDatabaseObject,
-                [JetBrains.Annotations.NotNull] Dialect dialect,
-                [JetBrains.Annotations.NotNull] IMapping mapping,
-                [CanBeNull] string defaultCatalog,
-                [CanBeNull] string defaultSchema)
+                UniqueConstraintsForNullableColumn<TEntity> auxiliaryDatabaseObject,
+                Dialect dialect,
+                IMapping mapping,
+                string? defaultCatalog,
+                string? defaultSchema)
             {
                 Dialect = dialect;
                 Mapping = mapping;
@@ -129,6 +122,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 TableName = Table.Name;
                 QuotedTableName = auxiliaryDatabaseObject.QuoteTableName(Dialect, TableName);
 
+                if (auxiliaryDatabaseObject.ColumnName == null)
+                {
+                    throw new ProgrammingError($"No expression set to determine the columnName for creating a unique key for entity type {typeof(TEntity).FullName}");
+                }
+
                 Column[] columns = auxiliaryDatabaseObject.GetColumns(auxiliaryDatabaseObject.ColumnName);
                 if (columns.Length != 1)
                 {
@@ -141,43 +139,18 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 QuotedColumnName = auxiliaryDatabaseObject.QuoteColumnName(Dialect, ColumnName);
             }
 
-            [JetBrains.Annotations.NotNull]
             public UniqueConstraintsForNullableColumn<TEntity> AuxiliaryDatabaseObject { get; }
-
-            [JetBrains.Annotations.NotNull]
             public Dialect Dialect { get; }
-
-            [JetBrains.Annotations.NotNull]
             public IMapping Mapping { get; }
-
-            [CanBeNull]
-            public string DefaultCatalog { get; }
-
-            [CanBeNull]
-            public string DefaultSchema { get; }
-
-            [CanBeNull]
-            public string SchemaName { get; }
-
-            [CanBeNull]
-            public string QuotedSchemaName { get; }
-
-            [JetBrains.Annotations.NotNull]
+            public string? DefaultCatalog { get; }
+            public string? DefaultSchema { get; }
+            public string? SchemaName { get; }
+            public string? QuotedSchemaName { get; }
             public Table Table { get; set; }
-
-            [JetBrains.Annotations.NotNull]
             public Column Column { get; set; }
-
-            [JetBrains.Annotations.NotNull]
             public string TableName { get; }
-
-            [JetBrains.Annotations.NotNull]
             public string QuotedTableName { get; }
-
-            [JetBrains.Annotations.NotNull]
             public string ColumnName { get; }
-
-            [JetBrains.Annotations.NotNull]
             public string QuotedColumnName { get; }
         }
     }

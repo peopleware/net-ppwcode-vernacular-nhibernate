@@ -18,7 +18,7 @@ using NHibernate.Linq;
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common
 {
@@ -86,7 +86,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void Can_Get_Company_with_Eager_Identifications()
         {
-            Company company = Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV")
+            Company? company = Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV")
                                                  .FetchMany(c => c.Identifications));
 
             Assert.That(company, Is.Not.Null);
@@ -96,7 +96,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void Can_Get_Company_with_Identification_1()
         {
-            Company company = Repository.Get(qry => qry.Where(c => c.Identifications.Any(i => i.Identification == "1")));
+            Company? company = Repository.Get(qry => qry.Where(c => c.Identifications.Any(i => i.Identification == "1")));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -105,7 +105,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void Can_Get_Company_with_Identification_1_with_explicit_join()
         {
-            Company company = Repository.Get(qry => qry.SelectMany(c => c.Identifications, (c, ci) => new { c, ci })
+            Company? company = Repository.Get(qry => qry.SelectMany(c => c.Identifications, (c, ci) => new { c, ci })
                                                  .Where(t => t.ci.Identification == "1")
                                                  .Select(t => t.c)
                                                  .Distinct());
@@ -117,7 +117,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void Can_Get_Company_with_Lazy_Identifications()
         {
-            Company company = Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV"));
+            Company? company = Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV"));
             SessionProvider.Flush();
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);

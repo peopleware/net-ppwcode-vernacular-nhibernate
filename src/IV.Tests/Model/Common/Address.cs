@@ -13,35 +13,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode.Conformist;
 
-using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Exceptions.V;
+using PPWCode.Vernacular.Semantics.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class Address
         : CivilizedObject,
           IEquatable<Address>,
           IPpwAuditLog
     {
-        private Address()
-        {
-        }
-
         public Address(
-            [NotNull] string street,
-            [NotNull] string number,
-            [CanBeNull] string box,
-            [CanBeNull] Country country)
+            string street,
+            string number,
+            string? box,
+            Country? country)
         {
             Street = street;
             Number = number;
@@ -49,24 +38,20 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             Country = country;
         }
 
-        [DataMember]
         [Required]
         [StringLength(128)]
-        public virtual string Street { get; }
+        public virtual string? Street { get; }
 
-        [DataMember]
         [Required]
         [StringLength(16)]
-        public virtual string Number { get; }
+        public virtual string? Number { get; }
 
-        [DataMember]
         [StringLength(16)]
-        public virtual string Box { get; }
+        public virtual string? Box { get; }
 
-        [DataMember]
-        public virtual Country Country { get; }
+        public virtual Country? Country { get; }
 
-        public bool Equals(Address other)
+        public bool Equals(Address? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -113,7 +98,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             return cse;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -148,33 +133,33 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
         public static bool operator ==(Address left, Address right)
             => Equals(left, right);
 
-        public static bool operator !=(Address left, Address right)
+        public static bool operator !=(Address? left, Address? right)
             => !Equals(left, right);
-    }
 
-    public class AddressMapper : ComponentMapping<Address>
-    {
-        public AddressMapper()
+        public class AddressMapper : ComponentMapping<Address>
         {
-            Property(a => a.Street);
-            Property(a => a.Number);
-            Property(a => a.Box);
-            ManyToOne(a => a.Country);
+            public AddressMapper()
+            {
+                Property(a => a.Street);
+                Property(a => a.Number);
+                Property(a => a.Box);
+                ManyToOne(a => a.Country);
+            }
         }
     }
 
     public class AddressBuilder
     {
-        private string _box;
-        private Country _country;
-        private string _number;
-        private string _street;
+        private string? _box;
+        private Country? _country;
+        private string? _number;
+        private string? _street;
 
         public AddressBuilder()
         {
         }
 
-        public AddressBuilder([CanBeNull] Address address)
+        public AddressBuilder(Address? address)
         {
             if (address != null)
             {
@@ -186,44 +171,42 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
         }
 
         [DebuggerStepThrough]
-        [NotNull]
-        public AddressBuilder Street([NotNull] string street)
+        public AddressBuilder Street(string street)
         {
             _street = street;
             return this;
         }
 
         [DebuggerStepThrough]
-        [NotNull]
-        public AddressBuilder Number([NotNull] string number)
+        public AddressBuilder Number(string number)
         {
             _number = number;
             return this;
         }
 
         [DebuggerStepThrough]
-        [NotNull]
-        public AddressBuilder Box([CanBeNull] string box)
+        public AddressBuilder Box(string? box)
         {
             _box = box;
             return this;
         }
 
         [DebuggerStepThrough]
-        [NotNull]
-        public AddressBuilder Country([CanBeNull] Country country)
+        public AddressBuilder Country(Country? country)
         {
             _country = country;
             return this;
         }
 
         [DebuggerStepThrough]
-        [NotNull]
         public Address Build()
             => this;
 
-        [NotNull]
         public static implicit operator Address(AddressBuilder builder)
-            => new Address(builder._street, builder._number, builder._box, builder._country);
+            => new Address(
+                builder._street ?? throw new InvalidOperationException(),
+                builder._number ?? throw new InvalidOperationException(),
+                builder._box,
+                builder._country);
     }
 }

@@ -9,51 +9,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class AllRoundIctCompany : IctCompany
     {
-        public AllRoundIctCompany(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
-
-        public AllRoundIctCompany(int id)
-            : base(id)
-        {
-        }
-
-        public AllRoundIctCompany()
-        {
-        }
-
-        [DataMember]
         [Required]
         [StringLength(-1)]
-        public virtual string AllRound { get; set; }
-    }
+        public virtual string? AllRound { get; set; }
 
-    [UsedImplicitly]
-    public class AllRoundIctCompanyMapper : SubclassMapping<AllRoundIctCompany>
-    {
-        public AllRoundIctCompanyMapper()
+        public class AllRoundIctCompanyMapper : SubclassMapping<AllRoundIctCompany>
         {
-            Property(c => c.AllRound);
+            public AllRoundIctCompanyMapper()
+            {
+                Property(c => c.AllRound);
+            }
         }
     }
 }

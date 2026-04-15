@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,26 +11,23 @@
 
 using System;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Util.Time.I;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
-    public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>
+    public class TestTimeProvider : ITimeProvider<DateTime>
     {
-        public class TestTimeProvider : ITimeProvider
+        private readonly DateTime _now;
+
+        public TestTimeProvider(DateTime now)
         {
-            private readonly DateTime _now;
-
-            public TestTimeProvider(DateTime now)
-            {
-                _now = now;
-            }
-
-            public DateTime Now
-                => _now.ToLocalTime();
-
-            public DateTime UtcNow
-                => _now.ToUniversalTime();
+            _now = now;
         }
+
+        public DateTime Now
+            => _now.ToLocalTime();
+
+        public DateTime UtcNow
+            => _now.ToUniversalTime();
     }
 }

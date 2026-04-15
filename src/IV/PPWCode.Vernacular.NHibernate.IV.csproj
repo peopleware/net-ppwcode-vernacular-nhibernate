@@ -6,7 +6,10 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" />
     <PackageReference Include="NHibernate" />
     <PackageReference Include="Common.Logging" />    
-    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.V" />
+    <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
+    <PackageReference Include="PPWCode.Vernacular.Contracts.I" />
+    <PackageReference Include="PPWCode.Vernacular.Semantics.V" />
   </ItemGroup>
 
 </Project>

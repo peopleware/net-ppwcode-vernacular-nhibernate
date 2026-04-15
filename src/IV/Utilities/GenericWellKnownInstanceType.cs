@@ -13,43 +13,23 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 
-using JetBrains.Annotations;
-
 using NHibernate.Engine;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    public abstract class GenericWellKnownInstanceType<T, TId> : ImmutableUserTypeBase
+    public abstract class GenericWellKnownInstanceType<T, TId>(IDictionary<TId, T> repository, Func<T, TId> idGetter)
+        : ImmutableUserTypeBase
         where T : class
     {
-        [NotNull]
-        private readonly Func<T, TId> _idGetter;
-
-        [NotNull]
-        private readonly IDictionary<TId, T> _repository;
-
-        protected GenericWellKnownInstanceType(
-            [NotNull] IDictionary<TId, T> repository,
-            [NotNull] Func<T, TId> idGetter)
-        {
-            _repository = repository;
-            _idGetter = idGetter;
-        }
-
-        [NotNull]
         public override Type ReturnedType
             => typeof(T);
 
-        [CanBeNull]
-        public override object NullSafeGet(
-            [NotNull] DbDataReader rs,
-            [NotNull] string[] names,
-            [NotNull] ISessionImplementor sessionImplementor,
-            [NotNull] object owner)
+        public override object? NullSafeGet(
+            DbDataReader rs,
+            string[] names,
+            ISessionImplementor sessionImplementor,
+            object owner)
         {
             int index0 = rs.GetOrdinal(names[0]);
             if (rs.IsDBNull(index0))
@@ -58,17 +38,17 @@ namespace PPWCode.Vernacular.NHibernate.IV
             }
 
             TId key = (TId)rs.GetValue(index0);
-            _repository.TryGetValue(key, out T value);
+            repository.TryGetValue(key, out T? value);
             return value;
         }
 
         public override void NullSafeSet(
-            [NotNull] DbCommand cmd,
-            [CanBeNull] object value,
+            DbCommand cmd,
+            object? value,
             int index,
-            [NotNull] ISessionImplementor sessionImplementor)
+            ISessionImplementor sessionImplementor)
         {
-            cmd.Parameters[index].Value = value == null ? DBNull.Value : _idGetter((T)value);
+            cmd.Parameters[index].Value = value == null ? DBNull.Value : idGetter((T)value);
         }
     }
 }

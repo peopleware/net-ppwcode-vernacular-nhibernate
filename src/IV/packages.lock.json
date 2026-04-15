@@ -34,15 +34,37 @@
           "System.Configuration.ConfigurationManager": "8.0.0"
         }
       },
-      "PPWCode.Vernacular.Persistence.IV": {
+      "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
-        "requested": "[2.*, )",
-        "resolved": "2.1.1",
-        "contentHash": "15dVT1DUerngElzMJhz20+6M6838ezle5PLGRK9BqP3GMTcVdFlQpSZ0Ob1FKZy7V2qY9gVJkMPKwufgpFMO8g==",
+        "requested": "[1.*-*, )",
+        "resolved": "1.5.0",
+        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+      },
+      "PPWCode.Vernacular.Exceptions.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.1.0",
+        "contentHash": "G/XH86vmbBIIuVRcoNLFRD0AHtEJ7aLw8w+Ia3BUHgZw2TGALDQ/eNOfrOrTFy5+4HPO2PLwRfrr69/Cp/zTRw=="
+      },
+      "PPWCode.Vernacular.Persistence.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.2.0-alpha.4",
+        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
         "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1",
-          "PPWCode.Vernacular.Semantics.IV": "2.1.1"
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0",
+          "PPWCode.Vernacular.Semantics.V": "1.0.0"
+        }
+      },
+      "PPWCode.Vernacular.Semantics.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.0.0",
+        "contentHash": "B4jer3TyGME3xLFLY7BUN71OmvJiquPN4JH0ifQ7Gvh9CIrIL2orX/SHBtWNF7foUN1O22VpytcpmzWoT11Heg==",
+        "dependencies": {
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0"
         }
       },
       "StyleCop.Analyzers": {
@@ -57,11 +79,11 @@
       "System.Configuration.ConfigurationManager": {
         "type": "Direct",
         "requested": "[10.*, )",
-        "resolved": "10.0.6",
-        "contentHash": "NQyzNGPPKUf5ykuPcUl1oKiY/gS+r9iASQmc8ITcwC6jBC20C9aFMIrBznpirpkoRev6I+p9n11u5QcqTfr+vg==",
+        "resolved": "10.0.7",
+        "contentHash": "NUV7+8ZpwAdtylEypliCwxTyMtt5oARCdEN9hOflL2dq5sGXHKAtBoVs1rb8qEj85ThC/5vJKDQmdiqKxZRgag==",
         "dependencies": {
-          "System.Diagnostics.EventLog": "10.0.6",
-          "System.Security.Cryptography.ProtectedData": "10.0.6"
+          "System.Diagnostics.EventLog": "10.0.7",
+          "System.Security.Cryptography.ProtectedData": "10.0.7"
         }
       },
       "Antlr3.Runtime": {
@@ -105,20 +127,6 @@
           "Microsoft.NETCore.Platforms": "1.0.1"
         }
       },
-      "PPWCode.Vernacular.Exceptions.IV": {
-        "type": "Transitive",
-        "resolved": "2.2.1",
-        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
-      },
-      "PPWCode.Vernacular.Semantics.IV": {
-        "type": "Transitive",
-        "resolved": "2.1.1",
-        "contentHash": "FinUam8SELSWvp2Oo27CFRvUk6J0O5mnac7qJkoJirU1Z2iRTt2i1/4De9y1lV3j5JCogdR2H2HrJ3TOQEy2ew==",
-        "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
-        }
-      },
       "Remotion.Linq": {
         "type": "Transitive",
         "resolved": "2.2.0",
@@ -139,19 +147,13 @@
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
-        "resolved": "10.0.6",
-        "contentHash": "RMe4gRBwSVd1O6HVRjNwLgcH2jjrT8sHyNRJegZLX68voA+HzMf1xZPvFxMMDpyW86B9U2pYslgl4DFCE61WyA=="
+        "resolved": "10.0.7",
+        "contentHash": "WbmDLeTPYhEzXhvYVioTVn/D1XX6bovyny9n5p8Zxtf03+eY385RB818teZm6n+fA63iZNvng0/Np4tLuhkMhQ=="
       },
       "System.Security.Cryptography.ProtectedData": {
         "type": "Transitive",
-        "resolved": "10.0.6",
-        "contentHash": "XsGj3pcZ4PIqz9Vhk7ymbL9iNQzOAnDzHmMBqK1rzjjfQBJ4AUZVJQWbDmTKUS8BIXX53QBDRrdiCpwdWfZM9A=="
-      },
-      "JetBrains.Annotations": {
-        "type": "CentralTransitive",
-        "requested": "[2025.2.4, )",
-        "resolved": "2025.2.4",
-        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
+        "resolved": "10.0.7",
+        "contentHash": "eqKW9wyPUhZi6pxy9Y0fQO/bdHROcwj0tYdmoGEPCPCtCJLFdVVAlzuuYYEnJI64HxhoXPYGhtx891g/jwN4rg=="
       }
     },
     "net8.0": {
@@ -187,15 +189,37 @@
           "System.Configuration.ConfigurationManager": "8.0.0"
         }
       },
-      "PPWCode.Vernacular.Persistence.IV": {
+      "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
-        "requested": "[2.*, )",
-        "resolved": "2.1.1",
-        "contentHash": "15dVT1DUerngElzMJhz20+6M6838ezle5PLGRK9BqP3GMTcVdFlQpSZ0Ob1FKZy7V2qY9gVJkMPKwufgpFMO8g==",
+        "requested": "[1.*-*, )",
+        "resolved": "1.5.0",
+        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+      },
+      "PPWCode.Vernacular.Exceptions.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.1.0",
+        "contentHash": "G/XH86vmbBIIuVRcoNLFRD0AHtEJ7aLw8w+Ia3BUHgZw2TGALDQ/eNOfrOrTFy5+4HPO2PLwRfrr69/Cp/zTRw=="
+      },
+      "PPWCode.Vernacular.Persistence.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.2.0-alpha.4",
+        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
         "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1",
-          "PPWCode.Vernacular.Semantics.IV": "2.1.1"
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0",
+          "PPWCode.Vernacular.Semantics.V": "1.0.0"
+        }
+      },
+      "PPWCode.Vernacular.Semantics.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.0.0",
+        "contentHash": "B4jer3TyGME3xLFLY7BUN71OmvJiquPN4JH0ifQ7Gvh9CIrIL2orX/SHBtWNF7foUN1O22VpytcpmzWoT11Heg==",
+        "dependencies": {
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0"
         }
       },
       "StyleCop.Analyzers": {
@@ -258,20 +282,6 @@
           "Microsoft.NETCore.Platforms": "1.0.1"
         }
       },
-      "PPWCode.Vernacular.Exceptions.IV": {
-        "type": "Transitive",
-        "resolved": "2.2.1",
-        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
-      },
-      "PPWCode.Vernacular.Semantics.IV": {
-        "type": "Transitive",
-        "resolved": "2.1.1",
-        "contentHash": "FinUam8SELSWvp2Oo27CFRvUk6J0O5mnac7qJkoJirU1Z2iRTt2i1/4De9y1lV3j5JCogdR2H2HrJ3TOQEy2ew==",
-        "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
-        }
-      },
       "Remotion.Linq": {
         "type": "Transitive",
         "resolved": "2.2.0",
@@ -299,12 +309,6 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "+TUFINV2q2ifyXauQXRwy4CiBhqvDEDZeVJU7qfxya4aRYOKzVBpN+4acx25VcPB9ywUN6C0n8drWl110PhZEg=="
-      },
-      "JetBrains.Annotations": {
-        "type": "CentralTransitive",
-        "requested": "[2025.2.4, )",
-        "resolved": "2025.2.4",
-        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
       }
     },
     "net9.0": {
@@ -340,15 +344,37 @@
           "System.Configuration.ConfigurationManager": "8.0.0"
         }
       },
-      "PPWCode.Vernacular.Persistence.IV": {
+      "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
-        "requested": "[2.*, )",
-        "resolved": "2.1.1",
-        "contentHash": "15dVT1DUerngElzMJhz20+6M6838ezle5PLGRK9BqP3GMTcVdFlQpSZ0Ob1FKZy7V2qY9gVJkMPKwufgpFMO8g==",
+        "requested": "[1.*-*, )",
+        "resolved": "1.5.0",
+        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+      },
+      "PPWCode.Vernacular.Exceptions.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.1.0",
+        "contentHash": "G/XH86vmbBIIuVRcoNLFRD0AHtEJ7aLw8w+Ia3BUHgZw2TGALDQ/eNOfrOrTFy5+4HPO2PLwRfrr69/Cp/zTRw=="
+      },
+      "PPWCode.Vernacular.Persistence.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.2.0-alpha.4",
+        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
         "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1",
-          "PPWCode.Vernacular.Semantics.IV": "2.1.1"
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0",
+          "PPWCode.Vernacular.Semantics.V": "1.0.0"
+        }
+      },
+      "PPWCode.Vernacular.Semantics.V": {
+        "type": "Direct",
+        "requested": "[1.*-*, )",
+        "resolved": "1.0.0",
+        "contentHash": "B4jer3TyGME3xLFLY7BUN71OmvJiquPN4JH0ifQ7Gvh9CIrIL2orX/SHBtWNF7foUN1O22VpytcpmzWoT11Heg==",
+        "dependencies": {
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0"
         }
       },
       "StyleCop.Analyzers": {
@@ -411,20 +437,6 @@
           "Microsoft.NETCore.Platforms": "1.0.1"
         }
       },
-      "PPWCode.Vernacular.Exceptions.IV": {
-        "type": "Transitive",
-        "resolved": "2.2.1",
-        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
-      },
-      "PPWCode.Vernacular.Semantics.IV": {
-        "type": "Transitive",
-        "resolved": "2.1.1",
-        "contentHash": "FinUam8SELSWvp2Oo27CFRvUk6J0O5mnac7qJkoJirU1Z2iRTt2i1/4De9y1lV3j5JCogdR2H2HrJ3TOQEy2ew==",
-        "dependencies": {
-          "JetBrains.Annotations": "2025.2.4",
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
-        }
-      },
       "Remotion.Linq": {
         "type": "Transitive",
         "resolved": "2.2.0",
@@ -452,12 +464,6 @@
         "type": "Transitive",
         "resolved": "9.0.15",
         "contentHash": "sObjWXydF/osVWObYPmqN1PGxx+XYlPbEqPDjUzYGQbanrdd4x9pIPnUwi7d7RuKEsZ5i814oVli9s3bMqlRog=="
-      },
-      "JetBrains.Annotations": {
-        "type": "CentralTransitive",
-        "requested": "[2025.2.4, )",
-        "resolved": "2025.2.4",
-        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
       }
     }
   }

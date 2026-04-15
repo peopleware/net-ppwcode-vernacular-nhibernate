@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,95 +11,101 @@
 
 using System.Diagnostics;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
-    public class DbConstraintMetadataBuilder
+    public class DbConstraintMetadataBuilder(
+        string constraintName,
+        string tableSchema,
+        string tableName)
     {
-        private string _constraintName;
-        private DbConstraintTypeEnum _dbConstraintType;
-        private string _tableName;
-        private string _tableSchema;
+        private string _constraintName = constraintName;
+        private DbConstraintTypeEnum _constraintType = DbConstraintTypeEnum.UNKNOWN;
+        private string _tableName = tableName;
+        private string _tableSchema = tableSchema;
 
-        public DbConstraintMetadataBuilder()
-        {
-        }
-
-        public DbConstraintMetadataBuilder([NotNull] DbConstraintMetadata dbConstraintMetadata)
-        {
-            _constraintName = dbConstraintMetadata.ConstraintName;
-        }
-
-        [NotNull]
         [DebuggerStepThrough]
-        public DbConstraintMetadataBuilder ConstraintName([NotNull] string constraintName)
+        public DbConstraintMetadataBuilder Merge(DbConstraintMetadata metadata)
+            => DbConstraintType(metadata.ConstraintType)
+                .ConstraintName(metadata.ConstraintName)
+                .TableSchema(metadata.TableSchema)
+                .TableName(metadata.TableName);
+
+        [DebuggerStepThrough]
+        public DbConstraintMetadataBuilder Merge(DbConstraintMetadataBuilder builder)
+            => DbConstraintType(builder._constraintType)
+                .ConstraintName(builder._constraintName)
+                .TableSchema(builder._tableSchema)
+                .TableName(builder._tableName);
+
+        [DebuggerStepThrough]
+        public DbConstraintMetadataBuilder ConstraintName(string constraintName)
         {
             _constraintName = constraintName;
             return this;
         }
 
-        [NotNull]
         [DebuggerStepThrough]
-        public DbConstraintMetadataBuilder TableName([NotNull] string tableName)
+        public DbConstraintMetadataBuilder TableName(string tableName)
         {
             _tableName = tableName;
             return this;
         }
 
-        [NotNull]
         [DebuggerStepThrough]
-        public DbConstraintMetadataBuilder TableSchema([NotNull] string tableSchema)
+        public DbConstraintMetadataBuilder TableSchema(string tableSchema)
         {
             _tableSchema = tableSchema;
             return this;
         }
 
-        [NotNull]
         [DebuggerStepThrough]
         public DbConstraintMetadataBuilder DbConstraintType(DbConstraintTypeEnum dbConstraintType)
         {
-            _dbConstraintType = dbConstraintType;
+            _constraintType = dbConstraintType;
             return this;
         }
 
-        [NotNull]
         [DebuggerStepThrough]
-        public DbConstraintMetadataBuilder DbConstraintType([NotNull] string constraintType)
+        public DbConstraintMetadataBuilder DbConstraintType(string constraintType)
         {
             switch (constraintType)
             {
                 case "PRIMARY KEY":
-                    _dbConstraintType = DbConstraintTypeEnum.PRIMARY_KEY;
+                    _constraintType = DbConstraintTypeEnum.PRIMARY_KEY;
                     break;
 
                 case "UNIQUE":
-                    _dbConstraintType = DbConstraintTypeEnum.UNIQUE;
+                    _constraintType = DbConstraintTypeEnum.UNIQUE;
                     break;
 
                 case "FOREIGN KEY":
-                    _dbConstraintType = DbConstraintTypeEnum.FOREIGN_KEY;
+                    _constraintType = DbConstraintTypeEnum.FOREIGN_KEY;
                     break;
 
                 case "CHECK":
-                    _dbConstraintType = DbConstraintTypeEnum.CHECK;
+                    _constraintType = DbConstraintTypeEnum.CHECK;
                     break;
 
                 case "NOT NULL":
-                    _dbConstraintType = DbConstraintTypeEnum.NOT_NULL;
+                    _constraintType = DbConstraintTypeEnum.NOT_NULL;
                     break;
 
                 default:
-                    _dbConstraintType = DbConstraintTypeEnum.UNKNOWN;
+                    _constraintType = DbConstraintTypeEnum.UNKNOWN;
                     break;
             }
 
             return this;
         }
 
-        public static implicit operator DbConstraintMetadata([NotNull] DbConstraintMetadataBuilder builder)
-            => new DbConstraintMetadata(builder._constraintName, builder._tableName, builder._tableSchema, builder._dbConstraintType);
+        [DebuggerStepThrough]
+        public DbConstraintMetadata Build()
+            => this;
+
+        [DebuggerStepThrough]
+        public static implicit operator DbConstraintMetadata(DbConstraintMetadataBuilder builder)
+            => new DbConstraintMetadata(builder._constraintName, builder._tableName, builder._tableSchema, builder._constraintType);
     }
 }

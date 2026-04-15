@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,13 +14,8 @@ using System;
 namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class OtherSidePropertyName : Attribute
+    public class OtherSidePropertyName(string propertyName) : Attribute
     {
-        public OtherSidePropertyName(string propertyName)
-        {
-            PropertyName = propertyName;
-        }
-
-        public string PropertyName { get; }
+        public string PropertyName { get; } = propertyName;
     }
 }

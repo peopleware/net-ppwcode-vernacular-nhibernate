@@ -9,38 +9,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class Plane
     {
-        [DataMember]
-        public virtual Vector3D Normal { get; set; }
+        public virtual Vector3D? Normal { get; set; }
 
-        [DataMember]
-        public virtual double Translation { get; set; }
-    }
+        public virtual double? Translation { get; set; }
 
-    [UsedImplicitly]
-    public class PlaneMapper : ComponentMapping<Plane>
-    {
-        public PlaneMapper()
+        public class PlaneMapper : ComponentMapping<Plane>
         {
-            Component(p => p.Normal);
-            Property(p => p.Translation);
+            public PlaneMapper()
+            {
+                Component(p => p.Normal);
+                Property(p => p.Translation);
+            }
         }
     }
 }

@@ -9,38 +9,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
-
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class ClippingPlane
     {
-        [DataMember]
-        public virtual Plane Plane { get; set; }
+        public virtual Plane? Plane { get; set; }
 
-        [DataMember]
-        public virtual Vector3D MeshTranslation { get; set; }
-    }
+        public virtual Vector3D? MeshTranslation { get; set; }
 
-    [UsedImplicitly]
-    public class ClippingPlaneMapper : ComponentMapping<ClippingPlane>
-    {
-        public ClippingPlaneMapper()
+        public class ClippingPlaneMapper : ComponentMapping<ClippingPlane>
         {
-            Component(p => p.Plane);
-            Component(p => p.MeshTranslation);
+            public ClippingPlaneMapper()
+            {
+                Component(p => p.Plane);
+                Component(p => p.MeshTranslation);
+            }
         }
     }
 }

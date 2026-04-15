@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,7 +16,7 @@ using NHibernate.Criterion;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation;
@@ -38,18 +38,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             }
         }
 
-        public string Translate(TEnum code, string language)
+        public string? Translate(TEnum code, string language)
         {
-            TRoot translation =
+            TRoot? translation =
                 Execute(
                     nameof(Translate),
                     () => Session
                         .CreateCriteria<TRoot>()
                         .Add(Restrictions.Eq("Code", code))
-                        .List<TRoot>().SingleOrDefault());
+                        .List<TRoot>()
+                        .SingleOrDefault());
             Assert.That(translation, Is.Not.Null);
 
-            string result = null;
+            string? result = null;
 
             if (language == "nl")
             {

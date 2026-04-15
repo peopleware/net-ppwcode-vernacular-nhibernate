@@ -21,14 +21,14 @@ using NUnit.Framework;
 using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common
 {
     // ReSharper disable InconsistentNaming
     public class CompanyTests : BaseCompanyTests
     {
-        protected Company CreatedCompany { get; set; }
+        protected Company? CreatedCompany { get; set; }
 
         protected override void OnSetup()
         {
@@ -43,7 +43,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             Company company1 = CreateCompany(CompanyCreationType.NO_CHILDREN);
             CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            int count = Repository.Count(companies => companies.Where(c => c.Id == company1.Id));
+            int count = Repository!.Count(companies => companies.Where(c => c.Id == company1.Id));
 
             Assert.That(count, Is.EqualTo(1));
         }
@@ -51,7 +51,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Find_All_Companies()
         {
-            IList<Company> companies = Repository.FindAll();
+            IList<Company> companies = Repository!.FindAll();
 
             Assert.That(companies, Is.Not.Null);
             Assert.That(companies.Any(c => NHibernateUtil.IsInitialized(c.Identifications)), Is.False);
@@ -63,7 +63,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             Company company1 = CreateCompany(CompanyCreationType.NO_CHILDREN);
             Company company2 = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            IList<Company> companies = Repository.FindByIds(new[] { company1.Id, company2.Id });
+            IList<Company> companies = Repository!.FindByIds([company1.Id, company2.Id]);
 
             Assert.That(companies, Is.Not.Null);
             Assert.That(companies.Count, Is.EqualTo(2));
@@ -72,8 +72,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Find_Company_with_use_of_an_root_alias()
         {
-            Company rootAlias = null;
-            IList<Company> resultSet = Repository.Find(() => rootAlias, qry => qry.Where(() => rootAlias.Name == "Peopleware NV"));
+            Company? rootAlias = null;
+            IList<Company> resultSet = Repository!.Find(() => rootAlias!, qry => qry.Where(() => rootAlias!.Name == "Peopleware NV"));
 
             Assert.That(resultSet, Is.Not.Null);
             Assert.That(resultSet.Count, Is.EqualTo(1));
@@ -84,7 +84,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void Can_FindPaged_Company()
         {
             IPagedList<Company> pagedList =
-                Repository.FindPaged(
+                Repository!.FindPaged(
                     1,
                     20,
                     qry => qry.Where(c => c.Name == "Peopleware NV")
@@ -101,14 +101,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_FindPaged_Company_with_use_of_an_root_alias()
         {
-            Company rootAlias = null;
+            Company? rootAlias = null;
             IPagedList<Company> pagedList =
-                Repository.FindPaged(
+                Repository!.FindPaged(
                     1,
                     20,
-                    () => rootAlias,
-                    qry => qry.Where(() => rootAlias.Name == "Peopleware NV")
-                        .OrderBy(() => rootAlias.Name).Asc());
+                    () => rootAlias!,
+                    qry => qry.Where(() => rootAlias!.Name == "Peopleware NV")
+                        .OrderBy(() => rootAlias!.Name).Asc());
 
             Assert.That(pagedList, Is.Not.Null);
             Assert.That(pagedList.HasPreviousPage, Is.False);
@@ -121,8 +121,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Get_Company_with_Eager_Identifications()
         {
-            Company company =
-                Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV")
+            Company? company =
+                Repository!.Get(qry => qry.Where(c => c.Name == "Peopleware NV")
                                    .Fetch(SelectMode.Fetch, c => c.Identifications));
 
             Assert.That(company, Is.Not.Null);
@@ -136,7 +136,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 global::NHibernate.Criterion.QueryOver.Of<CompanyIdentification>()
                     .Where(ci => ci.Identification == "1")
                     .Select(Projections.Id());
-            Company company = Repository.Get(qry => qry.WithSubquery.WhereExists(detachedQuery));
+            Company? company = Repository!.Get(qry => qry.WithSubquery.WhereExists(detachedQuery));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -145,10 +145,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Get_Company_with_Identification_1_with_explicit_join()
         {
-            CompanyIdentification ci = null;
-            Company company =
-                Repository.Get(qry => qry.Inner.JoinAlias(c => c.Identifications, () => ci)
-                                   .Where(() => ci.Identification == "1"));
+            CompanyIdentification? ci = null;
+            Company? company =
+                Repository!.Get(qry => qry.Inner.JoinAlias(c => c.Identifications, () => ci)
+                                   .Where(() => ci!.Identification == "1"));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -157,7 +157,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Get_Company_with_Lazy_Identifications()
         {
-            Company company = Repository.Get(qry => qry.Where(c => c.Name == "Peopleware NV"));
+            Company? company = Repository!.Get(qry => qry.Where(c => c.Name == "Peopleware NV"));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -166,8 +166,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Get_Company_with_use_of_an_root_alias()
         {
-            Company rootAlias = null;
-            Company company = Repository.Get(() => rootAlias, qry => qry.Where(() => rootAlias.Name == "Peopleware NV"));
+            Company? rootAlias = null;
+            Company? company = Repository!.Get(() => rootAlias!, qry => qry.Where(() => rootAlias!.Name == "Peopleware NV"));
 
             Assert.That(company, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.Identifications), Is.False);
@@ -178,7 +178,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
             Company company = CreateCompany(CompanyCreationType.NO_CHILDREN);
 
-            Company loadedCompany = Repository.LoadById(company.Id);
+            Company loadedCompany = Repository!.LoadById(company.Id);
 
             Assert.That(loadedCompany, Is.Not.Null);
             Assert.That(loadedCompany.Id, Is.EqualTo(company.Id));
@@ -188,7 +188,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void Can_Page_All_Companies()
         {
             IPagedList<Company> pagedList =
-                Repository.FindPaged(1, 20, null);
+                Repository!.FindPaged(1, 20, null);
 
             Assert.That(pagedList, Is.Not.Null);
             Assert.That(pagedList.HasPreviousPage, Is.False);
@@ -201,13 +201,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void ExtendCompany_Is_Lazy_One_To_One_From_Company_Side()
         {
-            Company company = Repository.GetById(CreatedCompany.Id);
+            Company? company = Repository!.GetById(CreatedCompany!.Id);
 
             Assert.That(company, Is.Not.Null);
             Assert.That(company.ExtendedCompany.IsProxy(), Is.True);
             Assert.That(NHibernateUtil.IsInitialized(company.ExtendedCompany), Is.False);
             Assert.That(company.ExtendedCompany, Is.Not.Null);
-            string extraData = company.ExtendedCompany.ExtraData;
+            string? extraData = company.ExtendedCompany.ExtraData;
             Assert.That(extraData, Is.Not.Null);
             Assert.That(NHibernateUtil.IsInitialized(company.ExtendedCompany), Is.True);
         }

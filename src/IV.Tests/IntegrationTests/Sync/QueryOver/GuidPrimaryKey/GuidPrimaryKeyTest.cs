@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,30 +22,24 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
     [Parallelizable(ParallelScope.Fixtures)]
     public class GuidPrimaryKeyTest : BaseRepositoryFixture<Guid, TestGuidAuditLog>
     {
-        private IPpwHbmMapping _ppwHbmMapping;
+        private CarRepository? _carRepository;
+        private IPpwHbmMapping? _ppwHbmMapping;
 
-        protected CarRepository Repository { get; private set; }
+        protected CarRepository Repository
+            => _carRepository ??= new CarRepository(SessionProvider);
 
         protected override string CatalogName
             => "Test.PPWCode.Vernacular.NHibernate.I.Tests";
 
         protected override IPpwHbmMapping PpwHbmMapping
-            => _ppwHbmMapping
-               ?? (_ppwHbmMapping = new TestsSimpleModelMapper(new TestsMappingAssemblies()));
+            => _ppwHbmMapping ??= new TestsSimpleModelMapper(new TestsMappingAssemblies());
 
         protected override string IdentityName
             => "Test - IdentityName";
 
-        protected override void OnSetup()
-        {
-            base.OnSetup();
-
-            Repository = new CarRepository(SessionProvider);
-        }
-
         protected override void OnTeardown()
         {
-            Repository = null;
+            _carRepository = null;
 
             base.OnTeardown();
         }

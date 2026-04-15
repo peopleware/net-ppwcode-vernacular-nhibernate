@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories;
@@ -23,21 +21,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
 {
     public abstract class BaseCompanyTests : BaseRepositoryTests<Company>
     {
-        protected enum CompanyCreationType
-        {
-            /// <summary>
-            ///     Save initially a company without any identifications.
-            /// </summary>
-            NO_CHILDREN,
+        private CompanyRepository? _repository;
 
-            /// <summary>
-            ///     Save initially a company with 2 identifications, they are identified by a Identification 1 and 2.
-            /// </summary>
-            WITH_2_CHILDREN
-        }
-
-        [CanBeNull]
-        private CompanyRepository _repository;
+        protected CompanyRepository Repository
+            => _repository ??= new CompanyRepository(SessionProviderAsync);
 
         protected override void OnTeardown()
         {
@@ -45,10 +32,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
 
             base.OnTeardown();
         }
-
-        [NotNull]
-        protected CompanyRepository Repository
-            => _repository ?? (_repository = new CompanyRepository(SessionProviderAsync));
 
         protected async Task<Company> CreateCompanyAsync(
             CompanyCreationType companyCreationType,
@@ -88,7 +71,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
                 expectedPersistenceVersion = 1;
             }
 
-            Company savedCompany =
+            Company? savedCompany =
                 await Repository
                     .MergeAsync(company, cancellationToken)
                     .ConfigureAwait(false);
@@ -98,6 +81,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             Assert.That(companyCreationType == CompanyCreationType.NO_CHILDREN ? 0 : 2, Is.EqualTo(savedCompany.Identifications.Count));
 
             return savedCompany;
+        }
+
+        protected enum CompanyCreationType
+        {
+            /// <summary>
+            ///     Save initially a company without any identifications.
+            /// </summary>
+            NO_CHILDREN,
+
+            /// <summary>
+            ///     Save initially a company with 2 identifications, they are identified by a Identification 1 and 2.
+            /// </summary>
+            WITH_2_CHILDREN
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,8 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Cfg;
 
@@ -25,10 +23,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
     public class DirtyChecking
     {
         public DirtyChecking(
-            [NotNull] Configuration configuration,
-            [NotNull] ISessionFactory sessionFactory,
-            [NotNull] Action<string> failCallback,
-            [NotNull] Action<string> inconclusiveCallback)
+            Configuration configuration,
+            ISessionFactory sessionFactory,
+            Action<string> failCallback,
+            Action<string> inconclusiveCallback)
         {
             Configuration = configuration;
             SessionFactory = sessionFactory;
@@ -56,12 +54,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         public void Test<TEntity>()
         {
-            Test(typeof(TEntity).FullName);
+            Test(typeof(TEntity).FullName ?? throw new ArgumentNullException(nameof(TEntity)));
         }
 
         public void Test(string entityName)
         {
-            object id = FindEntityId(entityName);
+            object? id = FindEntityId(entityName);
             if (id == null)
             {
                 string msg = $"No instances of {entityName} in database.";
@@ -94,25 +92,20 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             }
         }
 
-        [CanBeNull]
-        private object FindEntityId(string entityName)
+        private object? FindEntityId(string entityName)
         {
             object id;
-            using (ISession session = SessionFactory.OpenSession())
-            {
-                string cmdText = $"SELECT e.id FROM {entityName} e";
+            using ISession session = SessionFactory.OpenSession();
+            string cmdText = $"SELECT e.id FROM {entityName} e";
 
-                IQuery query =
-                    session
-                        .CreateQuery(cmdText)
-                        .SetMaxResults(1);
+            IQuery query =
+                session
+                    .CreateQuery(cmdText)
+                    .SetMaxResults(1);
 
-                using (ITransaction tx = session.BeginTransaction())
-                {
-                    id = query.UniqueResult();
-                    tx.Commit();
-                }
-            }
+            using ITransaction tx = session.BeginTransaction();
+            id = query.UniqueResult();
+            tx.Commit();
 
             return id;
         }

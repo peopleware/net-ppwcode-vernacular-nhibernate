@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,40 +11,24 @@
 
 using System;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
-    public class DbConstraintMetadata
+    public class DbConstraintMetadata(
+        string constraintName,
+        string tableName,
+        string tableSchema,
+        DbConstraintTypeEnum constraintType = DbConstraintTypeEnum.UNKNOWN)
         : IEquatable<DbConstraintMetadata>
     {
-        public DbConstraintMetadata(
-            [NotNull] string constraintName,
-            [NotNull] string tableName,
-            [NotNull] string tableSchema,
-            DbConstraintTypeEnum constraintType)
-        {
-            ConstraintName = constraintName;
-            TableName = tableName;
-            TableSchema = tableSchema;
-            ConstraintType = constraintType;
-        }
-
-        [NotNull]
-        public string ConstraintName { get; }
-
-        [NotNull]
-        public string TableName { get; }
-
-        [NotNull]
-        public string TableSchema { get; }
-
-        public DbConstraintTypeEnum ConstraintType { get; }
+        public string ConstraintName { get; } = constraintName;
+        public string TableName { get; } = tableName;
+        public string TableSchema { get; } = tableSchema;
+        public DbConstraintTypeEnum ConstraintType { get; } = constraintType;
 
         /// <inheritdoc />
-        public bool Equals(DbConstraintMetadata other)
+        public bool Equals(DbConstraintMetadata? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -60,7 +44,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -87,7 +71,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
         public static bool operator ==(DbConstraintMetadata left, DbConstraintMetadata right)
             => Equals(left, right);
 
-        public static bool operator !=(DbConstraintMetadata left, DbConstraintMetadata right)
+        public static bool operator !=(DbConstraintMetadata? left, DbConstraintMetadata? right)
             => !Equals(left, right);
     }
 }

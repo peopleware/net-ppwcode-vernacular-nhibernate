@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,16 +11,15 @@
 
 using System;
 
-using PPWCode.Vernacular.Persistence.IV;
-
-namespace PPWCode.Vernacular.NHibernate.IV.DI
+namespace PPWCode.Vernacular.NHibernate.IV.Exceptions
 {
-    public class TimeProvider : ITimeProvider
-    {
-        public DateTime Now
-            => DateTime.Now;
-
-        public DateTime UtcNow
-            => DateTime.UtcNow;
-    }
+    public class DbCheckConstraintException(
+        string? message,
+        object entityId,
+        string entityName,
+        string sql,
+        string constraintName,
+        string? extraInfo,
+        Exception? innerException = null)
+        : DbConstraintException(message, entityId, entityName, sql, DbConstraintTypeEnum.CHECK, constraintName, extraInfo, innerException);
 }

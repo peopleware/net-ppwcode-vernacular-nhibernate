@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,12 +11,12 @@
 
 using System;
 using System.Collections.Generic;
-
-using JetBrains.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 using NHibernate;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
+using PPWCode.Vernacular.Persistence.V.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
@@ -28,15 +28,13 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [CanBeNull]
-        T GetById([NotNull] TId id);
+        T? GetById(TId? id);
 
         /// <inheritdoc cref="ISession.Load{T}(object)" />
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        T LoadById([NotNull] TId id);
+        T LoadById(TId? id);
 
         /// <summary>
         ///     Find all records of type <typeparamref name="T" />.
@@ -47,8 +45,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemNotNull]
         IList<T> FindAll();
 
         /// <summary>Gets an list of entities by their ids.</summary>
@@ -59,20 +55,18 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [NotNull]
-        [ItemNotNull]
-        IList<T> FindByIds([NotNull] [ItemNotNull] IEnumerable<TId> ids);
+        IList<T> FindByIds(IEnumerable<TId> ids);
 
         /// <inheritdoc cref="ISession.Merge{T}(T)" />
         /// <exception cref="NotFoundException">
-        ///     The normal behaviour of nHibernate is that the <c>Merge</c> transforms an UPDATE for a not-found-PK into a
+        ///     The normal behavior of nHibernate is that the <c>Merge</c> transforms an UPDATE for a not-found-PK into a
         ///     CREATE. We will not do this in our code-base. In this case we will throw an exception.
         /// </exception>
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        [ContractAnnotation("null => null; notnull => notnull")]
-        T Merge(T entity);
+        [return: NotNullIfNotNull(nameof(entity))]
+        T? Merge(T? entity);
 
         /// <inheritdoc cref="ISession.SaveOrUpdate(object)" />
         /// <exception cref="NotFoundException">
@@ -82,12 +76,12 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        void SaveOrUpdate([CanBeNull] T entity);
+        void SaveOrUpdate(T? entity);
 
         /// <inheritdoc cref="ISession.Delete(object)" />
         /// <remarks>
         ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
         /// </remarks>
-        void Delete([CanBeNull] T entity);
+        void Delete(T? entity);
     }
 }

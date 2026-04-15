@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,7 +19,7 @@ using Common.Logging;
 
 using HibernatingRhinos.Profiler.Appender;
 
-using JetBrains.Annotations;
+using log4net.Util;
 
 using Microsoft.Extensions.Configuration;
 
@@ -30,11 +30,12 @@ using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
 using PPWCode.Log4Net.Adapter;
+using PPWCode.Util.Authorization.I;
+using PPWCode.Util.Time.I;
 using PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.NHibernate.IV.Providers;
-using PPWCode.Vernacular.Persistence.IV;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
@@ -42,47 +43,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         : BaseFixture
         where TId : IEquatable<TId>
     {
-        [CanBeNull]
-        private ISessionFactory _sessionFactory;
-
-        [CanBeNull]
-        private ISessionProvider _sessionProvider;
-
-        [CanBeNull]
-        private ISessionProviderAsync _sessionProviderAsync;
-
-        [CanBeNull]
-        private AppSettings _appSettings;
+        private AppSettings? _appSettings;
+        private ISessionFactory? _sessionFactory;
+        private ISessionProvider? _sessionProvider;
+        private ISessionProviderAsync? _sessionProviderAsync;
 
         protected abstract Configuration Configuration { get; }
         protected abstract string IdentityName { get; }
         protected abstract DateTime UtcNow { get; }
-
-        /// <inheritdoc />
-        protected override void OnFixtureSetup()
-        {
-            IConfiguration config =
-                new ConfigurationBuilder()
-                    .AddJsonFile(@"appsettings.json", false, false)
-                    .AddEnvironmentVariables(@"PPWCODE_")
-                    .Build();
-            _appSettings = new AppSettings();
-            config
-                .GetSection(@"appSettings")
-                .Bind(_appSettings);
-
-            log4net.Util.LogLog.InternalDebugging = true;
-            LogManager.Adapter =
-                new Log4NetLoggerFactoryAdapter(
-                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(),
-                    null);
-        }
-
-        /// <inheritdoc />
-        protected override void OnFixtureTeardown()
-        {
-            _appSettings = null;
-        }
 
         protected virtual bool UseProfiler
             => _appSettings?.UseProfiler ?? false;
@@ -99,15 +67,60 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         protected virtual bool GenerateStatistics
             => _appSettings?.GenerateStatistics ?? true;
 
-        [CanBeNull]
-        protected virtual string FixedConnectionString
+        protected virtual string? FixedConnectionString
             => _appSettings?.FixedConnectionString;
 
-        [NotNull]
         protected virtual ISessionFactory SessionFactory
-            => _sessionFactory ?? (_sessionFactory = Configuration.BuildSessionFactory());
+            => _sessionFactory ??= Configuration.BuildSessionFactory();
 
-        [NotNull]
+        protected virtual ISessionProvider SessionProvider
+            => _sessionProvider ??=
+                   new SessionProvider(
+                       OpenSession(),
+                       new TransactionProvider(),
+                       new SafeEnvironmentProvider(new ExceptionTranslator()),
+                       IsolationLevel.ReadCommitted);
+
+        protected virtual ITransactionProvider TransactionProvider
+            => SessionProvider.TransactionProvider;
+
+        protected virtual ISessionProviderAsync SessionProviderAsync
+            => _sessionProviderAsync ??=
+                   new SessionProviderAsync(
+                       OpenSession(),
+                       new TransactionProviderAsync(),
+                       new SafeEnvironmentProviderAsync(new ExceptionTranslator()),
+                       IsolationLevel.ReadCommitted);
+
+        protected virtual ITransactionProviderAsync TransactionProviderAsync
+            => SessionProviderAsync.TransactionProviderAsync;
+
+        /// <inheritdoc />
+        protected override void OnFixtureSetup()
+        {
+            IConfiguration config =
+                new ConfigurationBuilder()
+                    .AddJsonFile(@"appsettings.json", false, false)
+                    .AddEnvironmentVariables(@"PPWCODE_")
+                    .Build();
+            _appSettings = new AppSettings();
+            config
+                .GetSection(@"appSettings")
+                .Bind(_appSettings);
+
+            LogLog.InternalDebugging = true;
+            LogManager.Adapter =
+                new Log4NetLoggerFactoryAdapter(
+                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(),
+                    null);
+        }
+
+        /// <inheritdoc />
+        protected override void OnFixtureTeardown()
+        {
+            _appSettings = null;
+        }
+
         protected virtual ISession OpenSession()
         {
             Mock<IIdentityProvider> identityProvider = new Mock<IIdentityProvider>();
@@ -115,7 +128,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                 .Setup(ip => ip.IdentityName)
                 .Returns(IdentityName);
 
-            Mock<ITimeProvider> timeProvider = new Mock<ITimeProvider>();
+            Mock<ITimeProvider<DateTime>> timeProvider = new Mock<ITimeProvider<DateTime>>();
             timeProvider
                 .Setup(tp => tp.Now)
                 .Returns(UtcNow.ToLocalTime);
@@ -123,7 +136,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                 .Setup(tp => tp.UtcNow)
                 .Returns(UtcNow);
 
-            AuditInterceptor<TId> sessionLocalInterceptor = new AuditInterceptor<TId>(identityProvider.Object, timeProvider.Object, true);
+            TestAuditInterceptor<TId> sessionLocalInterceptor = new TestAuditInterceptor<TId>(timeProvider.Object, true, identityProvider.Object);
 
             return
                 SessionFactory
@@ -131,34 +144,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                     .Interceptor(sessionLocalInterceptor)
                     .OpenSession();
         }
-
-        [NotNull]
-        protected virtual ISessionProvider SessionProvider
-            => _sessionProvider
-               ?? (_sessionProvider =
-                       new SessionProvider(
-                           OpenSession(),
-                           new TransactionProvider(),
-                           new SafeEnvironmentProvider(new ExceptionTranslator()),
-                           IsolationLevel.ReadCommitted));
-
-        [NotNull]
-        protected virtual ITransactionProvider TransactionProvider
-            => SessionProvider.TransactionProvider;
-
-        [NotNull]
-        protected virtual ISessionProviderAsync SessionProviderAsync
-            => _sessionProviderAsync
-               ?? (_sessionProviderAsync =
-                       new SessionProviderAsync(
-                           OpenSession(),
-                           new TransactionProviderAsync(),
-                           new SafeEnvironmentProviderAsync(new ExceptionTranslator()),
-                           IsolationLevel.ReadCommitted));
-
-        [NotNull]
-        protected virtual ITransactionProviderAsync TransactionProviderAsync
-            => SessionProviderAsync.TransactionProviderAsync;
 
         protected virtual void BuildSchema()
         {
@@ -191,12 +176,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             _sessionProviderAsync = null;
         }
 
-        [CanBeNull]
-        protected T RunInsideTransaction<T>([NotNull] Func<T> func, bool clearSession)
+        protected T? RunInsideTransaction<T>(Func<T> func, bool clearSession)
         {
-            T result =
-                TransactionProvider
-                    .Run(SessionProvider.Session, SessionProvider.IsolationLevel, func);
+            T? result = TransactionProvider.Run(SessionProvider.Session, SessionProvider.IsolationLevel, func);
 
             if (clearSession)
             {
@@ -206,10 +188,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             return result;
         }
 
-        protected void RunInsideTransaction([NotNull] Action action, bool clearSession)
+        protected void RunInsideTransaction(Action action, bool clearSession)
         {
-            TransactionProvider
-                .Run(SessionProvider.Session, SessionProvider.IsolationLevel, action);
+            TransactionProvider.Run(SessionProvider.Session, SessionProvider.IsolationLevel, action);
 
             if (clearSession)
             {
@@ -217,14 +198,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             }
         }
 
-        [NotNull]
-        [ItemCanBeNull]
-        protected async Task<T> RunInsideTransactionAsync<T>(
-            [NotNull] Func<CancellationToken, Task<T>> lambda,
+        protected async Task<T?> RunInsideTransactionAsync<T>(
+            Func<CancellationToken, Task<T?>> lambda,
             bool clearSession,
             CancellationToken cancellationToken)
         {
-            T result =
+            T? result =
                 await TransactionProviderAsync
                     .RunAsync(
                         SessionProviderAsync.Session,
@@ -241,9 +220,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             return result;
         }
 
-        [NotNull]
         protected async Task RunInsideTransactionAsync(
-            [NotNull] Func<CancellationToken, Task> lambda,
+            Func<CancellationToken, Task> lambda,
             bool clearSession,
             CancellationToken cancellationToken)
         {
@@ -263,24 +241,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         protected class AppSettings
         {
-            [UsedImplicitly]
             public bool UseProfiler { get; set; }
-
-            [UsedImplicitly]
             public bool SuppressProfilingWhileCreatingSchema { get; set; }
-
-            [UsedImplicitly]
             public bool ShowSql { get; set; }
-
-            [UsedImplicitly]
             public bool FormatSql { get; set; }
-
-            [UsedImplicitly]
             public bool GenerateStatistics { get; set; }
-
-            [UsedImplicitly]
-            [CanBeNull]
-            public string FixedConnectionString { get; set; }
+            public string? FixedConnectionString { get; set; }
 
             /// <inheritdoc />
             public override string ToString()

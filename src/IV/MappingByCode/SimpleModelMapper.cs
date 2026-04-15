@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,8 +16,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
@@ -25,7 +23,7 @@ using NHibernate.Mapping.ByCode.Impl;
 using NHibernate.Type;
 using NHibernate.Util;
 
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
@@ -42,11 +40,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             ID_TYPE
         }
 
-        private IDictionary<Type, CachedEntityType> _cachedEntityTypes;
+        private IDictionary<Type, CachedEntityType>? _cachedEntityTypes;
 
-        private PropertyInfo _mapPropertyInfo;
+        private PropertyInfo? _mapPropertyInfo;
 
-        protected SimpleModelMapper([JetBrains.Annotations.NotNull] IMappingAssemblies mappingAssemblies)
+        protected SimpleModelMapper(IMappingAssemblies mappingAssemblies)
             : base(mappingAssemblies)
         {
             ModelMapper.BeforeMapSet += OnBeforeMappingCollectionConvention;
@@ -114,10 +112,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         protected virtual int? CollectionBatchSize
             => null;
 
-        protected virtual string DefaultSchemaName
+        protected virtual string? DefaultSchemaName
             => null;
 
-        protected virtual string DefaultCatalogName
+        protected virtual string? DefaultCatalogName
             => null;
 
         public override bool QuoteIdentifiers
@@ -144,10 +142,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         protected virtual KeyTypeEnum ForeignKeyType
             => KeyTypeEnum.TYPE_ID;
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string DefaultRegionNameForCachedEntities { get; } = "common";
 
-        [JetBrains.Annotations.NotNull]
         protected virtual CacheUsage DefaultCacheUsageForCachedEntities { get; } = CacheUsage.ReadWrite;
 
         protected virtual IEnumerable<CachedEntityType> GetEntityTypesToCache
@@ -160,29 +156,24 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 
         public override ICandidatePersistentMembersProvider MembersProvider { get; }
 
-        [CanBeNull]
-        protected PropertyInfo MapDocPropertyInfo
+        protected PropertyInfo? MapDocPropertyInfo
             => _mapPropertyInfo ??= typeof(ClassMapper).GetProperty("MapDoc", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string DefaultDiscriminatorColumnName
             => "Discriminator";
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string DefaultVersionColumnName
             => "PersistenceVersion";
 
-        [CanBeNull]
         protected virtual string GetTableName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
+            IModelInspector modelInspector,
+            Type type,
             bool? quoteIdentifier)
             => ConditionalQuoteIdentifier(GetIdentifier(type.Name), quoteIdentifier);
 
-        [CanBeNull]
         protected virtual string GetTableNameForManyToMany(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
+            IModelInspector modelInspector,
+            PropertyPath member,
             bool? quoteIdentifier)
         {
             if (!modelInspector.IsManyToManyItem(member.LocalMember))
@@ -193,21 +184,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return ConditionalQuoteIdentifier(GetIdentifier(member.ManyToManyIntermediateTableName("To")), quoteIdentifier);
         }
 
-        [CanBeNull]
         [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "not null")]
         protected virtual string GetColumnName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
+            IModelInspector modelInspector,
+            PropertyPath member,
             bool? quoteIdentifier)
             => ConditionalQuoteIdentifier(GetIdentifier(member.ToColumnName()), quoteIdentifier);
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string GetForeignKeyColumnName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
+            IModelInspector modelInspector,
+            PropertyPath member,
             bool? quoteIdentifier)
         {
-            string keyColumnName;
+            string? keyColumnName;
 
             if (modelInspector.IsManyToManyItem(member.LocalMember))
             {
@@ -221,7 +210,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                      || modelInspector.IsSet(member.LocalMember)
                      || modelInspector.IsBag(member.LocalMember))
             {
-                MemberInfo otherSideProperty = GetOneToManyOtherSideProperty(member);
+                MemberInfo? otherSideProperty = GetOneToManyOtherSideProperty(member);
                 keyColumnName =
                     otherSideProperty != null
                         ? otherSideProperty.Name
@@ -240,8 +229,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return GetKeyColumnName(ForeignKeyType, keyColumnName, quoteIdentifier);
         }
 
-        [CanBeNull]
-        protected virtual MemberInfo GetOneToManyOtherSideProperty([JetBrains.Annotations.NotNull] PropertyPath member)
+        protected virtual MemberInfo? GetOneToManyOtherSideProperty(PropertyPath member)
         {
             List<MemberInfo> otherSideProperties =
                 member
@@ -257,7 +245,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                 return otherSideProperties.First();
             }
 
-            OtherSidePropertyName otherSidePropertyNameAttribute =
+            OtherSidePropertyName? otherSidePropertyNameAttribute =
                 member
                     .LocalMember
                     .GetCustomAttributes(typeof(OtherSidePropertyName))
@@ -265,9 +253,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                     .SingleOrDefault();
             if (otherSidePropertyNameAttribute != null)
             {
-                MemberInfo otherSideProperty =
-                    otherSideProperties
-                        .SingleOrDefault(p => p.Name == otherSidePropertyNameAttribute.PropertyName);
+                MemberInfo? otherSideProperty = otherSideProperties.SingleOrDefault(p => p.Name == otherSidePropertyNameAttribute.PropertyName);
                 if (otherSideProperty != null)
                 {
                     return otherSideProperty;
@@ -277,21 +263,18 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return GetOneToManyOtherSideProperty(member, otherSideProperties);
         }
 
-        [CanBeNull]
-        protected virtual MemberInfo GetOneToManyOtherSideProperty([JetBrains.Annotations.NotNull] PropertyPath member, [JetBrains.Annotations.NotNull] IList<MemberInfo> otherSideProperties)
+        protected virtual MemberInfo GetOneToManyOtherSideProperty(PropertyPath member, IList<MemberInfo> otherSideProperties)
             => throw new ProgrammingError($"Unable to map other side property for {member.ToColumnName()}.");
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string GetPrimaryKeyColumnName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
+            IModelInspector modelInspector,
+            Type type,
             bool? quoteIdentifier)
             => GetKeyColumnName(PrimaryKeyType, type.Name, quoteIdentifier);
 
-        [JetBrains.Annotations.NotNull]
         protected virtual string GetKeyColumnName(
             KeyTypeEnum keyType,
-            [JetBrains.Annotations.NotNull] string keyColumnName,
+            string keyColumnName,
             bool? quoteIdentifier)
         {
             string result;
@@ -316,12 +299,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return ConditionalQuoteIdentifier(result, quoteIdentifier);
         }
 
-        [JetBrains.Annotations.NotNull]
         protected virtual IEnumerable<MemberInfo> VersionProperties(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type)
+            IModelInspector modelInspector,
+            Type type)
         {
-            Type walker = type;
+            Type? walker = type;
             while ((walker != null) && (walker != typeof(object)))
             {
                 IEnumerable<PropertyInfo> properties =
@@ -346,17 +328,15 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             }
         }
 
-        [JetBrains.Annotations.NotNull]
         public virtual string GetDiscriminatorColumnName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
+            IModelInspector modelInspector,
+            Type type,
             bool? quoteIdentifier)
             => ConditionalQuoteIdentifier(GetIdentifier(DefaultDiscriminatorColumnName), quoteIdentifier);
 
-        [JetBrains.Annotations.NotNull]
         public virtual object GetDiscriminatorValue(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type)
+            IModelInspector modelInspector,
+            Type type)
         {
             string discriminatorValue = type.Name;
             if (type.IsGenericType
@@ -369,35 +349,33 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return StringUtil.ConvertFromPascalCaseToScreamingSnakeCase(discriminatorValue);
         }
 
-        [JetBrains.Annotations.NotNull]
         public virtual string GetVersionColumnName(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
+            IModelInspector modelInspector,
+            Type type,
             bool? quoteIdentifier)
             => ConditionalQuoteIdentifier(GetIdentifier(DefaultVersionColumnName), quoteIdentifier);
 
         protected virtual bool DeclaredPolymorphicMatch(
-            [JetBrains.Annotations.NotNull] MemberInfo member,
-            [JetBrains.Annotations.NotNull] Func<MemberInfo, bool> declaredMatch)
+            MemberInfo member,
+            Func<MemberInfo, bool> declaredMatch)
             => declaredMatch(member)
                || member.GetMemberFromDeclaringClasses().Any(declaredMatch)
                || member.GetPropertyFromInterfaces().Any(declaredMatch);
 
-        [CanBeNull]
-        protected virtual MemberInfo PoidPropertyOrField(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type)
+        protected virtual MemberInfo? PoidPropertyOrField(
+            IModelInspector modelInspector,
+            Type type)
         {
             IEnumerable<MemberInfo> poidCandidates = MembersProvider.GetEntityMembersForPoid(type);
             return poidCandidates.FirstOrDefault(mi => DeclaredPolymorphicMatch(mi, modelInspector.IsPersistentId));
         }
 
         protected virtual void NoPoidGuid(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
-            [JetBrains.Annotations.NotNull] IClassAttributesMapper classCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IClassAttributesMapper classCustomizer)
         {
-            MemberInfo poidPropertyOrField = PoidPropertyOrField(modelInspector, type);
+            MemberInfo? poidPropertyOrField = PoidPropertyOrField(modelInspector, type);
             if (ReferenceEquals(null, poidPropertyOrField))
             {
                 classCustomizer.Id(null, idm => idm.Generator(Generators.Guid));
@@ -405,11 +383,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void NoSetterPoidToField(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
-            [JetBrains.Annotations.NotNull] IClassAttributesMapper classCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IClassAttributesMapper classCustomizer)
         {
-            MemberInfo poidPropertyOrField = PoidPropertyOrField(modelInspector, type);
+            MemberInfo? poidPropertyOrField = PoidPropertyOrField(modelInspector, type);
             if ((poidPropertyOrField != null) && MatchNoSetterProperty(poidPropertyOrField))
             {
                 classCustomizer.Id(poidPropertyOrField, idm => idm.Access(Accessor.NoSetter));
@@ -417,9 +395,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void MemberToFieldAccessor(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] IAccessorPropertyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IAccessorPropertyMapper propertyCustomizer)
         {
             if (MatchPropertyToField(member.LocalMember))
             {
@@ -428,9 +406,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void MemberNoSetterToField(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] IAccessorPropertyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IAccessorPropertyMapper propertyCustomizer)
         {
             if (MatchNoSetterProperty(member.LocalMember))
             {
@@ -439,9 +417,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void MemberReadOnlyAccessor(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] IAccessorPropertyMapper propertyCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IAccessorPropertyMapper propertyCustomizer)
         {
             if (MatchReadOnlyProperty(member.LocalMember))
             {
@@ -450,9 +428,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void ComponentParentToFieldAccessor(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] IComponentAttributesMapper componentMapper)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IComponentAttributesMapper componentMapper)
         {
             Type componentType = member.LocalMember.GetPropertyOrFieldType();
             IEnumerable<MemberInfo> persistentProperties =
@@ -460,7 +438,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                     .GetComponentMembers(componentType)
                     .Where(p => ModelInspector.IsPersistentProperty(p));
 
-            MemberInfo parentReferenceProperty = GetComponentParentReferenceProperty(persistentProperties, member.LocalMember.ReflectedType);
+            MemberInfo? parentReferenceProperty = GetComponentParentReferenceProperty(persistentProperties, member.LocalMember.ReflectedType);
             if ((parentReferenceProperty != null) && MatchPropertyToField(parentReferenceProperty))
             {
                 componentMapper.Parent(parentReferenceProperty, cp => cp.Access(Accessor.Field));
@@ -468,9 +446,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void ComponentParentNoSetterToField(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] IComponentAttributesMapper componentMapper)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            IComponentAttributesMapper componentMapper)
         {
             Type componentType = member.LocalMember.GetPropertyOrFieldType();
             IEnumerable<MemberInfo> persistentProperties =
@@ -478,16 +456,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                     .GetComponentMembers(componentType)
                     .Where(p => ModelInspector.IsPersistentProperty(p));
 
-            MemberInfo parentReferenceProperty = GetComponentParentReferenceProperty(persistentProperties, member.LocalMember.ReflectedType);
+            MemberInfo? parentReferenceProperty = GetComponentParentReferenceProperty(persistentProperties, member.LocalMember.ReflectedType);
             if ((parentReferenceProperty != null) && MatchNoSetterProperty(parentReferenceProperty))
             {
                 componentMapper.Parent(parentReferenceProperty, cp => cp.Access(Accessor.NoSetter));
             }
         }
 
-        protected virtual bool MatchReadOnlyProperty([CanBeNull] MemberInfo subject)
+        protected virtual bool MatchReadOnlyProperty(MemberInfo? subject)
         {
-            PropertyInfo property = subject as PropertyInfo;
+            PropertyInfo? property = subject as PropertyInfo;
             if (property == null)
             {
                 return false;
@@ -501,17 +479,17 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return false;
         }
 
-        protected virtual bool CanReadCantWriteInsideType([JetBrains.Annotations.NotNull] PropertyInfo property)
+        protected virtual bool CanReadCantWriteInsideType(PropertyInfo property)
             => !property.CanWrite && property.CanRead && (property.DeclaringType == property.ReflectedType);
 
-        protected virtual bool CanReadCantWriteInBaseType([JetBrains.Annotations.NotNull] PropertyInfo property)
+        protected virtual bool CanReadCantWriteInBaseType(PropertyInfo property)
         {
             if (property.DeclaringType == property.ReflectedType)
             {
                 return false;
             }
 
-            PropertyInfo rfprop =
+            PropertyInfo? rfprop =
                 property.DeclaringType
                     ?.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                     .SingleOrDefault(pi => pi.Name == property.Name);
@@ -519,9 +497,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return (rfprop != null) && !rfprop.CanWrite && rfprop.CanRead;
         }
 
-        protected virtual bool MatchNoSetterProperty([CanBeNull] MemberInfo subject)
+        protected virtual bool MatchNoSetterProperty(MemberInfo? subject)
         {
-            PropertyInfo property = subject as PropertyInfo;
+            PropertyInfo? property = subject as PropertyInfo;
             if ((property == null) || property.CanWrite || !property.CanRead)
             {
                 return false;
@@ -536,9 +514,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return false;
         }
 
-        protected virtual bool MatchPropertyToField([CanBeNull] MemberInfo subject)
+        protected virtual bool MatchPropertyToField(MemberInfo? subject)
         {
-            PropertyInfo property = subject as PropertyInfo;
+            PropertyInfo? property = subject as PropertyInfo;
             if (property == null)
             {
                 return false;
@@ -548,10 +526,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return fieldInfo != null;
         }
 
-        [CanBeNull]
-        protected virtual MemberInfo GetComponentParentReferenceProperty(
-            [JetBrains.Annotations.NotNull] IEnumerable<MemberInfo> persistentProperties,
-            [CanBeNull] Type propertiesContainerType)
+        protected virtual MemberInfo? GetComponentParentReferenceProperty(
+            IEnumerable<MemberInfo> persistentProperties,
+            Type? propertiesContainerType)
         {
             return
                 ModelInspector.IsComponent(propertiesContainerType)
@@ -560,16 +537,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual bool IsMemberDeclaredInATablePerClassHierarchy(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member)
+            IModelInspector modelInspector,
+            PropertyPath member)
         {
-            Type declaredType = member.GetRootMember().DeclaringType;
+            Type? declaredType = member.GetRootMember().DeclaringType;
             return modelInspector.IsTablePerClassHierarchy(declaredType) && !modelInspector.IsRootEntity(declaredType);
         }
 
         protected virtual bool IsRequired(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member)
+            IModelInspector modelInspector,
+            PropertyPath member)
         {
             bool required = IsPropertyPathPrimitive(member);
             if (!required)
@@ -592,16 +569,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             return required;
         }
 
-        protected virtual bool IsPropertyPathPrimitive([JetBrains.Annotations.NotNull] PropertyPath member)
+        protected virtual bool IsPropertyPathPrimitive(PropertyPath member)
         {
             Type memberType = member.MemberType();
             return memberType.IsPrimitive || (memberType == typeof(DateTime));
         }
 
         protected virtual void OnBeforeEntityMap(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] Type type,
-            [JetBrains.Annotations.NotNull] IEntityAttributesMapper entityCustomizer)
+            IModelInspector modelInspector,
+            Type type,
+            IEntityAttributesMapper entityCustomizer)
         {
             entityCustomizer.DynamicInsert(DynamicInsert);
             entityCustomizer.DynamicUpdate(DynamicUpdate);
@@ -626,12 +603,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 
                 classCustomizer.Table(GetTableName(modelInspector, type, null));
 
-                classCustomizer.Id(
-                    m =>
-                    {
-                        m.Column(GetPrimaryKeyColumnName(modelInspector, type, null));
-                        m.Generator(Generators.HighLow);
-                    });
+                classCustomizer.Id(m =>
+                {
+                    m.Column(GetPrimaryKeyColumnName(modelInspector, type, null));
+                    m.Generator(Generators.HighLow);
+                });
 
                 if (modelInspector.IsTablePerClassHierarchy(type))
                 {
@@ -665,15 +641,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                 }
 
                 joinedSubclassCustomizer.Table(GetTableName(modelInspector, type, null));
-                joinedSubclassCustomizer.Key(
-                    k =>
+                joinedSubclassCustomizer.Key(k =>
+                {
+                    k.Column(GetPrimaryKeyColumnName(modelInspector, type.BaseType ?? type, null));
+                    if (type.BaseType != null)
                     {
-                        k.Column(GetPrimaryKeyColumnName(modelInspector, type.BaseType ?? type, null));
-                        if (type.BaseType != null)
-                        {
-                            k.ForeignKey($"FK_{GetTableName(modelInspector, type, false)}_{GetTableName(modelInspector, type.BaseType, false)}");
-                        }
-                    });
+                        k.ForeignKey($"FK_{GetTableName(modelInspector, type, false)}_{GetTableName(modelInspector, type.BaseType, false)}");
+                    }
+                });
 
                 return;
             }
@@ -701,15 +676,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             OnBeforeEntityMap(modelInspector, type, classCustomizer);
 
             if (modelInspector.IsRootEntity(type)
-                && CachedEntityTypes.TryGetValue(type, out CachedEntityType cachedEntityType))
+                && CachedEntityTypes.TryGetValue(type, out CachedEntityType? cachedEntityType))
             {
                 classCustomizer
-                    .Cache(
-                        m =>
-                        {
-                            m.Region(cachedEntityType.RegionName ?? DefaultRegionNameForCachedEntities);
-                            m.Usage(cachedEntityType.CacheUsage ?? DefaultCacheUsageForCachedEntities);
-                        });
+                    .Cache(m =>
+                    {
+                        m.Region(cachedEntityType.RegionName ?? DefaultRegionNameForCachedEntities);
+                        m.Usage(cachedEntityType.CacheUsage ?? DefaultCacheUsageForCachedEntities);
+                    });
             }
         }
 
@@ -739,7 +713,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                 propertyCustomizer.NotNullable(true);
             }
 
-            StringLengthAttribute stringLengthAttribute =
+            StringLengthAttribute? stringLengthAttribute =
                 member
                     .LocalMember
                     .GetCustomAttributes()
@@ -793,15 +767,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 
             collectionRelationManyToManyCustomizer.ForeignKey(foreignKeyName);
             collectionRelationManyToManyCustomizer
-                .Columns(
-                    m =>
+                .Columns(m =>
+                {
+                    m.Name(ConditionalQuoteIdentifier(columnName, null));
+                    if (CreateIndexForForeignKey)
                     {
-                        m.Name(ConditionalQuoteIdentifier(columnName, null));
-                        if (CreateIndexForForeignKey)
-                        {
-                            m.Index(indexName);
-                        }
-                    });
+                        m.Index(indexName);
+                    }
+                });
         }
 
         protected override void OnBeforeMapManyToOne(IModelInspector modelInspector, PropertyPath member, IManyToOneMapper propertyCustomizer)
@@ -829,9 +802,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
         }
 
         protected virtual void OnBeforeMappingCollectionConvention(
-            [JetBrains.Annotations.NotNull] IModelInspector modelInspector,
-            [JetBrains.Annotations.NotNull] PropertyPath member,
-            [JetBrains.Annotations.NotNull] ICollectionPropertiesMapper collectionPropertiesCustomizer)
+            IModelInspector modelInspector,
+            PropertyPath member,
+            ICollectionPropertiesMapper collectionPropertiesCustomizer)
         {
             if (!string.IsNullOrWhiteSpace(DefaultCatalogName))
             {
@@ -843,7 +816,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                 collectionPropertiesCustomizer.Schema(ConditionalQuoteIdentifier(DefaultSchemaName, null));
             }
 
-            if ((CollectionBatchSize != null) && (CollectionBatchSize.Value > 0))
+            if (CollectionBatchSize is > 0)
             {
                 collectionPropertiesCustomizer.Fetch(CollectionFetchMode.Select);
                 collectionPropertiesCustomizer.BatchSize(CollectionBatchSize.Value);
@@ -853,18 +826,17 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             {
                 string tableName = GetTableNameForManyToMany(modelInspector, member, null);
                 collectionPropertiesCustomizer.Table(tableName);
-                collectionPropertiesCustomizer.Key(
-                    k =>
-                    {
-                        k.Column(GetKeyColumnName(ForeignKeyType, member.Owner().Name, null));
-                        k.ForeignKey($"FK_{GetTableNameForManyToMany(modelInspector, member, false)}_{GetKeyColumnName(ForeignKeyType, member.Owner().Name, false)}");
-                    });
+                collectionPropertiesCustomizer.Key(k =>
+                {
+                    k.Column(GetKeyColumnName(ForeignKeyType, member.Owner().Name, null));
+                    k.ForeignKey($"FK_{GetTableNameForManyToMany(modelInspector, member, false)}_{GetKeyColumnName(ForeignKeyType, member.Owner().Name, false)}");
+                });
             }
             else if (modelInspector.IsSet(member.LocalMember)
                      || modelInspector.IsBag(member.LocalMember))
             {
                 // If other side has many-to-one, make it inverse
-                MemberInfo oneToManyProperty = GetOneToManyOtherSideProperty(member);
+                MemberInfo? oneToManyProperty = GetOneToManyOtherSideProperty(member);
                 if (oneToManyProperty != null)
                 {
                     collectionPropertiesCustomizer.Inverse(true);
@@ -883,22 +855,21 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                     member
                         .GetRootMember()
                         .GetPropertyOrFieldType();
-                Type itemType = GetCompatibleItemType(propertyOrFieldType);
+                Type? itemType = GetCompatibleItemType(propertyOrFieldType);
                 if ((itemType != null)
-                    && CachedEntityTypes.TryGetValue(itemType, out CachedEntityType cachedEntityType))
+                    && CachedEntityTypes.TryGetValue(itemType, out CachedEntityType? cachedEntityType))
                 {
                     collectionPropertiesCustomizer
-                        .Cache(
-                            m =>
-                            {
-                                m.Region(cachedEntityType.RegionName ?? DefaultRegionNameForCachedEntities);
-                                m.Usage(cachedEntityType.CacheUsage ?? DefaultCacheUsageForCachedEntities);
-                            });
+                        .Cache(m =>
+                        {
+                            m.Region(cachedEntityType.RegionName ?? DefaultRegionNameForCachedEntities);
+                            m.Usage(cachedEntityType.CacheUsage ?? DefaultCacheUsageForCachedEntities);
+                        });
                 }
             }
         }
 
-        protected virtual Type GetCompatibleItemType(Type type)
+        protected virtual Type? GetCompatibleItemType(Type? type)
         {
             if (type == null)
             {
@@ -924,13 +895,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 
             if (AdjustColumnForForeignGenerator)
             {
-                HbmMapping hbmMapping = TryGetHbmMapping(classCustomizer);
-                HbmClass rootEntity =
+                HbmMapping? hbmMapping = TryGetHbmMapping(classCustomizer);
+                HbmClass? rootEntity =
                     hbmMapping
                         ?.RootClasses
                         .SingleOrDefault(c => string.Equals(c.Name, type.FullName, StringComparison.Ordinal)
                                               && string.Equals(c.Id.generator.@class, "foreign", StringComparison.Ordinal));
-                HbmParam propertyParam =
+                HbmParam? propertyParam =
                     rootEntity
                         ?.Id
                         .generator
@@ -943,7 +914,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
             }
         }
 
-        protected virtual HbmMapping TryGetHbmMapping(object customizer)
+        protected virtual HbmMapping? TryGetHbmMapping(object customizer)
             => customizer is ClassMapper classMapper
                    ? MapDocPropertyInfo != null
                          ? MapDocPropertyInfo.GetValue(classMapper) as HbmMapping

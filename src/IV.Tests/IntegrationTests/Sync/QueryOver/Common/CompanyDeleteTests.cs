@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,7 @@
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common
 {
@@ -27,7 +27,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             // Check if no deletes are already performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
 
-            RunInsideTransaction(() => Repository.Delete(company), true);
+            RunInsideTransaction(() => Repository!.Delete(company), true);
 
             // A company with 2 children are deleted
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(3));
@@ -41,7 +41,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             // Check if no deletes are already performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
 
-            RunInsideTransaction(() => Repository.Delete(company), true);
+            RunInsideTransaction(() => Repository!.Delete(company), true);
 
             // A company with 2 children are deleted
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(4));
@@ -58,7 +58,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             RunInsideTransaction(
                 () =>
                 {
-                    Company fetchedCompany = Repository.GetById(company.Id);
+                    Company? fetchedCompany = Repository!.GetById(company.Id);
                     Assert.That(fetchedCompany, Is.Not.Null);
                     fetchedCompany.FailedCompany = null;
                 },
@@ -79,8 +79,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             RunInsideTransaction(
                 () =>
                 {
-                    Company fetchedCompany = Repository.GetById(company.Id);
+                    Company? fetchedCompany = Repository!.GetById(company.Id);
                     Assert.That(fetchedCompany, Is.Not.Null);
+                    Assert.That(fetchedCompany.FailedCompany, Is.Not.Null);
                     fetchedCompany.FailedCompany.Company = null;
                 },
                 true);
@@ -93,15 +94,17 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void Can_Delete_A_None_Existing_Company()
         {
             Company noneExistingCompany =
-                new Company(-1, 1)
+                new Company
                 {
+                    Id = -1,
+                    PersistenceVersion = 1,
                     Name = "My Company name"
                 };
 
             // Check if no deletes are already performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
 
-            Repository.Delete(noneExistingCompany);
+            Repository!.Delete(noneExistingCompany);
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
@@ -115,7 +118,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             // Check if no deletes are already performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
 
-            Repository.Delete(transientCompany);
+            Repository!.Delete(transientCompany);
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
@@ -133,11 +136,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     company.Name = string.Concat(company.Name, " 2");
-                    Repository.Merge(company);
+                    Repository!.Merge(company);
                 },
                 true);
 
-            Assert.That(() => Repository.Delete(company), Throws.TypeOf<ObjectAlreadyChangedException>());
+            Assert.That(() => Repository!.Delete(company), Throws.TypeOf<ObjectAlreadyChangedException>());
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -10,8 +10,6 @@
 // limitations under the License.
 
 using System;
-
-using JetBrains.Annotations;
 
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
@@ -28,7 +26,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests
         public const string GeneratorTableNameColumnName = "TableName";
         public const int GeneratorMaxLo = 999;
 
-        public TestsSimpleModelMapper([NotNull] IMappingAssemblies mappingAssemblies)
+        public TestsSimpleModelMapper(IMappingAssemblies mappingAssemblies)
             : base(mappingAssemblies)
         {
         }
@@ -64,19 +62,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests
 
             classCustomizer
                 .Id(m =>
-                    {
-                        m.Generator(
-                            Generators.HighLow,
-                            generatorMapper =>
-                                generatorMapper.Params(
-                                    new
-                                    {
-                                        table = GetIdentifier(GeneratorTableName),
-                                        column = GetIdentifier(GeneratorNextHiColumnName),
-                                        max_lo = GeneratorMaxLo,
-                                        where = $"{GetIdentifier(GeneratorEntityNameColumnName)} = '{type.FullName}'"
-                                    }));
-                    });
+                {
+                    m.Generator(
+                        Generators.HighLow,
+                        generatorMapper =>
+                            generatorMapper.Params(
+                                new
+                                {
+                                    table = GetIdentifier(GeneratorTableName),
+                                    column = GetIdentifier(GeneratorNextHiColumnName),
+                                    max_lo = GeneratorMaxLo,
+                                    where = $"{GetIdentifier(GeneratorEntityNameColumnName)} = '{type.FullName}'"
+                                }));
+                });
         }
     }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,21 +11,19 @@
 
 using System;
 
-using JetBrains.Annotations;
-
 using NHibernate.Exceptions;
 
 using Npgsql;
 
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
 {
     public class PostgreExceptionConverter : BaseExceptionConverter
     {
-        public PostgreExceptionConverter([NotNull] IViolatedConstraintNameExtracter constraintNameExtracter)
+        public PostgreExceptionConverter(IViolatedConstraintNameExtracter constraintNameExtracter)
             : base(constraintNameExtracter)
         {
         }
@@ -34,11 +32,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
         {
             if (ADOExceptionHelper.ExtractDbException(adoExceptionContextInfo.SqlException) is PostgresException sqle)
             {
-                string constraintName = GetConstraintName(adoExceptionContextInfo);
+                string? constraintName = GetConstraintName(adoExceptionContextInfo);
                 if (!string.IsNullOrWhiteSpace(constraintName))
                 {
                     string extraInfo = $"{sqle.Severity} : {sqle.Detail}";
-                    DbConstraintMetadata metadata = DbConstraints?.GetByConstraintName(constraintName);
+                    DbConstraintMetadata? metadata = DbConstraints?.GetByConstraintName(constraintName);
                     if (metadata != null)
                     {
                         if (int.TryParse(sqle.SqlState, out int code))

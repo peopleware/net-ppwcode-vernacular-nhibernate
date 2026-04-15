@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,8 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using JetBrains.Annotations;
 
 using NUnit.Framework;
 
@@ -38,7 +36,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
                };
 
         protected async Task<IList<Role>> CreateRolesAsync(
-            [NotNull] [ItemNotNull] IEnumerable<string> roleNames,
+            IEnumerable<string> roleNames,
             bool clearSession,
             CancellationToken cancellationToken)
         {
@@ -49,7 +47,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             {
                 foreach (string roleName in roleNames)
                 {
-                    roles.Add(await RoleRepository.MergeAsync(CreateRoleModel(roleName), can).ConfigureAwait(false));
+                    Role? mergeAsync = await RoleRepository.MergeAsync(CreateRoleModel(roleName), can).ConfigureAwait(false);
+                    Assert.That(mergeAsync, Is.Not.Null);
+                    roles.Add(mergeAsync);
                 }
             }
 
@@ -59,10 +59,10 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
         }
 
         protected async Task<Role> CreateRoleAsync(
-            [NotNull] string roleName,
+            string roleName,
             bool clearSession,
             CancellationToken cancellationToken)
-            => (await CreateRolesAsync(new[] { roleName }, clearSession, cancellationToken)
+            => (await CreateRolesAsync([roleName], clearSession, cancellationToken)
                     .ConfigureAwait(false))
                 .Single();
 
@@ -92,7 +92,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             User user = CreateUserModel();
             IList<Role> roles =
                 await CreateRolesAsync(
-                    new[] { "Architect", "Designer", "Developer" },
+                    ["Architect", "Designer", "Developer"],
                     true,
                     CancellationToken);
             foreach (Role role in roles)
@@ -121,7 +121,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await RunInsideTransactionAsync(
                 async can =>
                 {
-                    User savedUser = await Repository.MergeAsync(user, can);
+                    User? savedUser = await Repository.MergeAsync(user, can);
+                    Assert.That(savedUser, Is.Not.Null);
                     savedUser.RemoveRole(savedUser.Roles.Single(r => r.Name == "Developer"));
                     await Repository.MergeAsync(savedUser, can);
                 },
@@ -165,11 +166,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             await RunInsideTransactionAsync(can => Repository.MergeAsync(ruben, can), true, CancellationToken);
             await RunInsideTransactionAsync(can => Repository.MergeAsync(danny, can), true, CancellationToken);
 
-            User foundRuben = await RunInsideTransactionAsync(can => Repository.GetUserByNameAsync("Ruben", can), true, CancellationToken);
+            User? foundRuben = await RunInsideTransactionAsync(can => Repository.GetUserByNameAsync("Ruben", can), true, CancellationToken);
             Assert.That(foundRuben, Is.Not.Null);
             Assert.That(foundRuben.Name, Is.EqualTo("Ruben"));
 
-            User jef = await RunInsideTransactionAsync(can => Repository.GetUserByNameAsync("Jef", can), true, CancellationToken);
+            User? jef = await RunInsideTransactionAsync(can => Repository.GetUserByNameAsync("Jef", can), true, CancellationToken);
             Assert.That(jef, Is.Null);
         }
     }

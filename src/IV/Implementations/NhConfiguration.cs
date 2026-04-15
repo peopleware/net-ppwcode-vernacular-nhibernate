@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
@@ -22,19 +20,15 @@ using NHibernate.Mapping;
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
-    public class NhConfiguration : NhConfigurationBase
+    public class NhConfiguration(
+        INhInterceptor nhInterceptor,
+        INhProperties nhProperties,
+        IMappingAssemblies mappingAssemblies,
+        IPpwHbmMapping ppwHbmMapping,
+        IRegisterEventListener[] registerEventListeners,
+        IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
+        : NhConfigurationBase(nhInterceptor, nhProperties, mappingAssemblies, ppwHbmMapping, registerEventListeners, auxiliaryDatabaseObjects)
     {
-        public NhConfiguration(
-            [NotNull] INhInterceptor nhInterceptor,
-            [NotNull] INhProperties nhProperties,
-            [NotNull] IMappingAssemblies mappingAssemblies,
-            [NotNull] IPpwHbmMapping ppwHbmMapping,
-            [NotNull] IRegisterEventListener[] registerEventListeners,
-            [NotNull] IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
-            : base(nhInterceptor, nhProperties, mappingAssemblies, ppwHbmMapping, registerEventListeners, auxiliaryDatabaseObjects)
-        {
-        }
-
         protected override Configuration Configuration
         {
             get
@@ -64,7 +58,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 }
 
                 // Register interceptor / event-listeners
-                IInterceptor interceptor = NhInterceptor.GetInterceptor();
+                IInterceptor? interceptor = NhInterceptor.GetInterceptor();
                 if (interceptor != null)
                 {
                     configuration.SetInterceptor(interceptor);
@@ -76,10 +70,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 }
 
                 HbmMapping hbmMapping = PpwHbmMapping.HbmMapping;
-                if (hbmMapping != null)
-                {
-                    configuration.AddMapping(hbmMapping);
-                }
+                configuration.AddMapping(hbmMapping);
 
                 // map embedded resource of specified assemblies
                 foreach (Assembly assembly in MappingAssemblies.GetAssemblies())
@@ -89,7 +80,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
                 foreach (IAuxiliaryDatabaseObject auxiliaryDatabaseObject in AuxiliaryDatabaseObjects)
                 {
-                    IPpwAuxiliaryDatabaseObject ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
+                    IPpwAuxiliaryDatabaseObject? ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
                     ppwAuxiliaryDatabaseObject?.SetConfiguration(configuration);
                     configuration.AddAuxiliaryDatabaseObject(auxiliaryDatabaseObject);
                 }

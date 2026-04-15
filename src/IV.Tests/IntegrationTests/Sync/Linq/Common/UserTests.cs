@@ -20,20 +20,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
 {
     public class UserTests : BaseUserTests
     {
-        private RoleRepository _roleRepository;
+        private RoleRepository? _roleRepository;
 
         protected RoleRepository RoleRepository
-            => _roleRepository;
+            => _roleRepository ??= new RoleRepository(SessionProvider);
 
         protected IUserRepository UserRepository
             => Repository;
-
-        protected override void OnSetup()
-        {
-            base.OnSetup();
-
-            _roleRepository = new RoleRepository(SessionProvider);
-        }
 
         protected override void OnTeardown()
         {
@@ -58,7 +51,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void CreateUserWithOneRole()
         {
-            Role role = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Role? role = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Assert.That(role, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(1));
 
             User user = CreateUser();
@@ -80,13 +74,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void CreateUserWithThreeRoles()
         {
-            Role role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Role? role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Assert.That(role1, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(1));
 
-            Role role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Role? role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Assert.That(role2, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(2));
 
-            Role role3 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Developer")), true);
+            Role? role3 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Developer")), true);
+            Assert.That(role3, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(3));
 
             User user = CreateUser();
@@ -101,13 +98,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void CreateUserWithThreeRolesAndRemoveOneRole()
         {
-            Role role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Role? role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Assert.That(role1, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(1));
 
-            Role role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Role? role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Assert.That(role2, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(2));
 
-            Role role3 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Developer")), true);
+            Role? role3 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Developer")), true);
+            Assert.That(role3, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(3));
 
             User user = CreateUser();
@@ -128,10 +128,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
         [Test]
         public void CreateUserWithTwoRoles()
         {
-            Role role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Role? role1 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Architect")), true);
+            Assert.That(role1, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(1));
 
-            Role role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Role? role2 = RunInsideTransaction(() => RoleRepository.Merge(CreateRole(@"Designer")), true);
+            Assert.That(role2, Is.Not.Null);
             Assert.That(SessionFactory.Statistics.EntityInsertCount, Is.EqualTo(2));
 
             User user = CreateUser();
@@ -160,11 +162,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Comm
             RunInsideTransaction(() => UserRepository.Merge(ruben), true);
             RunInsideTransaction(() => UserRepository.Merge(danny), true);
 
-            User foundRuben = RunInsideTransaction(() => UserRepository.GetUserByName("Ruben"), true);
+            User? foundRuben = RunInsideTransaction(() => UserRepository.GetUserByName("Ruben"), true);
             Assert.That(foundRuben, Is.Not.Null);
             Assert.That(foundRuben.Name, Is.EqualTo("Ruben"));
 
-            User jef = RunInsideTransaction(() => UserRepository.GetUserByName("Jef"), true);
+            User? jef = RunInsideTransaction(() => UserRepository.GetUserByName("Jef"), true);
             Assert.That(jef, Is.Null);
         }
     }

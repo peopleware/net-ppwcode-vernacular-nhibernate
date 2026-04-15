@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,31 +14,31 @@ using System;
 using NHibernate.Mapping.ByCode;
 
 using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests
 {
-    public class TestIntAuditLog : AuditLog<int>
+    public class TestIntAuditLog : AuditLog<int, DateTime>
     {
     }
 
-    public class TestLongAuditLog : AuditLog<long>
+    public class TestLongAuditLog : AuditLog<long, DateTime>
     {
     }
 
-    public class TestGuidAuditLog : AuditLog<Guid>
+    public class TestGuidAuditLog : AuditLog<Guid, DateTime>
     {
     }
 
-    public class TestIntAuditLogMapper : AuditLogMapper<TestIntAuditLog, int>
+    public class TestIntAuditLogMapper : AuditLogMapper<TestIntAuditLog, int, DateTime>
     {
     }
 
-    public class TestLongAuditLogMapper : AuditLogMapper<TestLongAuditLog, long>
+    public class TestLongAuditLogMapper : AuditLogMapper<TestLongAuditLog, long, DateTime>
     {
     }
 
-    public class TestGuidAuditLogMapper : AuditLogMapper<TestGuidAuditLog, Guid>
+    public class TestGuidAuditLogMapper : AuditLogMapper<TestGuidAuditLog, Guid, DateTime>
     {
         public TestGuidAuditLogMapper()
         {

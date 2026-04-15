@@ -9,42 +9,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
-using System.Runtime.Serialization;
-
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
-
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class CargoContainer : PersistentObject<int>
+    public class CargoContainer : PersistentObject
     {
-        [DataMember]
-        private Ship _ship;
+        private Ship? _ship;
 
-        public CargoContainer()
-        {
-        }
+        public virtual string? Code { get; set; }
+        public virtual int? Load { get; set; }
 
-        public CargoContainer(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string Code { get; set; }
-
-        [DataMember]
-        public virtual int Load { get; set; }
-
-        public virtual Ship Ship
+        public virtual Ship? Ship
         {
             get => _ship;
             set
@@ -63,16 +37,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping
                 }
             }
         }
-    }
 
-    public class CargoContainerMapper : PersistentObjectMapper<CargoContainer, int>
-    {
-        public CargoContainerMapper()
+        public class CargoContainerMapper : PersistentObjectMapper<CargoContainer>
         {
-            Property(c => c.Code);
-            Property(c => c.Load);
+            public CargoContainerMapper()
+            {
+                Property(c => c.Code);
+                Property(c => c.Load);
 
-            ManyToOne(c => c.Ship);
+                ManyToOne(c => c.Ship);
+            }
         }
     }
 }

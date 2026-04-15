@@ -9,54 +9,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Role : AuditableVersionedPersistentObject<int, int>
+    public class Role : AuditableVersionedPersistentObject
     {
-        [DataMember]
         private readonly ISet<User> _users = new HashSet<User>();
 
-        public Role(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
-
-        public Role(int id)
-            : base(id)
-        {
-        }
-
-        public Role()
-        {
-        }
-
-        [DataMember]
         [Required]
         [StringLength(200)]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         [AuditLogPropertyIgnore]
         public virtual ISet<User> Users
             => _users;
 
-        public virtual void AddUser(User user)
+        public virtual void AddUser(User? user)
         {
             if ((user != null) && Users.Add(user))
             {
@@ -64,28 +38,28 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual void RemoveUser(User user)
+        public virtual void RemoveUser(User? user)
         {
             if ((user != null) && Users.Remove(user))
             {
                 user.RemoveRole(this);
             }
         }
-    }
 
-    public class RoleMapper : AuditableVersionedPersistentObjectMapper<Role, int, int>
-    {
-        public RoleMapper()
+        public class RoleMapper : AuditableVersionedPersistentObjectMapper<Role>
         {
-            Property(r => r.Name);
-            Set(
-                r => r.Users,
-                m =>
-                {
-                    m.Cascade(Cascade.None);
-                    m.Inverse(true);
-                },
-                c => c.ManyToMany());
+            public RoleMapper()
+            {
+                Property(r => r.Name);
+                Set(
+                    r => r.Users,
+                    m =>
+                    {
+                        m.Cascade(Cascade.None);
+                        m.Inverse(true);
+                    },
+                    c => c.ManyToMany());
+            }
         }
     }
 }

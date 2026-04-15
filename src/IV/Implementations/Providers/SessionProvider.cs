@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,38 +11,29 @@
 
 using System.Data;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     /// <inheritdoc />
-    public class SessionProvider : ISessionProvider
+    public class SessionProvider(
+        ISession session,
+        ITransactionProvider transactionProvider,
+        ISafeEnvironmentProvider safeEnvironmentProvider,
+        IsolationLevel isolationLevel)
+        : ISessionProvider
     {
-        public SessionProvider(
-            [NotNull] ISession session,
-            [NotNull] ITransactionProvider transactionProvider,
-            [NotNull] ISafeEnvironmentProvider safeEnvironmentProvider,
-            IsolationLevel isolationLevel)
-        {
-            Session = session;
-            TransactionProvider = transactionProvider;
-            SafeEnvironmentProvider = safeEnvironmentProvider;
-            IsolationLevel = isolationLevel;
-        }
+        /// <inheritdoc />
+        public ISession Session { get; } = session;
 
         /// <inheritdoc />
-        public ISession Session { get; }
+        public ITransactionProvider TransactionProvider { get; } = transactionProvider;
 
         /// <inheritdoc />
-        public ITransactionProvider TransactionProvider { get; }
+        public ISafeEnvironmentProvider SafeEnvironmentProvider { get; } = safeEnvironmentProvider;
 
         /// <inheritdoc />
-        public ISafeEnvironmentProvider SafeEnvironmentProvider { get; }
-
-        /// <inheritdoc />
-        public IsolationLevel IsolationLevel { get; }
+        public IsolationLevel IsolationLevel { get; } = isolationLevel;
 
         /// <inheritdoc />
         public void Flush()

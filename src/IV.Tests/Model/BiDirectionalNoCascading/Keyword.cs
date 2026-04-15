@@ -9,48 +9,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class Keyword : PersistentObject<int>
+    public class Keyword : PersistentObject
     {
-        [DataMember]
         private readonly ISet<Book> _books = new HashSet<Book>();
-
-        public Keyword()
-        {
-        }
-
-        public Keyword(int id)
-            : base(id)
-        {
-        }
-
-        [DataMember]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         [AuditLogPropertyIgnore]
         public virtual ISet<Book> Books
             => _books;
 
-        public virtual void AddBook(Book book)
+        public virtual void AddBook(Book? book)
         {
             if ((book != null) && Books.Add(book))
             {
@@ -58,26 +34,25 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading
             }
         }
 
-        public virtual void RemoveBook(Book book)
+        public virtual void RemoveBook(Book? book)
         {
             if ((book != null) && Books.Remove(book))
             {
                 book.RemoveKeyword(this);
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class KeywordMapper : PersistentObjectMapper<Keyword, int>
-    {
-        public KeywordMapper()
+        public class KeywordMapper : PersistentObjectMapper<Keyword>
         {
-            Property(k => k.Name);
+            public KeywordMapper()
+            {
+                Property(k => k.Name);
 
-            Set(
-                k => k.Books,
-                m => m.Cascade(Cascade.None),
-                r => r.ManyToMany());
+                Set(
+                    k => k.Books,
+                    m => m.Cascade(Cascade.None),
+                    r => r.ManyToMany());
+            }
         }
     }
 }

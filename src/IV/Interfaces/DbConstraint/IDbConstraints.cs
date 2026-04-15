@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,18 +11,14 @@
 
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
 namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     public interface IDbConstraints
     {
-        [NotNull]
         ISet<DbConstraintMetadata> Constraints { get; }
 
-        [CanBeNull]
-        DbConstraintMetadata GetByConstraintName([NotNull] string constraintName);
+        DbConstraintMetadata? GetByConstraintName(string constraintName);
 
-        void Initialize([NotNull] IDictionary<string, string> properties);
+        void Initialize(IDictionary<string, string> properties);
     }
 }

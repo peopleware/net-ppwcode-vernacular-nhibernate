@@ -24,6 +24,10 @@
     <PackageReference Include="NHibernateProfiler.Appender" />
     <PackageReference Include="log4net" />
     <PackageReference Include="PPWCode.Log4Net.Adapter" />
+    <PackageReference Include="PPWCode.Util.Authorization.I" />
+    <PackageReference Include="PPWCode.Util.Time.I" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.V" />
+    <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
   </ItemGroup>
 
   <ItemGroup>

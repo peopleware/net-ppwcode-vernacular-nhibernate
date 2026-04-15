@@ -15,12 +15,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate.Cfg;
 using NHibernate.Event;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Semantics.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
@@ -28,17 +26,13 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc cref="IPreUpdateEventListener" />
     /// <inheritdoc cref="IPreInsertEventListener" />
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
     public class CivilizedEventListener
         : IRegisterEventListener,
           IPreUpdateEventListener,
           IPreInsertEventListener
     {
         /// <inheritdoc cref="IPreInsertEventListener.OnPreInsertAsync" />
-        [JetBrains.Annotations.NotNull]
-        public virtual Task<bool> OnPreInsertAsync([JetBrains.Annotations.NotNull] PreInsertEvent @event, CancellationToken cancellationToken)
+        public virtual Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -60,15 +54,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPreInsertEventListener.OnPreInsert" />
-        public virtual bool OnPreInsert([JetBrains.Annotations.NotNull] PreInsertEvent @event)
+        public virtual bool OnPreInsert(PreInsertEvent @event)
         {
             ValidateObject(@event.Entity);
             return false;
         }
 
         /// <inheritdoc cref="IPreUpdateEventListener.OnPreUpdateAsync" />
-        [JetBrains.Annotations.NotNull]
-        public virtual Task<bool> OnPreUpdateAsync([JetBrains.Annotations.NotNull] PreUpdateEvent @event, CancellationToken cancellationToken)
+        public virtual Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -90,7 +83,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPreUpdateEventListener.OnPreUpdate" />
-        public virtual bool OnPreUpdate([JetBrains.Annotations.NotNull] PreUpdateEvent @event)
+        public virtual bool OnPreUpdate(PreUpdateEvent @event)
         {
             ValidateObject(@event.Entity);
             return false;
@@ -106,7 +99,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 .ToArray();
         }
 
-        protected virtual void ValidateObject([CanBeNull] object entity)
+        protected virtual void ValidateObject(object? entity)
             => (entity as ICivilizedObject)?.ThrowIfNotCivilized();
     }
 }

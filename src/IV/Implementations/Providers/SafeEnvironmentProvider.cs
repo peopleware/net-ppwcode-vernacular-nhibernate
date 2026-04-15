@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,27 +14,19 @@ using System.Diagnostics;
 
 using Common.Logging;
 
-using JetBrains.Annotations;
-
 using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     /// <inheritdoc />
-    public class SafeEnvironmentProvider : ISafeEnvironmentProvider
+    public class SafeEnvironmentProvider(IExceptionTranslator exceptionTranslator)
+        : ISafeEnvironmentProvider
     {
-        [NotNull]
         private static readonly ILog _logger = LogManager.GetLogger<SafeEnvironmentProvider>();
 
-        public SafeEnvironmentProvider([NotNull] IExceptionTranslator exceptionTranslator)
-        {
-            ExceptionTranslator = exceptionTranslator ?? throw new ArgumentNullException(nameof(exceptionTranslator));
-        }
-
         /// <inheritdoc cref="IExceptionTranslator" />
-        [NotNull]
-        public IExceptionTranslator ExceptionTranslator { get; }
+        public IExceptionTranslator ExceptionTranslator { get; } = exceptionTranslator ?? throw new ArgumentNullException(nameof(exceptionTranslator));
 
         /// <inheritdoc />
         public void Run(string requestDescription, Action action)
@@ -48,12 +40,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
         }
 
         /// <inheritdoc />
-        public TResult Run<TResult>(string requestDescription, Func<TResult> func)
+        public TResult? Run<TResult>(string requestDescription, Func<TResult>? func)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             string StartMessage()
                 => $"Request {requestDescription} started.";
@@ -68,7 +57,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
         }
 
         /// <inheritdoc />
-        public void Run<TEntity, TId>(string requestDescription, Action action, TEntity entity)
+        public void Run<TEntity, TId>(string requestDescription, Action action, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>
         {
@@ -81,7 +70,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
         }
 
         /// <inheritdoc />
-        public TResult Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity entity)
+        public TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>
         {
@@ -108,22 +97,20 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
             return Run(StartMessage, FinishMessage, FailedMessage, func);
         }
 
-        [NotNull]
         private Func<int> ActionToDummyFunc(Action action)
             => () =>
-               {
-                   action.Invoke();
-                   return default(int);
-               };
+            {
+                action.Invoke();
+                return 0;
+            };
 
-        [CanBeNull]
-        protected virtual TResult Run<TResult>(
-            [NotNull] Func<string> startMessage,
-            [NotNull] Func<string> finishedMessage,
-            [NotNull] Func<string> failedMessage,
-            [NotNull] Func<TResult> func)
+        protected virtual TResult? Run<TResult>(
+            Func<string> startMessage,
+            Func<string> finishedMessage,
+            Func<string> failedMessage,
+            Func<TResult?> func)
         {
-            Stopwatch sw = null;
+            Stopwatch? sw = null;
             if (_logger.IsInfoEnabled)
             {
                 _logger.Info(startMessage());
@@ -131,14 +118,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
                 sw.Start();
             }
 
-            TResult result;
+            TResult? result;
             try
             {
                 result = func.Invoke();
             }
             catch (Exception e)
             {
-                throw ExceptionTranslator.Convert(failedMessage() ?? e.Message, e);
+                throw ExceptionTranslator.Convert(failedMessage(), e);
             }
             finally
             {

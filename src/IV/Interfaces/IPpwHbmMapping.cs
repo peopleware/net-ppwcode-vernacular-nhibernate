@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using JetBrains.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
@@ -30,7 +30,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <returns>
         ///     A <see cref="HbmMapping" /> instance or null.
         /// </returns>
-        [NotNull]
         HbmMapping HbmMapping { get; }
 
         /// <summary>
@@ -39,7 +38,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <returns>
         ///     A <see cref="ModelMapper" /> instance.
         /// </returns>
-        [NotNull]
         ModelMapper ModelMapper { get; }
 
         /// <summary>
@@ -48,7 +46,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <returns>
         ///     A <see cref="ICandidatePersistentMembersProvider" /> instance.
         /// </returns>
-        [NotNull]
         ICandidatePersistentMembersProvider MembersProvider { get; }
 
         /// <summary>
@@ -66,10 +63,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         IdentifierFormat IdentifierFormat { get; }
 
-        [ContractAnnotation("null => null; notnull => notnull")]
-        string GetIdentifier(string identifier);
+        [return: NotNullIfNotNull(nameof(identifier))]
+        string? GetIdentifier(string? identifier);
 
-        [ContractAnnotation("identifier:null => null; identifier:notnull => notnull")]
-        string ConditionalQuoteIdentifier(string identifier, bool? quoteIdentifier);
+        [return: NotNullIfNotNull(nameof(identifier))]
+        string? ConditionalQuoteIdentifier(string? identifier, bool? quoteIdentifier);
     }
 }

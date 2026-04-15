@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
@@ -26,7 +24,6 @@ using IsolationLevel = System.Data.IsolationLevel;
 namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers
 {
     /// <inheritdoc cref="ITransactionProviderAsync" />
-    [UsedImplicitly]
     public class TransactionProviderAsync
         : TransactionProvider,
           ITransactionProviderAsync
@@ -41,17 +38,17 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers
             async Task<int> WrapperFunc(CancellationToken can)
             {
                 await lambda(can).ConfigureAwait(false);
-                return default;
+                return 0;
             }
 
             return RunAsync(session, isolationLevel, WrapperFunc, cancellationToken);
         }
 
         /// <inheritdoc />
-        public async Task<TResult> RunAsync<TResult>(
+        public async Task<TResult?> RunAsync<TResult>(
             ISession session,
             IsolationLevel isolationLevel,
-            Func<CancellationToken, Task<TResult>> lambda,
+            Func<CancellationToken, Task<TResult?>> lambda,
             CancellationToken cancellationToken)
         {
             if (session == null)
@@ -69,7 +66,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers
                 return await lambda(cancellationToken).ConfigureAwait(false);
             }
 
-            TResult result;
+            TResult? result;
             ITransaction transaction = session.BeginTransaction(isolationLevel);
             try
             {

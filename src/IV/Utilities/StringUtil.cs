@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,16 +9,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-
-using JetBrains.Annotations;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     public static class StringUtil
     {
-        [ContractAnnotation("null => null; notnull => notnull")]
-        private static string ConvertFromPascalCaseToUnderscores(string original)
+        [return: NotNullIfNotNull(nameof(original))]
+        private static string? ConvertFromPascalCaseToUnderscores(string? original)
         {
             const string Rgx = @"([A-Z]+)([A-Z][a-z])";
             const string Rgx2 = @"([a-z\d])([A-Z])";
@@ -33,12 +32,12 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return null;
         }
 
-        [ContractAnnotation("null => null; notnull => notnull")]
-        public static string ConvertFromPascalCaseToSnakeCase(string original)
+        [return: NotNullIfNotNull(nameof(original))]
+        public static string? ConvertFromPascalCaseToSnakeCase(string? original)
             => ConvertFromPascalCaseToUnderscores(original)?.ToLowerInvariant();
 
-        [ContractAnnotation("null => null; notnull => notnull")]
-        public static string ConvertFromPascalCaseToScreamingSnakeCase(string original)
+        [return: NotNullIfNotNull(nameof(original))]
+        public static string? ConvertFromPascalCaseToScreamingSnakeCase(string? original)
             => ConvertFromPascalCaseToUnderscores(original)?.ToUpperInvariant();
     }
 }

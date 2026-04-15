@@ -9,64 +9,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-using System;
-#endif
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
-    public class User : AuditableVersionedPersistentObject<int, int>
+    public class User : AuditableVersionedPersistentObject
     {
-        [DataMember]
         private readonly ISet<Role> _roles = new HashSet<Role>();
 
-        public User(int id, int persistenceVersion)
-            : base(id, persistenceVersion)
-        {
-        }
-
-        public User(int id)
-            : base(id)
-        {
-        }
-
-        public User()
-        {
-        }
-
-        [DataMember]
         [Required]
         [StringLength(200)]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
-        [DataMember]
         [Required]
         public virtual Gender? Gender { get; set; }
 
-        [DataMember]
-        public virtual bool HasBlueEyes { get; set; }
+        public virtual bool? HasBlueEyes { get; set; }
 
         [AuditLogPropertyIgnore]
         public virtual ISet<Role> Roles
             => _roles;
 
-        public virtual void AddRole(Role role)
+        public virtual void AddRole(Role? role)
         {
             if ((role != null) && Roles.Add(role))
             {
@@ -74,31 +44,30 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             }
         }
 
-        public virtual void RemoveRole(Role role)
+        public virtual void RemoveRole(Role? role)
         {
             if ((role != null) && Roles.Remove(role))
             {
                 role.RemoveUser(this);
             }
         }
-    }
 
-    [UsedImplicitly]
-    public class UserMapper : AuditableVersionedPersistentObjectMapper<User, int, int>
-    {
-        public UserMapper()
+        public class UserMapper : AuditableVersionedPersistentObjectMapper<User>
         {
-            // User is most of the time a reserved word
-            Table("`User`");
-            Property(
-                u => u.Name,
-                m => m.Unique(true));
-            Property(u => u.Gender, m => m.Type<EnumStringType<Gender>>());
-            Property(u => u.HasBlueEyes, m => m.Type<YesNoType>());
-            Set(
-                u => u.Roles,
-                m => m.Cascade(Cascade.None),
-                c => c.ManyToMany());
+            public UserMapper()
+            {
+                // User is most of the time a reserved word
+                Table("`User`");
+                Property(
+                    u => u.Name,
+                    m => m.Unique(true));
+                Property(u => u.Gender, m => m.Type<EnumStringType<Gender>>());
+                Property(u => u.HasBlueEyes, m => m.Type<YesNoType>());
+                Set(
+                    u => u.Roles,
+                    m => m.Cascade(Cascade.None),
+                    c => c.ManyToMany());
+            }
         }
     }
 }

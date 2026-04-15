@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,8 +11,6 @@
 
 using System.Data;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Providers
@@ -20,15 +18,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
     public interface ISessionProvider
     {
         /// <inheritdoc cref="ISession" />
-        [NotNull]
         ISession Session { get; }
 
         /// <inheritdoc cref="ITransactionProvider" />
-        [NotNull]
         ITransactionProvider TransactionProvider { get; }
 
         /// <inheritdoc cref="ISafeEnvironmentProvider" />
-        [NotNull]
         ISafeEnvironmentProvider SafeEnvironmentProvider { get; }
 
         /// <inheritdoc cref="IsolationLevel" />

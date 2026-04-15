@@ -18,15 +18,14 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Type;
 
-using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Contracts.I;
+using PPWCode.Vernacular.Exceptions.V;
+using PPWCode.Vernacular.Persistence.V;
 
 using Environment = System.Environment;
 
@@ -37,44 +36,20 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc cref="IPostInsertEventListener" />
     /// <inheritdoc cref="IPostDeleteEventListener" />
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    public abstract class AuditLogEventListener<TId, TAuditEntity, TContext>
+    public abstract class AuditLogEventListener<TId, TTimestamp, TAuditEntity, TContext>
         : IRegisterEventListener,
           IPostUpdateEventListener,
           IPostInsertEventListener,
           IPostDeleteEventListener
         where TId : IEquatable<TId>
-        where TAuditEntity : AuditLog<TId>, new()
+        where TAuditEntity : AuditLog<TId, TTimestamp>, new()
         where TContext : AuditLogEventContext
+        where TTimestamp : struct, IComparable<TTimestamp>, IEquatable<TTimestamp>
     {
         private static readonly ConcurrentDictionary<Type, AuditLogItem> _domainTypes =
             new ConcurrentDictionary<Type, AuditLogItem>();
 
-        protected AuditLogEventListener(
-            [JetBrains.Annotations.NotNull] IIdentityProvider identityProvider,
-            [JetBrains.Annotations.NotNull] ITimeProvider timeProvider,
-            bool useUtc)
-        {
-            IdentityProvider = identityProvider;
-            TimeProvider = timeProvider;
-            UseUtc = useUtc;
-        }
-
-        /// <inheritdoc cref="IIdentityProvider" />
-        [JetBrains.Annotations.NotNull]
-        public IIdentityProvider IdentityProvider { get; }
-
-        /// <inheritdoc cref="ITimeProvider" />
-        [JetBrains.Annotations.NotNull]
-        public ITimeProvider TimeProvider { get; }
-
-        public bool UseUtc { get; }
-
-        /// <inheritdoc cref="IPostDeleteEventListener.OnPostDeleteAsync" />
-        [JetBrains.Annotations.NotNull]
-        public async Task OnPostDeleteAsync([JetBrains.Annotations.NotNull] PostDeleteEvent @event, CancellationToken cancellationToken)
+        public async Task OnPostDeleteAsync(PostDeleteEvent @event, CancellationToken cancellationToken)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.DELETE) == AuditLogActionEnum.DELETE)
@@ -89,7 +64,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPostDeleteEventListener.OnPostDelete" />
-        public virtual void OnPostDelete([JetBrains.Annotations.NotNull] PostDeleteEvent @event)
+        public virtual void OnPostDelete(PostDeleteEvent @event)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.DELETE) == AuditLogActionEnum.DELETE)
@@ -104,8 +79,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPostInsertEventListener.OnPostInsertAsync" />
-        [JetBrains.Annotations.NotNull]
-        public async Task OnPostInsertAsync([JetBrains.Annotations.NotNull] PostInsertEvent @event, CancellationToken cancellationToken)
+        public async Task OnPostInsertAsync(PostInsertEvent @event, CancellationToken cancellationToken)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.CREATE) == AuditLogActionEnum.CREATE)
@@ -120,7 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPostInsertEventListener.OnPostInsert" />
-        public virtual void OnPostInsert([JetBrains.Annotations.NotNull] PostInsertEvent @event)
+        public virtual void OnPostInsert(PostInsertEvent @event)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.CREATE) == AuditLogActionEnum.CREATE)
@@ -135,8 +109,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPostUpdateEventListener.OnPostUpdateAsync" />
-        [JetBrains.Annotations.NotNull]
-        public async Task OnPostUpdateAsync([JetBrains.Annotations.NotNull] PostUpdateEvent @event, CancellationToken cancellationToken)
+        public async Task OnPostUpdateAsync(PostUpdateEvent @event, CancellationToken cancellationToken)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.UPDATE) == AuditLogActionEnum.UPDATE)
@@ -151,7 +124,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc cref="IPostUpdateEventListener.OnPostUpdate" />
-        public virtual void OnPostUpdate([JetBrains.Annotations.NotNull] PostUpdateEvent @event)
+        public virtual void OnPostUpdate(PostUpdateEvent @event)
         {
             AuditLogItem auditLogItem = AuditLogItem.Find(@event.Entity.GetType());
             if ((auditLogItem.AuditLogAction & AuditLogActionEnum.UPDATE) == AuditLogActionEnum.UPDATE)
@@ -181,23 +154,34 @@ namespace PPWCode.Vernacular.NHibernate.IV
                     .ToArray();
         }
 
-        protected abstract bool CanAuditLogFor(
-            [JetBrains.Annotations.NotNull] AbstractEvent @event,
-            [JetBrains.Annotations.NotNull] AuditLogItem auditLogItem,
-            AuditLogActionEnum requestedLogAction);
+        /// <summary>
+        ///     Provides the current timestamp used for auditing purposes.
+        ///     This property is utilized to capture the precise moment an action
+        ///     is performed, enabling accurate tracking of entity modifications.
+        /// </summary>
+        protected abstract TTimestamp Now { get; }
+
+        /// <summary>
+        ///     Represents the identity name used for auditing purposes.
+        ///     This value is typically utilized to capture the user or system
+        ///     responsible for performing a specific action on an entity.
+        /// </summary>
+        protected abstract string IdentityName { get; }
+
+        /// <inheritdoc cref="IPostDeleteEventListener.OnPostDeleteAsync" />
+        protected abstract bool CanAuditLogFor(AbstractEvent @event, AuditLogItem auditLogItem, AuditLogActionEnum requestedLogAction);
 
         protected abstract TContext CreateContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs);
 
-        protected abstract void OnAddAuditEntities([JetBrains.Annotations.NotNull] TContext context);
+        protected abstract void OnAddAuditEntities(TContext context);
 
-        [JetBrains.Annotations.NotNull]
         protected virtual TAuditEntity CreateAuditEntity(
-            [JetBrains.Annotations.NotNull] string entryType,
-            [JetBrains.Annotations.NotNull] string entityName,
-            [JetBrains.Annotations.NotNull] string entityId,
-            [JetBrains.Annotations.NotNull] TContext context,
-            [CanBeNull] PpwAuditLog old,
-            [CanBeNull] PpwAuditLog @new)
+            string entryType,
+            string entityName,
+            string entityId,
+            TContext context,
+            PpwAuditLog? old,
+            PpwAuditLog? @new)
             => new TAuditEntity
                {
                    EntryType = entryType,
@@ -206,19 +190,18 @@ namespace PPWCode.Vernacular.NHibernate.IV
                    PropertyName = @new?.PropertyName ?? old?.PropertyName,
                    OldValue = old?.Value,
                    NewValue = @new?.Value,
-                   CreatedBy = IdentityProvider.IdentityName,
-                   CreatedAt = UseUtc ? TimeProvider.UtcNow : TimeProvider.Now
+                   CreatedBy = IdentityName,
+                   CreatedAt = Now
                };
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
         protected virtual ICollection<TAuditEntity> GetAuditLogsFor(
-            [JetBrains.Annotations.NotNull] PostInsertEvent @event,
-            [JetBrains.Annotations.NotNull] AuditLogItem auditLogItem,
-            [JetBrains.Annotations.NotNull] TContext context)
+            PostInsertEvent @event,
+            AuditLogItem auditLogItem,
+            TContext context)
         {
             string entityName = @event.Entity.GetType().Name;
-            string entityId = @event.Id.ToString();
+            string? entityId = @event.Id.ToString();
+            Contract.Assert(entityId != null);
 
             List<PpwAuditLog> auditLogs = new List<PpwAuditLog>();
             int length = @event.State.Length;
@@ -253,15 +236,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return auditEntities;
         }
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
         protected virtual ICollection<TAuditEntity> GetAuditLogsFor(
-            [JetBrains.Annotations.NotNull] PostUpdateEvent @event,
-            [JetBrains.Annotations.NotNull] AuditLogItem auditLogItem,
-            [JetBrains.Annotations.NotNull] TContext context)
+            PostUpdateEvent @event,
+            AuditLogItem auditLogItem,
+            TContext context)
         {
             string entityName = @event.Entity.GetType().Name;
-            string entityId = @event.Id.ToString();
+            string? entityId = @event.Id.ToString();
+            Contract.Assert(entityId != null);
 
             if (@event.OldState == null)
             {
@@ -302,8 +284,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
                             foreach (string propertyName in propertyNames)
                             {
-                                oldAuditLogs.TryGetValue(propertyName, out PpwAuditLog oldAuditLog);
-                                newAuditLogs.TryGetValue(propertyName, out PpwAuditLog newAuditLog);
+                                oldAuditLogs.TryGetValue(propertyName, out PpwAuditLog? oldAuditLog);
+                                newAuditLogs.TryGetValue(propertyName, out PpwAuditLog? newAuditLog);
                                 if (oldAuditLog?.Value != newAuditLog?.Value)
                                 {
                                     auditLogPairs.Add(new PpwAuditLogPair(oldAuditLog, newAuditLog));
@@ -324,79 +306,59 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return auditLogs;
         }
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
-        protected virtual ICollection<TAuditEntity> GetAuditLogsFor(
-            [JetBrains.Annotations.NotNull] PostDeleteEvent @event,
-            [JetBrains.Annotations.NotNull] TContext context)
+        protected virtual ICollection<TAuditEntity> GetAuditLogsFor(PostDeleteEvent @event, TContext context)
         {
             string entityName = @event.Entity.GetType().Name;
-            string entityId = @event.Id.ToString();
+            string? entityId = @event.Id.ToString();
+            Contract.Assert(entityId != null);
 
             OnAddAuditEntities(context);
-            List<TAuditEntity> auditLogs =
-                new List<TAuditEntity>
-                {
-                    CreateAuditEntity("D", entityName, entityId, context, null, null)
-                };
-
-            return auditLogs;
+            return [CreateAuditEntity("D", entityName, entityId, context, null, null)];
         }
 
-        protected virtual void SaveAuditLogs(
-            [JetBrains.Annotations.NotNull] AbstractEvent @event,
-            [JetBrains.Annotations.NotNull] [ItemNotNull]
-            ICollection<TAuditEntity> auditLogs)
+        protected virtual void SaveAuditLogs(AbstractEvent @event, ICollection<TAuditEntity> auditLogs)
         {
             if (auditLogs.Count > 0)
             {
-                using (ISession session = @event.Session.SessionWithOptions().Connection().OpenSession())
+                using ISession session = @event.Session.SessionWithOptions().Connection().OpenSession();
+                foreach (TAuditEntity auditLog in auditLogs)
                 {
-                    foreach (TAuditEntity auditLog in auditLogs)
-                    {
-                        session.Save(auditLog);
-                    }
-
-                    session.Flush();
+                    session.Save(auditLog);
                 }
+
+                session.Flush();
             }
         }
 
-        [JetBrains.Annotations.NotNull]
         protected virtual async Task SaveAuditLogsAsync(
-            [JetBrains.Annotations.NotNull] AbstractEvent @event,
-            [JetBrains.Annotations.NotNull] [ItemNotNull]
+            AbstractEvent @event,
             ICollection<TAuditEntity> auditLogs,
             CancellationToken cancellationToken)
         {
             if (auditLogs.Count > 0)
             {
-                using (ISession session = @event.Session.SessionWithOptions().Connection().OpenSession())
+                using ISession session = @event.Session.SessionWithOptions().Connection().OpenSession();
+                foreach (TAuditEntity auditLog in auditLogs)
                 {
-                    foreach (TAuditEntity auditLog in auditLogs)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        await session.SaveAsync(auditLog, cancellationToken).ConfigureAwait(false);
-                    }
-
-                    await session.FlushAsync(cancellationToken).ConfigureAwait(false);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await session.SaveAsync(auditLog, cancellationToken).ConfigureAwait(false);
                 }
+
+                await session.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
-        [JetBrains.Annotations.NotNull]
-        [ItemNotNull]
         protected virtual IEnumerable<PpwAuditLog> CreatePpwAuditLogs(
-            [JetBrains.Annotations.NotNull] string propertyName,
-            [CanBeNull] object value,
-            [JetBrains.Annotations.NotNull] IType valueNHibernateType,
-            [JetBrains.Annotations.NotNull] TContext context)
+            string propertyName,
+            object? value,
+            IType valueNHibernateType,
+            TContext context)
         {
             if (value != null)
             {
                 if (value is IPersistentObject<TId> persistentObject)
                 {
-                    yield return new PpwAuditLog(propertyName, persistentObject.Id.ToString());
+                    yield return new PpwAuditLog(propertyName, persistentObject.Id?.ToString());
                 }
                 else
                 {
@@ -426,12 +388,11 @@ namespace PPWCode.Vernacular.NHibernate.IV
             }
         }
 
-        [JetBrains.Annotations.NotNull]
         protected virtual PpwAuditLog CreatePpwAuditLog(
-            [JetBrains.Annotations.NotNull] string propertyName,
-            [JetBrains.Annotations.NotNull] object value,
-            [JetBrains.Annotations.NotNull] IType valueNhibernateType,
-            [JetBrains.Annotations.NotNull] TContext context)
+            string propertyName,
+            object value,
+            IType valueNhibernateType,
+            TContext context)
             => value is DateTime dateTime
                    ? valueNhibernateType is DateType
                          ? new PpwAuditLog(propertyName, dateTime.ToString("yyyy-MM-dd"))
@@ -448,11 +409,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
             public AuditLogActionEnum AuditLogAction { get; private set; }
 
-            [CanBeNull]
-            public IDictionary<string, AuditLogActionEnum> Properties { get; private set; }
+            public IDictionary<string, AuditLogActionEnum>? Properties { get; private set; }
 
-            [JetBrains.Annotations.NotNull]
-            public static AuditLogItem Find([JetBrains.Annotations.NotNull] Type t)
+            public static AuditLogItem Find(Type t)
             {
                 AuditLogItem result =
                     _domainTypes
@@ -463,7 +422,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                                 result = new AuditLogItem();
                                 if (type != typeof(TAuditEntity))
                                 {
-                                    AuditLogAttribute auditLogAttribute =
+                                    AuditLogAttribute? auditLogAttribute =
                                         type
                                             .GetCustomAttributes(true)
                                             .OfType<AuditLogAttribute>()
@@ -474,7 +433,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                                         result.Properties = new Dictionary<string, AuditLogActionEnum>();
                                         foreach (PropertyInfo propertyInfo in t.GetProperties().Where(o => o.CanWrite))
                                         {
-                                            AuditLogPropertyIgnoreAttribute auditLogPropertyIgnore =
+                                            AuditLogPropertyIgnoreAttribute? auditLogPropertyIgnore =
                                                 propertyInfo
                                                     .GetCustomAttributes(true)
                                                     .OfType<AuditLogPropertyIgnoreAttribute>()
@@ -493,21 +452,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
             }
         }
 
-        private class PpwAuditLogPair
+        private class PpwAuditLogPair(PpwAuditLog? old, PpwAuditLog? @new)
         {
-            public PpwAuditLogPair(
-                [CanBeNull] PpwAuditLog old,
-                [CanBeNull] PpwAuditLog @new)
-            {
-                Old = old;
-                New = @new;
-            }
-
-            [CanBeNull]
-            public PpwAuditLog Old { get; }
-
-            [CanBeNull]
-            public PpwAuditLog New { get; }
+            public PpwAuditLog? Old { get; } = old;
+            public PpwAuditLog? New { get; } = @new;
         }
     }
 }

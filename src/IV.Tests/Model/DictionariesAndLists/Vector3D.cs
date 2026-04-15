@@ -12,20 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode.Conformist;
 
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Semantics.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     public class Vector3D
         : CivilizedObject,
           IPpwAuditLog,
@@ -42,17 +35,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
             Z = z;
         }
 
-        [DataMember]
         public virtual double X { get; }
-
-        [DataMember]
         public virtual double Y { get; }
-
-        [DataMember]
         public virtual double Z { get; }
 
         /// <inheritdoc />
-        public bool Equals(Vector3D other)
+        public bool Equals(Vector3D? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -68,7 +56,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
         }
 
         /// <inheritdoc />
-        [DataMember]
         public bool IsMultiLog
             => true;
 
@@ -85,7 +72,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
             => throw new NotImplementedException();
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -120,31 +107,31 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
         public static bool operator ==(Vector3D left, Vector3D right)
             => Equals(left, right);
 
-        public static bool operator !=(Vector3D left, Vector3D right)
+        public static bool operator !=(Vector3D? left, Vector3D? right)
             => !Equals(left, right);
-    }
 
-    public class Vector3DMapper : ComponentMapping<Vector3D>
-    {
-        public Vector3DMapper()
+        public class Vector3DMapper : ComponentMapping<Vector3D>
         {
-            Property(v => v.X);
-            Property(v => v.Y);
-            Property(v => v.Z);
+            public Vector3DMapper()
+            {
+                Property(v => v.X);
+                Property(v => v.Y);
+                Property(v => v.Z);
+            }
         }
     }
 
     public class Vector3DBuilder
     {
-        private double _x;
-        private double _y;
-        private double _z;
+        private double? _x;
+        private double? _y;
+        private double? _z;
 
         public Vector3DBuilder()
         {
         }
 
-        public Vector3DBuilder([CanBeNull] Vector3D vector3D)
+        public Vector3DBuilder(Vector3D? vector3D)
         {
             if (vector3D != null)
             {
@@ -155,7 +142,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
         }
 
         [DebuggerStepThrough]
-        [NotNull]
         public Vector3DBuilder X(double x)
         {
             _x = x;
@@ -163,7 +149,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
         }
 
         [DebuggerStepThrough]
-        [NotNull]
         public Vector3DBuilder Y(double y)
         {
             _y = y;
@@ -171,19 +156,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
         }
 
         [DebuggerStepThrough]
-        [NotNull]
         public Vector3DBuilder Z(double z)
         {
             _z = z;
             return this;
         }
 
-        [NotNull]
         public Vector3D Build()
             => this;
 
-        [NotNull]
         public static implicit operator Vector3D(Vector3DBuilder builder)
-            => new Vector3D(builder._x, builder._y, builder._z);
+            => new Vector3D(
+                builder._x ?? throw new InvalidOperationException(),
+                builder._y ?? throw new InvalidOperationException(),
+                builder._z ?? throw new InvalidOperationException());
     }
 }

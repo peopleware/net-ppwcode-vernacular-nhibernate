@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories
 {
@@ -37,11 +37,11 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
 
         protected virtual Func<IQueryable<Ship>, IQueryable<ContainerDto>> FindContainersQuery(string code)
             => qry =>
-                   qry
-                       .SelectMany(ship => ship.CargoContainers, (ship, container) => new { ship, container })
-                       .Where(x => x.ship.Code.StartsWith(code))
-                       .GroupBy(x => new { shipCode = x.ship.Code, containerCode = x.container.Code, containerLoad = x.container.Load })
-                       .OrderBy(g => g.Key.shipCode)
-                       .Select(g => new ContainerDto(g.Key.shipCode, g.Key.containerCode, g.Key.containerLoad));
+                qry
+                    .SelectMany(ship => ship.CargoContainers, (ship, container) => new { ship, container })
+                    .Where(x => x.ship.Code!.StartsWith(code))
+                    .GroupBy(x => new { shipCode = x.ship.Code, containerCode = x.container.Code, containerLoad = x.container.Load })
+                    .OrderBy(g => g.Key.shipCode)
+                    .Select(g => new ContainerDto(g.Key.shipCode, g.Key.containerCode, g.Key.containerLoad));
     }
 }

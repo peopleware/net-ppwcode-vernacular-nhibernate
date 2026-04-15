@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,8 +9,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using JetBrains.Annotations;
-
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
@@ -18,11 +16,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
 {
     public abstract class BaseUserTests : BaseRepositoryTests<User>
     {
-        [CanBeNull]
-        private IUserRepository _repository;
+        private IUserRepository? _repository;
+        private IRoleRepository? _roleRepository;
 
-        [CanBeNull]
-        private IRoleRepository _roleRepository;
+        protected IUserRepository Repository
+            => _repository ??= new UserRepository(SessionProviderAsync);
+
+        protected IRoleRepository RoleRepository
+            => _roleRepository ??= new RoleRepository(SessionProviderAsync);
 
         protected override void OnTeardown()
         {
@@ -31,13 +32,5 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
 
             base.OnTeardown();
         }
-
-        [NotNull]
-        protected IUserRepository Repository
-            => _repository ?? (_repository = new UserRepository(SessionProviderAsync));
-
-        [NotNull]
-        protected IRoleRepository RoleRepository
-            => _roleRepository ?? (_roleRepository = new RoleRepository(SessionProviderAsync));
     }
 }

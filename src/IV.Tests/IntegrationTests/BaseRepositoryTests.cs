@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,9 +12,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
 {
@@ -22,8 +20,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
     public abstract class BaseRepositoryTests<T> : BaseQueryTests
         where T : class, IIdentity<int>
     {
-        [CanBeNull]
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        protected CancellationTokenSource CancellationTokenSource
+            => _cancellationTokenSource ??= new CancellationTokenSource();
+
+        protected CancellationToken CancellationToken
+            => CancellationTokenSource.Token;
 
         protected override void OnSetup()
         {
@@ -40,12 +43,5 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
 
             base.OnTeardown();
         }
-
-        [JetBrains.Annotations.NotNull]
-        protected CancellationTokenSource CancellationTokenSource
-            => _cancellationTokenSource ??= new CancellationTokenSource();
-
-        protected CancellationToken CancellationToken
-            => CancellationTokenSource.Token;
     }
 }

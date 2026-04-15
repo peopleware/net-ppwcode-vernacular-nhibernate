@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,25 +11,21 @@
 
 using System;
 
-using JetBrains.Annotations;
-
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     public interface ISafeEnvironmentProvider
     {
-        void Run([NotNull] string requestDescription, [NotNull] Action action);
+        void Run(string requestDescription, Action action);
 
-        [CanBeNull]
-        TResult Run<TResult>([NotNull] string requestDescription, [NotNull] Func<TResult> func);
+        TResult? Run<TResult>(string requestDescription, Func<TResult> func);
 
-        void Run<TEntity, TId>([NotNull] string requestDescription, [NotNull] Action action, [CanBeNull] TEntity entity)
+        void Run<TEntity, TId>(string requestDescription, Action action, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;
 
-        [CanBeNull]
-        TResult Run<TEntity, TId, TResult>([NotNull] string requestDescription, [NotNull] Func<TResult> func, [CanBeNull] TEntity entity)
+        TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;
     }

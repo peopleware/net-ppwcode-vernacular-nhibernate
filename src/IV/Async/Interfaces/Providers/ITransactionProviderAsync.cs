@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,6 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 using PPWCode.Vernacular.NHibernate.IV.Providers;
@@ -25,19 +23,16 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers
     /// <inheritdoc />
     public interface ITransactionProviderAsync : ITransactionProvider
     {
-        [NotNull]
         Task RunAsync(
-            [NotNull] ISession session,
+            ISession session,
             IsolationLevel isolationLevel,
             Func<CancellationToken, Task> lambda,
             CancellationToken cancellationToken);
 
-        [NotNull]
-        [ItemCanBeNull]
-        Task<TResult> RunAsync<TResult>(
-            [NotNull] ISession session,
+        Task<TResult?> RunAsync<TResult>(
+            ISession session,
             IsolationLevel isolationLevel,
-            [NotNull] Func<CancellationToken, Task<TResult>> lambda,
+            Func<CancellationToken, Task<TResult?>> lambda,
             CancellationToken cancellationToken);
     }
 }

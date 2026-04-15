@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 using PPWCode.Vernacular.NHibernate.IV.Providers;
@@ -24,15 +22,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers
     public interface ISessionProviderAsync : ISessionProvider
     {
         /// <inheritdoc cref="ITransactionProviderAsync" />
-        [NotNull]
         ITransactionProviderAsync TransactionProviderAsync { get; }
 
         /// <inheritdoc cref="ISafeEnvironmentProviderAsync" />
-        [NotNull]
         ISafeEnvironmentProviderAsync SafeEnvironmentProviderAsync { get; }
 
         /// <inheritdoc cref="ISession.FlushAsync" />
-        [NotNull]
         Task FlushAsync(CancellationToken cancellationToken);
     }
 }

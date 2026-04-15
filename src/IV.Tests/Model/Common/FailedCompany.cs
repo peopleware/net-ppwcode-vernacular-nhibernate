@@ -10,32 +10,22 @@
 // limitations under the License.
 
 using System;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
-using PPWCode.Vernacular.Persistence.IV;
+using PPWCode.Vernacular.Exceptions.V;
+using PPWCode.Vernacular.Persistence.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract(IsReference = true)]
     [AuditLog(AuditLogAction = AuditLogActionEnum.ALL)]
-    public class FailedCompany : InsertAuditablePersistentObject<int>
+    public class FailedCompany : InsertAuditablePersistentObject
     {
-        [DataMember]
-        private Company _company;
+        private Company? _company;
 
-        [DataMember]
-        public virtual DateTime FailingDate { get; set; }
+        public virtual DateTime? FailingDate { get; set; }
 
-        public virtual Company Company
+        public virtual Company? Company
         {
             get => _company;
             set
@@ -64,21 +54,20 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 
             if (Company == null)
             {
-                sce.AddElement(new PropertyException(this, nameof(Company), PropertyException.MandatoryMessage, null));
+                sce.AddElement(new PropertyException(this, nameof(Company), PropertyException.MandatoryMessage));
             }
 
             return sce;
         }
-    }
 
-    [UsedImplicitly]
-    public class FailedCompanyMapper : InsertAuditablePersistentObjectMapper<FailedCompany, int>
-    {
-        public FailedCompanyMapper()
+        public class FailedCompanyMapper : InsertAuditablePersistentObjectMapper<FailedCompany>
         {
-            Id(fc => fc.Id, m => m.Generator(Generators.Foreign<FailedCompany>(fc => fc.Company)));
-            Property(fc => fc.FailingDate);
-            OneToOne(fc => fc.Company, m => m.Constrained(true));
+            public FailedCompanyMapper()
+            {
+                Id(fc => fc.Id, m => m.Generator(Generators.Foreign<FailedCompany>(fc => fc.Company)));
+                Property(fc => fc.FailingDate);
+                OneToOne(fc => fc.Company, m => m.Constrained(true));
+            }
         }
     }
 }

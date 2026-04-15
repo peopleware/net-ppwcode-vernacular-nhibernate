@@ -1,4 +1,4 @@
-// Copyright 2024 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,8 +13,6 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
@@ -23,27 +21,19 @@ using PPWCode.Vernacular.NHibernate.IV.Providers;
 namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers
 {
     /// <inheritdoc cref="ISessionProviderAsync" />
-    [UsedImplicitly]
-    public class SessionProviderAsync
-        : SessionProvider,
+    public class SessionProviderAsync(
+        ISession session,
+        ITransactionProviderAsync transactionProviderAsync,
+        ISafeEnvironmentProviderAsync safeEnvironmentProviderAsync,
+        IsolationLevel isolationLevel)
+        : SessionProvider(session, transactionProviderAsync, safeEnvironmentProviderAsync, isolationLevel),
           ISessionProviderAsync
     {
-        public SessionProviderAsync(
-            [NotNull] ISession session,
-            [NotNull] ITransactionProviderAsync transactionProviderAsync,
-            [NotNull] ISafeEnvironmentProviderAsync safeEnvironmentProviderAsync,
-            IsolationLevel isolationLevel)
-            : base(session, transactionProviderAsync, safeEnvironmentProviderAsync, isolationLevel)
-        {
-            TransactionProviderAsync = transactionProviderAsync;
-            SafeEnvironmentProviderAsync = safeEnvironmentProviderAsync;
-        }
+        /// <inheritdoc />
+        public ITransactionProviderAsync TransactionProviderAsync { get; } = transactionProviderAsync;
 
         /// <inheritdoc />
-        public ITransactionProviderAsync TransactionProviderAsync { get; }
-
-        /// <inheritdoc />
-        public ISafeEnvironmentProviderAsync SafeEnvironmentProviderAsync { get; }
+        public ISafeEnvironmentProviderAsync SafeEnvironmentProviderAsync { get; } = safeEnvironmentProviderAsync;
 
         /// <inheritdoc />
         public Task FlushAsync(CancellationToken cancellationToken)

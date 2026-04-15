@@ -53,7 +53,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 },
                 true);
 
-            string translation = null;
+            string? translation = null;
             RunInsideTransaction(
                 () => { translation = GenderEnumTranslationRepository.Translate(GenderEnum.MALE, "nl"); }, true);
 
@@ -116,7 +116,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 },
                 true);
 
-            string translation = null;
+            string? translation = null;
 
             RunInsideTransaction(() => translation = GenderEnumTranslationRepository.Translate(GenderEnum.FEMALE, "fr"), true);
             Assert.That(translation, Is.EqualTo("Femme"));

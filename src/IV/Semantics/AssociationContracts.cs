@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,49 +13,46 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using NHibernate;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
     public static class AssociationContracts
     {
-        public static bool BiDirOneToMany<TOne, TMany>([CanBeNull] TOne one, [CanBeNull] ISet<TMany> many, [NotNull] Func<TMany, TOne> toOne)
+        public static bool BiDirOneToMany<TOne, TMany>(TOne? one, ISet<TMany?>? many, Func<TMany, TOne> toOne)
             where TMany : class
             where TOne : class
             => (many != null) && (!NHibernateUtil.IsInitialized(many) || many.All(x => (x != null) && (toOne(x) == one)));
 
-        public static bool BiDirParentToChild<TOne, TMany>([CanBeNull] TOne one, [CanBeNull] ISet<TMany> many, [NotNull] Func<TMany, TOne> toOne)
+        public static bool BiDirParentToChild<TOne, TMany>(TOne? one, ISet<TMany?>? many, Func<TMany, TOne> toOne)
             where TMany : class
             where TOne : class
             => BiDirOneToMany(one, many, toOne);
 
-        public static bool BiDirManyToOne<TOne, TMany>([CanBeNull] TMany many, [CanBeNull] TOne one, [NotNull] Func<TOne, ISet<TMany>> toMany)
+        public static bool BiDirManyToOne<TOne, TMany>(TMany? many, TOne? one, Func<TOne, ISet<TMany>> toMany)
             where TMany : class
             where TOne : class
             => (one == null) || !NHibernateUtil.IsInitialized(one) || toMany(one).Any(x => x == many);
 
-        public static bool BiDirChildToParent<TOne, TMany>([CanBeNull] TMany many, [CanBeNull] TOne one, [NotNull] Func<TOne, ISet<TMany>> toMany)
+        public static bool BiDirChildToParent<TOne, TMany>(TMany? many, TOne? one, Func<TOne, ISet<TMany>> toMany)
             where TMany : class
             where TOne : class
             => BiDirManyToOne(many, one, toMany);
 
-        public static bool BiDirManyToMany<TMany, TOtherMany>([CanBeNull] TMany origin, [CanBeNull] ISet<TOtherMany> destinations, [NotNull] Func<TOtherMany, ISet<TMany>> toOrigin)
+        public static bool BiDirManyToMany<TMany, TOtherMany>(TMany origin, ISet<TOtherMany?>? destinations, Func<TOtherMany, ISet<TMany>?> toOrigin)
             where TMany : class
             where TOtherMany : class
             => (destinations != null)
                && (!NHibernateUtil.IsInitialized(destinations)
-                   || destinations.All(
-                       x =>
+                   || destinations.All(x =>
+                   {
+                       if (x != null)
                        {
-                           if (x != null)
-                           {
-                               ISet<TMany> origins = toOrigin(x);
-                               return (origins == null) || !NHibernateUtil.IsInitialized(origins) || origins.Contains(origin);
-                           }
+                           ISet<TMany>? origins = toOrigin(x);
+                           return (origins == null) || !NHibernateUtil.IsInitialized(origins) || origins.Contains(origin);
+                       }
 
-                           return true;
-                       }));
+                       return true;
+                   }));
     }
 }

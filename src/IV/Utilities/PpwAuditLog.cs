@@ -10,30 +10,13 @@
 // limitations under the License.
 
 using System;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 namespace PPWCode.Vernacular.NHibernate.IV
 {
-#if NETSTANDARD2_0 || NET462_OR_GREATER
-    [Serializable]
-#endif
-    [DataContract]
-    public class PpwAuditLog
+    public class PpwAuditLog(string propertyName, string? value)
     {
-        public PpwAuditLog(
-            [NotNull] string propertyName,
-            [CanBeNull] string value)
-        {
-            PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
-            Value = value;
-        }
+        public string PropertyName { get; } = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
 
-        [DataMember]
-        public string PropertyName { get; }
-
-        [DataMember]
-        public string Value { get; }
+        public string? Value { get; } = value;
     }
 }

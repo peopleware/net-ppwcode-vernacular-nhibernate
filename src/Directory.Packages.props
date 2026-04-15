@@ -17,11 +17,13 @@
   
   <!-- package versions -->
   <ItemGroup>
-    <!-- jetbrains -->
-    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
-
     <!-- ppwcode -->
-    <PackageVersion Include="PPWCode.Vernacular.Persistence.IV" Version="2.*" />
+    <PackageVersion Include="PPWCode.Vernacular.Persistence.V" Version="1.*-*" />
+    <PackageVersion Include="PPWCode.Vernacular.Exceptions.V" Version="1.*-*" />
+    <PackageVersion Include="PPWCode.Vernacular.Contracts.I" Version="1.*-*" />
+    <PackageVersion Include="PPWCode.Vernacular.Semantics.V" Version="1.*-*" />
+    <PackageVersion Include="PPWCode.Util.Authorization.I" Version="1.*-*" />
+    <PackageVersion Include="PPWCode.Util.Time.I" Version="2.*-*" />
 
     <!-- system -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
