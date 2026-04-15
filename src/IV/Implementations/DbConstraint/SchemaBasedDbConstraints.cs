@@ -17,7 +17,7 @@ using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Exceptions.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
+namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     /// <inheritdoc cref="DbConstraints" />
     public abstract class SchemaBasedDbConstraints : DbConstraints

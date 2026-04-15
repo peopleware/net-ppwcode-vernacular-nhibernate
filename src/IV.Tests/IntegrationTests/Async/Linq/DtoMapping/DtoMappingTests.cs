@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.RepositoryWithDtoMapping;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.DtoMapping
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping
 {
     public class DtoMappingTests : BaseRepositoryTests<Ship>
     {

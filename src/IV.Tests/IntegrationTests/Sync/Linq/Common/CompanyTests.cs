@@ -17,10 +17,10 @@ using NHibernate.Linq;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Common
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common
 {
     // ReSharper disable InconsistentNaming
     public class CompanyTests : BaseCompanyTests

@@ -15,7 +15,7 @@ using HibernatingRhinos.Profiler.Appender.NHibernate;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public abstract class NHibernateSqlServerSetUpFixture<TId, TAuditEntity>
         : NHibernateSqlServerFixture<TId, TAuditEntity>

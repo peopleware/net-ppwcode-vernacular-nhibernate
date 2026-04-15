@@ -20,7 +20,7 @@ using NHibernate.Cfg;
 
 using Environment = System.Environment;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public class DirtyChecking
     {

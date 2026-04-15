@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     internal class Grouping<TKey, TElement>
         : IGrouping<TKey, TElement>,

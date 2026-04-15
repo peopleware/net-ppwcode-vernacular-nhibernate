@@ -9,10 +9,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.RepositoryWithDtoMapping;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories
 {
     public class CargoContainerRepository : TestRepository<CargoContainer>
     {

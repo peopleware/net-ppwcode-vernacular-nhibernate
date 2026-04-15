@@ -17,7 +17,7 @@ using NHibernate.Exceptions;
 using PPWCode.Vernacular.Exceptions.IV;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
+namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     /// <inheritdoc cref="IExceptionTranslator" />
     public class ExceptionTranslator : IExceptionTranslator

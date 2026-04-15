@@ -12,7 +12,7 @@
 using NHibernate.Dialect;
 using NHibernate.Exceptions;
 
-namespace PPWCode.Vernacular.NHibernate.III.PostgreSQL
+namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
 {
     public class PostgreDialect : PostgreSQL83Dialect
     {

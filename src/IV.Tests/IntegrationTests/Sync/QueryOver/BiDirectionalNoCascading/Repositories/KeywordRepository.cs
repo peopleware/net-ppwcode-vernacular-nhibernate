@@ -11,11 +11,11 @@
 
 using JetBrains.Annotations;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.BiDirectionalNoCascading;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading.Repositories
 {
     public class KeywordRepository : TestRepository<Keyword>
     {

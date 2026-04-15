@@ -11,9 +11,9 @@
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.DictionariesAndLists
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DictionariesAndLists
 {
     public class DictionariesAndListsTest : BaseRepositoryTests<Tower>
     {

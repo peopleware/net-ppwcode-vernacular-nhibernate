@@ -18,13 +18,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 using NHibernate;
 
-using PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DI;
+namespace PPWCode.Vernacular.NHibernate.IV.DI;
 
 /// <summary>
 ///     Configuration options used to register NHibernate services with the Microsoft

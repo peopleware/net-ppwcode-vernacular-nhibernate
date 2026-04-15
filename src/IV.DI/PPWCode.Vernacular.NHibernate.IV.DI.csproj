@@ -4,12 +4,12 @@
 
     <!-- nuget package -->
     <PropertyGroup>
-        <Description>The PPWCode Vernacular NHibernate DI library version III.</Description>
+        <Description>The PPWCode Vernacular NHibernate DI library version IV.</Description>
         <PackageTags>ppwcode vernacular nhibernate orm</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj"/>
+        <ProjectReference Include="..\IV\PPWCode.Vernacular.NHibernate.IV.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

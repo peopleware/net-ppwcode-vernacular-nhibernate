@@ -14,12 +14,12 @@ using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Transform;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.RepositoryWithDtoMapping;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.DtoMapping.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DtoMapping.Repositories
 {
     public class ShipRepository : TestRepository<Ship>
     {

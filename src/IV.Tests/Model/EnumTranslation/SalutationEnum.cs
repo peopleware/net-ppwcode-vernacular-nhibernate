@@ -11,7 +11,7 @@
 
 using JetBrains.Annotations;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.EnumTranslation
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
 {
     public enum SalutationEnum
     {

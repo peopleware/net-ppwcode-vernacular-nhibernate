@@ -20,12 +20,12 @@ using NHibernate;
 using NHibernate.Mapping;
 
 using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DI
+namespace PPWCode.Vernacular.NHibernate.IV.DI
 {
     /// <summary>
     ///     Extension methods for <see cref="IServiceCollection" /> that register NHibernate

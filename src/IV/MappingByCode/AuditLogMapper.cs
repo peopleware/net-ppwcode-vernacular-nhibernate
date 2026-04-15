@@ -15,7 +15,7 @@ using NHibernate;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     public abstract class AuditLogMapper<T, TId> : PersistentObjectMapper<T, TId>
         where T : AuditLog<TId>

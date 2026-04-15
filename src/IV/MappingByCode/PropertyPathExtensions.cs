@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     /// <summary>
     ///     Code found on https://gist.github.com/NOtherDev/1569982.

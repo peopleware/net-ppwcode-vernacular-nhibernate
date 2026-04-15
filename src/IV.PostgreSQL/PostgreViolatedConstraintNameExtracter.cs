@@ -18,9 +18,9 @@ using NHibernate.Exceptions;
 
 using Npgsql;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
-namespace PPWCode.Vernacular.NHibernate.III.PostgreSQL
+namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
 {
     public class PostgreViolatedConstraintNameExtracter
         : IViolatedConstraintNameExtracter,

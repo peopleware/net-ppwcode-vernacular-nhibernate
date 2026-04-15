@@ -22,7 +22,7 @@ using PPWCode.Vernacular.Exceptions.IV;
 
 using Environment = NHibernate.Cfg.Environment;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
+namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     public abstract class DbConstraints : IDbConstraints
     {

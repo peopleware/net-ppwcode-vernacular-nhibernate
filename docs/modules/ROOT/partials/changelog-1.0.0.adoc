@@ -9,5 +9,5 @@ This file is translated into markdown and used for the release notes in the GitH
 
 === Changes
 
-* Initial release of mark III
+* Initial release of mark IV
 * Supported target: `.NET Core 3.1`

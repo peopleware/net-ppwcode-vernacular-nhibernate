@@ -15,7 +15,7 @@ using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     public interface ISafeEnvironmentProvider
     {

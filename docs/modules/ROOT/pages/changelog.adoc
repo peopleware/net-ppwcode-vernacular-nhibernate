@@ -8,22 +8,22 @@ the link to the GitHub tag is only added once we are ready to release.
 ////
 
 // some helper attributes
-:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/releases/tag/III%2F
-:nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III/
-:nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.CastleWindsor/
-:nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.DI/
-:nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.SqlServer/
-:nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.PostgreSQL/
-:nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Firebird/
-:nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.Test/
-:main: PPWCode.Vernacular.NHibernate.III
-:castle: PPWCode.Vernacular.NHibernate.III.CastleWindsor
-:ms-di: PPWCode.Vernacular.NHibernate.III.DI
-:sql: PPWCode.Vernacular.NHibernate.III.SqlServer
-:pgsql: PPWCode.Vernacular.NHibernate.III.PostgreSQL
-:firebird: PPWCode.Vernacular.NHibernate.III.Firebird
-:test: PPWCode.Vernacular.NHibernate.III.Test
-:ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
+:github: https://github.com/peopleware/net-ppwcode-vernacular-nhibernate/releases/tag/IV%2F
+:nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV/
+:nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.CastleWindsor/
+:nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.DI/
+:nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.SqlServer/
+:nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.PostgreSQL/
+:nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.Firebird/
+:nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.Test/
+:main: PPWCode.Vernacular.NHibernate.IV
+:castle: PPWCode.Vernacular.NHibernate.IV.CastleWindsor
+:ms-di: PPWCode.Vernacular.NHibernate.IV.DI
+:sql: PPWCode.Vernacular.NHibernate.IV.SqlServer
+:pgsql: PPWCode.Vernacular.NHibernate.IV.PostgreSQL
+:firebird: PPWCode.Vernacular.NHibernate.IV.Firebird
+:test: PPWCode.Vernacular.NHibernate.IV.Test
+:ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-IV/
 
 :release: 4.2.0
 == `{release}`

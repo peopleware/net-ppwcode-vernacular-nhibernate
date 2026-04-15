@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 using NHibernate.Cfg;
 
-namespace PPWCode.Vernacular.NHibernate.III.DI
+namespace PPWCode.Vernacular.NHibernate.IV.DI
 {
     public class EmptyNhProperties : INhProperties
     {

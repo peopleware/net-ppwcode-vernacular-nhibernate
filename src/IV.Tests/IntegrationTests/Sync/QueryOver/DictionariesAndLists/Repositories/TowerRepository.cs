@@ -9,11 +9,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.DictionariesAndLists.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.DictionariesAndLists.Repositories
 {
     public class TowerRepository : TestRepository<Tower>
     {

@@ -20,7 +20,7 @@ using NHibernate.Mapping.ByCode.Conformist;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
 #if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]

@@ -12,9 +12,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories
 {
     public interface IUserRepository : ITestRepository<User>
     {

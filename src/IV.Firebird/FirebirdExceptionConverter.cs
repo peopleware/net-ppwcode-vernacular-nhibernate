@@ -17,11 +17,11 @@ using JetBrains.Annotations;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
-using PPWCode.Vernacular.NHibernate.III.DbExceptionConverters;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Firebird
+namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     public class FirebirdExceptionConverter : BaseExceptionConverter
     {

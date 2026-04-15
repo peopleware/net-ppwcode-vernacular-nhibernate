@@ -13,11 +13,11 @@ using System;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Test;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.GuidPrimaryKey;
+using PPWCode.Vernacular.NHibernate.IV.Test;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.GuidPrimaryKey;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey
 {
     [Parallelizable(ParallelScope.Fixtures)]
     public class GuidPrimaryKeyTest : BaseRepositoryFixture<Guid, TestGuidAuditLog>

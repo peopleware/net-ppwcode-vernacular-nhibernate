@@ -30,7 +30,7 @@ using PPWCode.Vernacular.Persistence.IV;
 
 using Environment = System.Environment;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc cref="IRegisterEventListener" />
     /// <inheritdoc cref="IPostUpdateEventListener" />

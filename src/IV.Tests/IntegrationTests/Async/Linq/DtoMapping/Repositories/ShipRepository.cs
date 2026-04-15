@@ -15,12 +15,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.RepositoryWithDtoMapping;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.DtoMapping.Repositories
 {
     public class ShipRepository : TestRepository<Ship>
     {

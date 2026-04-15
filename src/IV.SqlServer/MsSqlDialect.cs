@@ -12,7 +12,7 @@
 using NHibernate.Dialect;
 using NHibernate.Exceptions;
 
-namespace PPWCode.Vernacular.NHibernate.III.SqlServer
+namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
 {
     public class MsSqlDialect : MsSql2012Dialect
     {

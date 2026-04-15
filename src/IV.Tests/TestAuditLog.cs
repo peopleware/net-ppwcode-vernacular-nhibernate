@@ -13,10 +13,10 @@ using System;
 
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.III.MappingByCode;
+using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests
 {
     public class TestIntAuditLog : AuditLog<int>
     {

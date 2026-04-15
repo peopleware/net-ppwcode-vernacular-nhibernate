@@ -11,10 +11,10 @@
 
 using System;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.EnumTranslation;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories
 {
     public interface IGenericEnumTranslationRepository<TRoot, in TEnum> : ITestRepository<TRoot>
         where TRoot : GenericEnumTranslation<TEnum>

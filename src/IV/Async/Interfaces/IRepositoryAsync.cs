@@ -20,7 +20,7 @@ using NHibernate;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Interfaces
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces
 {
     public interface IRepositoryAsync<TRoot, in TId>
         where TRoot : class, IIdentity<TId>

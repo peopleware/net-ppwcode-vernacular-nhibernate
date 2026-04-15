@@ -9,10 +9,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common.Repositories
 {
     public class RoleRepository
         : TestRepository<Role>,

@@ -19,7 +19,7 @@ using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     public class NhConfiguration : NhConfigurationBase

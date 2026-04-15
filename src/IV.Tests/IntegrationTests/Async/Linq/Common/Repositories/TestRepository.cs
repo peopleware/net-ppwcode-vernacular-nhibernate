@@ -9,11 +9,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.NHibernate.III.Async.Implementations;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Implementations;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Async.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories
 {
     public abstract class TestRepository<T>
         : LinqRepositoryAsync<T, int>,

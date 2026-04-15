@@ -11,7 +11,7 @@
 
 using JetBrains.Annotations;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     public interface IIdentityProvider
     {

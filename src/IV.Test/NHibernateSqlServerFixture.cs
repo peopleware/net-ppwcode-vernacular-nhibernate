@@ -23,7 +23,7 @@ using NHibernate.Mapping;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.SqlServer;
+using PPWCode.Vernacular.NHibernate.IV.SqlServer;
 using PPWCode.Vernacular.Persistence.IV;
 
 using Environment = NHibernate.Cfg.Environment;
@@ -31,7 +31,7 @@ using Environment = NHibernate.Cfg.Environment;
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     [Category("SqlServer")]
     public abstract partial class NHibernateSqlServerFixture<TId, TAuditEntity>

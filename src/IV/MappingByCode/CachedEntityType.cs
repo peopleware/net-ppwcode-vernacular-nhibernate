@@ -15,7 +15,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Mapping.ByCode;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     public class CachedEntityType
     {

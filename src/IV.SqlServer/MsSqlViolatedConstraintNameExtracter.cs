@@ -18,12 +18,12 @@ using JetBrains.Annotations;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace PPWCode.Vernacular.NHibernate.III.SqlServer
+namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
 {
     public class MsSqlViolatedConstraintNameExtracter
         : IViolatedConstraintNameExtracter,

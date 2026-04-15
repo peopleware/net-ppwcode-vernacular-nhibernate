@@ -18,10 +18,10 @@ using JetBrains.Annotations;
 using NHibernate;
 using NHibernate.Linq;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     public abstract class LinqRepository<TRoot, TId>

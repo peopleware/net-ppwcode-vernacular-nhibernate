@@ -20,7 +20,7 @@ using NHibernate.Type;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <summary>
     ///     <para>An interceptor that stamps audit information.</para>

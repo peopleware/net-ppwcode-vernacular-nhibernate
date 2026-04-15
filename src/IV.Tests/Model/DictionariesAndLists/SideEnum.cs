@@ -9,7 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.DictionariesAndLists
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
     public enum SideEnum
     {

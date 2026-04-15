@@ -18,12 +18,12 @@ using JetBrains.Annotations;
 
 using NHibernate;
 
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 
 using IsolationLevel = System.Data.IsolationLevel;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers
 {
     /// <inheritdoc cref="ITransactionProviderAsync" />
     [UsedImplicitly]

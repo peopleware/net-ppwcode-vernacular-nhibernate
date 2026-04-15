@@ -13,10 +13,10 @@ using System;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.EnumTranslation;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation
 {
     public class EnumTranslationTests : BaseRepositoryTests<GenderEnumTranslation>
     {

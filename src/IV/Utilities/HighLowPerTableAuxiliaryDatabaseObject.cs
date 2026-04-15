@@ -21,7 +21,7 @@ using NHibernate.Dialect;
 using NHibernate.Engine;
 using NHibernate.Mapping.ByCode;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     public abstract class HighLowPerTableAuxiliaryDatabaseObject : PpwAuxiliaryDatabaseObject

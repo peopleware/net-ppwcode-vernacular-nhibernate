@@ -13,9 +13,9 @@ using System.Data.Common;
 
 using FirebirdSql.Data.FirebirdClient;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
-namespace PPWCode.Vernacular.NHibernate.III.Firebird
+namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     /// <inheritdoc cref="SchemaBasedDbConstraints" />
     public class FirebirdDbConstraints : SchemaBasedDbConstraints

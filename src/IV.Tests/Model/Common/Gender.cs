@@ -9,7 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.Common
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
     /// <summary>
     ///     See https://nl.wikipedia.org/wiki/ISO_5218.

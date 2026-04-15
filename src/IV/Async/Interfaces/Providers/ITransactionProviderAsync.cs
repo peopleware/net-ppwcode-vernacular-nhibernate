@@ -18,9 +18,9 @@ using JetBrains.Annotations;
 
 using NHibernate;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers
 {
     /// <inheritdoc />
     public interface ITransactionProviderAsync : ITransactionProvider

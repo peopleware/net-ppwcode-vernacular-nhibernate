@@ -16,7 +16,7 @@ using JetBrains.Annotations;
 
 using NHibernate;
 
-namespace PPWCode.Vernacular.NHibernate.III.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     public interface ITransactionProvider
     {

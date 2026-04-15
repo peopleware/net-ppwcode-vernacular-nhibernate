@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="PPWCode.Vernacular.NHibernate.III.Tests.csproj.DotSettings"/>
+    <None Remove="PPWCode.Vernacular.NHibernate.IV.Tests.csproj.DotSettings"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\III.Test\PPWCode.Vernacular.NHibernate.III.Test.csproj"/>
+    <ProjectReference Include="..\IV.Test\PPWCode.Vernacular.NHibernate.IV.Test.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

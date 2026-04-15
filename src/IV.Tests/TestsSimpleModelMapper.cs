@@ -16,9 +16,9 @@ using JetBrains.Annotations;
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 
-using PPWCode.Vernacular.NHibernate.III.MappingByCode;
+using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests
 {
     public class TestsSimpleModelMapper : SimpleModelMapper
     {

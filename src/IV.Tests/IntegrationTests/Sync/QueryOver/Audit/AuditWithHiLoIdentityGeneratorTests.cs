@@ -11,10 +11,10 @@
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Audit
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Audit
 {
     // ReSharper disable InconsistentNaming
     public class AuditWithHiLoIdentityGeneratorTests : BaseCompanyTests

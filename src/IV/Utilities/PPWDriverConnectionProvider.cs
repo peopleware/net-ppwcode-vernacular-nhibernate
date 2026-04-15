@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Connection;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]

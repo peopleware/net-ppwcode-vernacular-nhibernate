@@ -13,7 +13,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Cfg;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     public interface INhConfiguration
     {

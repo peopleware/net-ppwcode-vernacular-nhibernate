@@ -9,5 +9,5 @@ This file is translated into markdown and used for the release notes in the GitH
 
 === Fixes
 
-* Fix version range for `Castle.Windsor` dependency in `PPWCode.Vernacular.NHibernate.III.CastleWindsor`
+* Fix version range for `Castle.Windsor` dependency in `PPWCode.Vernacular.NHibernate.IV.CastleWindsor`
 ** Both versions `5.1.1` and `5.1.2` are supported

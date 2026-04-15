@@ -11,7 +11,7 @@
 
 using NUnit.Framework;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Utilities
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Utilities
 {
     [TestFixture]
     public class StringUtilTests

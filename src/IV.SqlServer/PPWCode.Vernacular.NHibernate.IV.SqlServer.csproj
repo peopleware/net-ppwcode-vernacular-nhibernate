@@ -4,7 +4,7 @@
 
   <!-- nuget package -->
   <PropertyGroup>
-    <Description>The PPWCode Vernacular NHibernate SQLServer library version III.</Description>
+    <Description>The PPWCode Vernacular NHibernate SQLServer library version IV.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm sqlserver</PackageTags>
   </PropertyGroup>
 
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\III\PPWCode.Vernacular.NHibernate.III.csproj"/>
+    <ProjectReference Include="..\IV\PPWCode.Vernacular.NHibernate.IV.csproj"/>
   </ItemGroup>
 
 </Project>

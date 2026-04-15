@@ -19,9 +19,9 @@ using JetBrains.Annotations;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
-namespace PPWCode.Vernacular.NHibernate.III.Firebird
+namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     public class FirebirdViolatedConstraintNameExtracter
         : IViolatedConstraintNameExtracter,

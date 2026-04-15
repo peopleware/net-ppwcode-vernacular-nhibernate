@@ -17,7 +17,7 @@ using NHibernate.Type;
 
 using PPWCode.Vernacular.Exceptions.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.EnumTranslation
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation
 {
 #if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]

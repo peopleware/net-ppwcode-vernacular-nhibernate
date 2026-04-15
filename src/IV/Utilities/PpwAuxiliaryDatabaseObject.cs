@@ -22,7 +22,7 @@ using NHibernate.Mapping;
 
 using PPWCode.Vernacular.Exceptions.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc cref="IPpwAuxiliaryDatabaseObject" />
     public abstract class PpwAuxiliaryDatabaseObject

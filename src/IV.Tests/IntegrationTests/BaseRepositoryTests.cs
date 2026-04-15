@@ -16,7 +16,7 @@ using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
 {
     [SuppressMessage("Design", "CA1001", Justification = "Review: Dispose is called in OnTearDown")]
     public abstract class BaseRepositoryTests<T> : BaseQueryTests

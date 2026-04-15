@@ -22,7 +22,7 @@ using NHibernate.Event;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc cref="IRegisterEventListener" />
     /// <inheritdoc cref="IPreUpdateEventListener" />

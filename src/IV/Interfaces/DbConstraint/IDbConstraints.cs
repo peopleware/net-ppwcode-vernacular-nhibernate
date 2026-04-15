@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 using JetBrains.Annotations;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
+namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     public interface IDbConstraints
     {

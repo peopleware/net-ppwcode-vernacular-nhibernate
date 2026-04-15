@@ -15,7 +15,7 @@ using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbConstraint
+namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
 {
     public class DbConstraintMetadata
         : IEquatable<DbConstraintMetadata>

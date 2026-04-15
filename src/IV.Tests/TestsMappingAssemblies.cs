@@ -12,9 +12,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests
 {
     public class TestsMappingAssemblies : IMappingAssemblies
     {

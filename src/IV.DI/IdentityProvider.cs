@@ -11,7 +11,7 @@
 
 using System.Threading;
 
-namespace PPWCode.Vernacular.NHibernate.III.DI
+namespace PPWCode.Vernacular.NHibernate.IV.DI
 {
     public class IdentityProvider : IIdentityProvider
     {

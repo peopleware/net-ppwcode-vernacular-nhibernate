@@ -17,11 +17,11 @@ using NHibernate.Criterion;
 using NUnit.Framework;
 
 using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.EnumTranslation;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.EnumTranslation;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.EnumTranslation.Repositories
 {
     public class GenericEnumTranslationRepository<TRoot, TEnum>
         : TestRepository<TRoot>,

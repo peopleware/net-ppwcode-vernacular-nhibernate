@@ -30,13 +30,13 @@ using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
 using PPWCode.Log4Net.Adapter;
-using PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Implementations.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public abstract class NHibernateFixture<TId>
         : BaseFixture

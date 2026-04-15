@@ -11,7 +11,7 @@
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common.Repositories
 {
     public interface ITestRepository<T> : IRepository<T, int>
         where T : class, IIdentity<int>

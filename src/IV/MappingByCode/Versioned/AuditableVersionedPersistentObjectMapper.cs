@@ -13,7 +13,7 @@ using System;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     public abstract class AuditableVersionedPersistentObjectMapper<T, TId, TVersion>
         : VersionedPersistentObjectMapper<T, TId, TVersion>

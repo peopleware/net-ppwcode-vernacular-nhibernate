@@ -4,7 +4,7 @@
   
   <!-- nuget package -->
   <PropertyGroup>
-    <Description>The PPWCode Vernacular NHibernate Test library version III.</Description>
+    <Description>The PPWCode Vernacular NHibernate Test library version IV.</Description>
     <PackageTags>ppwcode vernacular nhibernate orm test</PackageTags>
   </PropertyGroup>
 
@@ -35,7 +35,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\III.SqlServer\PPWCode.Vernacular.NHibernate.III.SqlServer.csproj"/>
+    <ProjectReference Include="..\IV.SqlServer\PPWCode.Vernacular.NHibernate.IV.SqlServer.csproj"/>
   </ItemGroup>
 
 </Project>

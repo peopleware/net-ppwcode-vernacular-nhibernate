@@ -16,7 +16,7 @@ using NHibernate;
 
 using IsolationLevel = System.Data.IsolationLevel;
 
-namespace PPWCode.Vernacular.NHibernate.III.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     /// <inheritdoc />
     public class TransactionProvider : ITransactionProvider

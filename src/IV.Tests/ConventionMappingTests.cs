@@ -19,10 +19,10 @@ using NHibernate.Tool.hbm2ddl;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.SqlServer;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.SqlServer;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests
 {
     [TestFixture]
     public class ConventionMappingTests

@@ -11,10 +11,10 @@
 
 using System;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.GuidPrimaryKey;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.GuidPrimaryKey;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey.Repositories
 {
     public class CarRepository : QueryOverRepository<Car, Guid>
     {

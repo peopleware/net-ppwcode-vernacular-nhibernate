@@ -20,7 +20,7 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Impl;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     public abstract class ModelMapperBase : IPpwHbmMapping
     {

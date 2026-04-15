@@ -18,7 +18,7 @@ using NHibernate;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     public interface IRepository<T, in TId>
         where T : class, IIdentity<TId>

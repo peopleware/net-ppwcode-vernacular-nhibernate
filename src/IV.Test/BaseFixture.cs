@@ -11,7 +11,7 @@
 
 using NUnit.Framework;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     [TestFixture]
     public abstract class BaseFixture

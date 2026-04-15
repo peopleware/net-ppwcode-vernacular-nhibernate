@@ -16,7 +16,7 @@ using NHibernate.Engine;
 using NHibernate.SqlTypes;
 using NHibernate.UserTypes;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     public abstract class ImmutableUserTypeBase : IUserType

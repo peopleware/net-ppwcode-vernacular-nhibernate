@@ -20,10 +20,10 @@ using JetBrains.Annotations;
 using NHibernate;
 using NHibernate.Linq;
 
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations
 {
     /// <inheritdoc />
     public abstract class LinqRepositoryAsync<TRoot, TId>

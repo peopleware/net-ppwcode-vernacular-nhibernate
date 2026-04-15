@@ -16,10 +16,10 @@ using System.Linq;
 using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc cref="IRepository{T,TId}" />
     public abstract class Repository<TRoot, TId>

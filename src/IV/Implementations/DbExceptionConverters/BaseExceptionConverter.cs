@@ -17,9 +17,9 @@ using JetBrains.Annotations;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
-namespace PPWCode.Vernacular.NHibernate.III.DbExceptionConverters
+namespace PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters
 {
     /// <inheritdoc cref="ISQLExceptionConverter" />
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1033", Justification = "Reviewed: Explicit interface implementation is done on purpose")]

@@ -19,7 +19,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Event;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
 #if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]

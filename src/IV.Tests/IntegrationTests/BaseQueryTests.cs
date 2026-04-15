@@ -15,10 +15,10 @@ using NHibernate.Mapping;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Test;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Test;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests
 {
     [Parallelizable(ParallelScope.Fixtures)]
     public abstract class BaseQueryTests : BaseRepositoryFixture<int, TestIntAuditLog>

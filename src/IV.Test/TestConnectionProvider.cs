@@ -14,7 +14,7 @@ using System.Data.Common;
 
 using NHibernate.Connection;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class TestConnectionProvider : DriverConnectionProvider

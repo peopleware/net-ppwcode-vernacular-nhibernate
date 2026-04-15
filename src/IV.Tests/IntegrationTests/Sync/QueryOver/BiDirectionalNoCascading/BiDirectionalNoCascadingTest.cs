@@ -13,10 +13,10 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading.Repositories;
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.BiDirectionalNoCascading;
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.BiDirectionalNoCascading;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.BiDirectionalNoCascading
 {
     public class BiDirectionalNoCascadingTest : BaseRepositoryTests<Author>
     {

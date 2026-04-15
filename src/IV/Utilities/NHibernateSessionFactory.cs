@@ -14,7 +14,7 @@ using JetBrains.Annotations;
 using NHibernate;
 using NHibernate.Cfg;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
     public class NHibernateSessionFactory : INHibernateSessionFactory

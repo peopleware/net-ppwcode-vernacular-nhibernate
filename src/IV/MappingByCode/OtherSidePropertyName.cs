@@ -11,7 +11,7 @@
 
 using System;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class OtherSidePropertyName : Attribute

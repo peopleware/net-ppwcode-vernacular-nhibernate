@@ -11,10 +11,10 @@
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common
 {
     // ReSharper disable InconsistentNaming
     public class CompanyDeleteTests : BaseCompanyTests

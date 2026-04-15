@@ -16,10 +16,10 @@ using Common.Logging;
 
 using JetBrains.Annotations;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Providers
 {
     /// <inheritdoc />
     public class SafeEnvironmentProvider : ISafeEnvironmentProvider

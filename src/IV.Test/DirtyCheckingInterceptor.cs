@@ -19,7 +19,7 @@ using NHibernate.Persister.Entity;
 using NHibernate.Proxy;
 using NHibernate.Type;
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public class DirtyCheckingInterceptor
         : EmptyInterceptor

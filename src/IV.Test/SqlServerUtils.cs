@@ -20,7 +20,7 @@ using PPWCode.Vernacular.Exceptions.IV;
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace PPWCode.Vernacular.NHibernate.III.Test
+namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
     public static class SqlServerUtils
     {

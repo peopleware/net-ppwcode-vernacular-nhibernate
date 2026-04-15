@@ -22,10 +22,10 @@ using JetBrains.Annotations;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 
-using PPWCode.Vernacular.NHibernate.III.MappingByCode;
+using PPWCode.Vernacular.NHibernate.IV.MappingByCode;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.Model.Common
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
 {
 #if NETSTANDARD2_0 || NET462_OR_GREATER
     [Serializable]

@@ -18,11 +18,11 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 using PPWCode.Vernacular.Exceptions.IV;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces;
-using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces;
+using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Implementations
 {
     /// <inheritdoc cref="IRepositoryAsync{TRoot,TId}" />
     public abstract class RepositoryAsync<TRoot, TId>

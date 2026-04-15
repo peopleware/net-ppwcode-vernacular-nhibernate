@@ -11,7 +11,7 @@
 
 using NHibernate.Exceptions;
 
-namespace PPWCode.Vernacular.NHibernate.III.Firebird
+namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     public class FirebirdDialect : global::NHibernate.Dialect.FirebirdDialect
     {

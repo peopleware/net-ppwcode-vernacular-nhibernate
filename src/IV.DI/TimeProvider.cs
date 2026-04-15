@@ -13,7 +13,7 @@ using System;
 
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.DI
+namespace PPWCode.Vernacular.NHibernate.IV.DI
 {
     public class TimeProvider : ITimeProvider
     {

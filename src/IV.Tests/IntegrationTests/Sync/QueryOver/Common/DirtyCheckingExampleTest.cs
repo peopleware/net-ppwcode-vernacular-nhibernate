@@ -11,9 +11,9 @@
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.III.Test;
+using PPWCode.Vernacular.NHibernate.IV.Test;
 
-namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOver.Common
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common
 {
     public class DirtyCheckingExampleTests : BaseCompanyTests
     {

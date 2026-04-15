@@ -17,7 +17,7 @@ using JetBrains.Annotations;
 
 using NHibernate.Engine;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     /// <inheritdoc />
 #if NETSTANDARD2_0 || NET462_OR_GREATER

@@ -18,10 +18,10 @@ using JetBrains.Annotations;
 
 using NHibernate;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     public abstract class RepositoryBase<TRoot, TId>
         where TRoot : class, IIdentity<TId>

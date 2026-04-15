@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PPWCode.Vernacular.NHibernate.III
+namespace PPWCode.Vernacular.NHibernate.IV
 {
     internal static class EnumerableExtensions
     {

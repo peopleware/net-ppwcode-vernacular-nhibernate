@@ -27,7 +27,7 @@ using NHibernate.Util;
 
 using PPWCode.Vernacular.Exceptions.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.MappingByCode
+namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     /// <summary>
     ///     Simple ModelMapper.

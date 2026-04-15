@@ -15,10 +15,10 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
-using PPWCode.Vernacular.NHibernate.III.Providers;
+using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.Persistence.IV;
 
-namespace PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers
+namespace PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers
 {
     /// <inheritdoc />
     public interface ISafeEnvironmentProviderAsync : ISafeEnvironmentProvider

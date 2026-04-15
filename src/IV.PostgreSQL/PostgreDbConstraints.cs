@@ -13,9 +13,9 @@ using System.Data.Common;
 
 using Npgsql;
 
-using PPWCode.Vernacular.NHibernate.III.DbConstraint;
+using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
 
-namespace PPWCode.Vernacular.NHibernate.III.PostgreSQL
+namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
 {
     /// <inheritdoc cref="SchemaBasedDbConstraints" />
     public class PostgreDbConstraints : SchemaBasedDbConstraints
