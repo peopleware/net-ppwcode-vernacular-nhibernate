@@ -1,4 +1,4 @@
-// Copyright 2026 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,12 +9,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.Persistence.V;
+using System.Collections.Generic;
 
-namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public interface ITestRepository<T> : IRepositoryAsync<T, int>
-        where T : class, IIdentity<int>
+    public interface IDbConstraints
     {
+        ISet<DbConstraintMetadata> Constraints { get; }
+
+        DbConstraintMetadata? GetByConstraintName(string constraintName);
+
+        void Initialize(IDictionary<string, string> properties);
     }
 }

@@ -9,22 +9,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Linq;
+using System.Data;
 
-using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
+using NHibernate;
 
-namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public class UserRepository
-        : TestRepository<User>,
-          IUserRepository
+    public interface ISessionProvider
     {
-        public UserRepository(ISessionProvider sessionProvider)
-            : base(sessionProvider)
-        {
-        }
+        /// <inheritdoc cref="ISession" />
+        ISession Session { get; }
 
-        public User? GetUserByName(string name)
-            => Get(qry => qry.Where(u => u.Name == name));
+        /// <inheritdoc cref="ITransactionProvider" />
+        ITransactionProvider TransactionProvider { get; }
+
+        /// <inheritdoc cref="ISafeEnvironmentProvider" />
+        ISafeEnvironmentProvider SafeEnvironmentProvider { get; }
+
+        /// <inheritdoc cref="IsolationLevel" />
+        IsolationLevel IsolationLevel { get; }
+
+        /// <inheritdoc cref="ISession.Flush" />
+        void Flush();
     }
 }

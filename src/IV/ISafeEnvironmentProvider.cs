@@ -9,18 +9,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using PPWCode.Vernacular.Persistence.V;
 
-namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common.Repositories
+namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public abstract class TestRepository<T>
-        : LinqRepository<T, int>,
-          ITestRepository<T>
-        where T : class, IIdentity<int>
+    public interface ISafeEnvironmentProvider
     {
-        protected TestRepository(ISessionProvider sessionProvider)
-            : base(sessionProvider)
-        {
-        }
+        void Run(string requestDescription, Action action);
+
+        TResult? Run<TResult>(string requestDescription, Func<TResult> func);
+
+        void Run<TEntity, TId>(string requestDescription, Action action, TEntity? entity)
+            where TEntity : class, IIdentity<TId>
+            where TId : IEquatable<TId>;
+
+        TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity? entity)
+            where TEntity : class, IIdentity<TId>
+            where TId : IEquatable<TId>;
     }
 }

@@ -14,8 +14,6 @@ using System.Data.SqlClient;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
 using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 // MUDO: switch to Microsoft.Data.SqlClient

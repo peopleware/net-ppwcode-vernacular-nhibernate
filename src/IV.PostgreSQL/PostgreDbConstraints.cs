@@ -13,8 +13,6 @@ using System.Data.Common;
 
 using Npgsql;
 
-using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-
 namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
 {
     /// <inheritdoc cref="SchemaBasedDbConstraints" />

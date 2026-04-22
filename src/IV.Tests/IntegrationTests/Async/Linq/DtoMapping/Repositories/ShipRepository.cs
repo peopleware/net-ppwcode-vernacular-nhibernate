@@ -15,7 +15,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using PPWCode.Vernacular.NHibernate.IV.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 using PPWCode.Vernacular.Persistence.V;

@@ -17,8 +17,6 @@ using FirebirdSql.Data.FirebirdClient;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-
 namespace PPWCode.Vernacular.NHibernate.IV.Firebird
 {
     public class FirebirdViolatedConstraintNameExtracter

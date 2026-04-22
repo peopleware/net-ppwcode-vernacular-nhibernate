@@ -11,7 +11,6 @@
 
 using System;
 
-using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.GuidPrimaryKey;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.GuidPrimaryKey.Repositories

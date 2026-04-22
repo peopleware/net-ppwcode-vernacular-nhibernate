@@ -18,7 +18,6 @@ using NHibernate.Proxy;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
 using PPWCode.Vernacular.Persistence.V;

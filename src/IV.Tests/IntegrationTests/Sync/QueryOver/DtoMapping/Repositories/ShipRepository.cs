@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Transform;
 
-using PPWCode.Vernacular.NHibernate.IV.Providers;
 using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver.Common.Repositories;
 using PPWCode.Vernacular.NHibernate.IV.Tests.Model.RepositoryWithDtoMapping;
 using PPWCode.Vernacular.Persistence.V;

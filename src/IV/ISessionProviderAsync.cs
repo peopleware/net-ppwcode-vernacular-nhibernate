@@ -9,12 +9,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Vernacular.Persistence.V;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Common.Repositories
+using NHibernate;
+
+namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public interface ITestRepository<T> : IRepositoryAsync<T, int>
-        where T : class, IIdentity<int>
+    /// <inheritdoc />
+    public interface ISessionProviderAsync : ISessionProvider
     {
+        /// <inheritdoc cref="ITransactionProviderAsync" />
+        ITransactionProviderAsync TransactionProviderAsync { get; }
+
+        /// <inheritdoc cref="ISafeEnvironmentProviderAsync" />
+        ISafeEnvironmentProviderAsync SafeEnvironmentProviderAsync { get; }
+
+        /// <inheritdoc cref="ISession.FlushAsync" />
+        Task FlushAsync(CancellationToken cancellationToken);
     }
 }

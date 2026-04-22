@@ -16,8 +16,6 @@ using System.Linq;
 
 using NHibernate.Exceptions;
 
-using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
 

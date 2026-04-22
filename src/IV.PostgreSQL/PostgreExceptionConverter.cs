@@ -15,8 +15,6 @@ using NHibernate.Exceptions;
 
 using Npgsql;
 
-using PPWCode.Vernacular.NHibernate.IV.DbConstraint;
-using PPWCode.Vernacular.NHibernate.IV.DbExceptionConverters;
 using PPWCode.Vernacular.NHibernate.IV.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.PostgreSQL
