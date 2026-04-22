@@ -5,7 +5,7 @@
         <!-- nuget package dependencies -->
         <PackageReference Include="PPWCode.Vernacular.NHibernate.IV" Version="4.0.0" />
         <PackageReference Include="PPWCode.Vernacular.NHibernate.IV.SqlServer" Version="4.0.0" />
-        <PackageReference Include="PPWCode.Vernacular.NHibernate.IV.CastleWindsor" Version="4.0.0" />
+        <PackageReference Include="PPWCode.Vernacular.NHibernate.IV.DI" Version="4.0.0" />
     </ItemGroup>
 
     <!-- ... -->

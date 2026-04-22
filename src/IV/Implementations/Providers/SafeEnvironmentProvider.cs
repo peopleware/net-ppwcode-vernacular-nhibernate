@@ -40,10 +40,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Providers
         }
 
         /// <inheritdoc />
-        public TResult? Run<TResult>(string requestDescription, Func<TResult>? func)
+        public TResult? Run<TResult>(string requestDescription, Func<TResult> func)
         {
-            ArgumentNullException.ThrowIfNull(func);
-
             string StartMessage()
                 => $"Request {requestDescription} started.";
 

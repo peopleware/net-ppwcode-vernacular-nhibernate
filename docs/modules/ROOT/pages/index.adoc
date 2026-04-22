@@ -7,7 +7,7 @@ The library supports both different versions of .NET full framework and more rec
 Note that this project contains the following libraries (and NuGet packages):
 
 - `PPWCode.Vernacular.NHibernate.IV`, base functionality and database independent abstractions
-- `PPWCode.Vernacular.NHibernate.IV.CastleWindsor`, a Castle Windsor _facility_ for setup and registration when using Castle Windsor as dependency injection container
+- `PPWCode.Vernacular.NHibernate.IV.DI`, support nHibernate for Microsoft DI
 - `PPWCode.Vernacular.NHibernate.IV.SqlServer`, support for Microsoft SQL Server
 - `PPWCode.Vernacular.NHibernate.IV.PostgreSQL`, support for PostgreSQL
 - `PPWCode.Vernacular.NHibernate.IV.Firebird`, support for Firebird

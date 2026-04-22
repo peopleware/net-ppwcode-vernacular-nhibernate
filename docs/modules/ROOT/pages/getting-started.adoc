@@ -2,14 +2,12 @@
 
 // helper attributes for package links
 :nuget-main: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV/
-:nuget-castle: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.CastleWindsor/
 :nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.DI/
 :nuget-sql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.SqlServer/
 :nuget-pgsql: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.PostgreSQL/
 :nuget-firebird: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.Firebird/
 :nuget-test: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.IV.Test/
 :main: PPWCode.Vernacular.NHibernate.IV
-:castle: PPWCode.Vernacular.NHibernate.IV.CastleWindsor
 :ms-di: PPWCode.Vernacular.NHibernate.IV.DI
 :sql: PPWCode.Vernacular.NHibernate.IV.SqlServer
 :pgsql: PPWCode.Vernacular.NHibernate.IV.PostgreSQL
@@ -23,7 +21,6 @@ All libraries that are part of the `PPWCode.Vernacular.NHibernate.IV` project ar
 The following packages are available:
 
 - {nuget-main}[{main}], base library
-- {nuget-castle}[{castle}], Castle Windsor facility
 - {nuget-ms-di}[{ms-di}], extension to register NHIbernate using service collection
 - {nuget-sql}[{sql}], support for Microsoft SQL Server
 - {nuget-pgsql}[{pgsql}], support for PostgreSQL
