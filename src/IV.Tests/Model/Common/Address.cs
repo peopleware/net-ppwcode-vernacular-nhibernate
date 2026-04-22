@@ -26,6 +26,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
           IEquatable<Address>,
           IPpwAuditLog
     {
+        /// <summary>
+        ///     We need this for NHibernate.
+        /// </summary>
+        private Address()
+        {
+        }
+
         public Address(
             string street,
             string number,

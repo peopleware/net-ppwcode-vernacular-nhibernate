@@ -155,8 +155,8 @@
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
         "requested": "[1.*-*, )",
-        "resolved": "1.2.0-alpha.4",
-        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
+        "resolved": "1.2.0-alpha.5",
+        "contentHash": "vz0SYQUZGLaKiSiV0Y1yHm0FByb5+jISNmWXWyUMQlAwEAMSrC7Na5K7kkpGDoVMo8OSxMnzbCSeMCbP4isJOw==",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
           "PPWCode.Vernacular.Exceptions.V": "1.1.0",
@@ -328,8 +328,8 @@
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
         "requested": "[1.*-*, )",
-        "resolved": "1.2.0-alpha.4",
-        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
+        "resolved": "1.2.0-alpha.5",
+        "contentHash": "vz0SYQUZGLaKiSiV0Y1yHm0FByb5+jISNmWXWyUMQlAwEAMSrC7Na5K7kkpGDoVMo8OSxMnzbCSeMCbP4isJOw==",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
           "PPWCode.Vernacular.Exceptions.V": "1.1.0",
@@ -501,8 +501,8 @@
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
         "requested": "[1.*-*, )",
-        "resolved": "1.2.0-alpha.4",
-        "contentHash": "CrTCrQji8YUa5r3hVNsT4te/Cya4rvuZplKXnZ583pSQ/b1eZeaFte9FzpSxxhK7mA1KdHhqG7L3UzvgRNlbNg==",
+        "resolved": "1.2.0-alpha.5",
+        "contentHash": "vz0SYQUZGLaKiSiV0Y1yHm0FByb5+jISNmWXWyUMQlAwEAMSrC7Na5K7kkpGDoVMo8OSxMnzbCSeMCbP4isJOw==",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
           "PPWCode.Vernacular.Exceptions.V": "1.1.0",

@@ -69,20 +69,15 @@ namespace PPWCode.Vernacular.NHibernate.IV.DbConstraint
             DbConnection? dbConnection = DbProviderFactory?.CreateConnection();
             if (dbConnection != null)
             {
-                string? connectionString =
-                    properties.ContainsKey(Environment.ConnectionString)
-                        ? properties[Environment.ConnectionString]
-                        : null;
-                if (connectionString == null)
+                if (!properties.TryGetValue(Environment.ConnectionString, out string? connectionString))
                 {
-                    string? connectionStringName =
-                        properties.ContainsKey(Environment.ConnectionStringName)
-                            ? properties[Environment.ConnectionStringName]
-                            : null;
-                    connectionString =
-                        connectionStringName != null
-                            ? GetConnectionString(connectionStringName)
-                            : null;
+                    if (!properties.TryGetValue(Environment.ConnectionStringName, out string? connectionStringName))
+                    {
+                        connectionString =
+                            connectionStringName != null
+                                ? GetConnectionString(connectionStringName)
+                                : null;
+                    }
                 }
 
                 dbConnection.ConnectionString = connectionString;

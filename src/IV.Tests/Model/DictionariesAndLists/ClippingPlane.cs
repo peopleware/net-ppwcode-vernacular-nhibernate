@@ -15,6 +15,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
 {
     public class ClippingPlane
     {
+        /// <summary>
+        ///     we need this for nhibernate.
+        /// </summary>
+        public ClippingPlane()
+        {
+        }
+
         public virtual Plane? Plane { get; set; }
 
         public virtual Vector3D? MeshTranslation { get; set; }

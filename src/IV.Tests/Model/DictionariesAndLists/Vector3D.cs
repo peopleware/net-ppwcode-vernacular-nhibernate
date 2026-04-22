@@ -24,6 +24,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
           IPpwAuditLog,
           IEquatable<Vector3D>
     {
+        /// <summary>
+        ///     we need this for nhibernate.
+        /// </summary>
         private Vector3D()
         {
         }
