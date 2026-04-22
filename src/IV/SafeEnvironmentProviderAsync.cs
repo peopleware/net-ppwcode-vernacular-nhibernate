@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 
 using PPWCode.Vernacular.Persistence.V;
 
@@ -25,7 +25,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
         : SafeEnvironmentProvider(exceptionTranslator),
           ISafeEnvironmentProviderAsync
     {
-        private static readonly ILog _logger = LogManager.GetLogger<SafeEnvironmentProviderAsync>();
+        // Use the static bridge to create the logger
+        private static readonly ILogger _logger = PPWLogging.GetLogger<SafeEnvironmentProviderAsync>();
 
         /// <inheritdoc />
         public Task RunAsync(
@@ -118,9 +119,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
             CancellationToken cancellationToken)
         {
             Stopwatch? sw = null;
-            if (_logger.IsInfoEnabled)
+            if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(startMessage());
+                _logger.LogInformation(startMessage());
                 sw = new Stopwatch();
                 sw.Start();
             }
@@ -139,9 +140,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 sw?.Stop();
             }
 
-            if (_logger.IsInfoEnabled)
+            if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
+                _logger.LogInformation(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
             }
 
             return result;

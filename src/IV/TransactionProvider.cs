@@ -12,6 +12,8 @@
 using System;
 using System.Transactions;
 
+using Microsoft.Extensions.Logging;
+
 using NHibernate;
 
 using IsolationLevel = System.Data.IsolationLevel;
@@ -21,16 +23,19 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public class TransactionProvider : ITransactionProvider
     {
+        // Use the static bridge to create the logger
+        private static readonly ILogger _logger = PPWLogging.GetLogger<TransactionProvider>();
+
         /// <inheritdoc />
         public void Run(ISession session, IsolationLevel isolationLevel, Action action)
         {
             Func<int> ActionWrapper()
             {
                 return () =>
-                       {
-                           action.Invoke();
-                           return default;
-                       };
+                {
+                    action.Invoke();
+                    return 0;
+                };
             }
 
             Run(session, isolationLevel, ActionWrapper());
@@ -51,7 +56,17 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
             if ((session.GetCurrentTransaction()?.IsActive == true) || (Transaction.Current != null))
             {
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation($"Transaction already active, not starting a new one.");
+                }
+
                 return func.Invoke();
+            }
+
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
             }
 
             TResult result;

@@ -58,11 +58,6 @@
           "NETStandard.Library": "1.6.0"
         }
       },
-      "Common.Logging.Core": {
-        "type": "Transitive",
-        "resolved": "3.4.1",
-        "contentHash": "wLHldZHvxsSD6Ahonfj00/SkfHfKqO+YT6jsUwVm8Rch1REL9IArHAcSLXxYxYfu5/4ydGtmXvOtaH3AkVPu0A=="
-      },
       "Iesi.Collections": {
         "type": "Transitive",
         "resolved": "4.1.1",
@@ -122,7 +117,7 @@
       "ppwcode.vernacular.nhibernate.iv": {
         "type": "Project",
         "dependencies": {
-          "Common.Logging": "[3.4.1, 4.0.0)",
+          "Microsoft.Extensions.Logging.Abstractions": "[10.*, )",
           "NHibernate": "[5.*, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*-*, )",
           "PPWCode.Vernacular.Exceptions.V": "[1.*-*, )",
@@ -131,13 +126,13 @@
           "System.Configuration.ConfigurationManager": "[10.*, )"
         }
       },
-      "Common.Logging": {
+      "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[3.4.1, 4.0.0)",
-        "resolved": "3.4.1",
-        "contentHash": "5eZ/vgEOqzLg4PypZqnJ+wMhhgHyckicbZY4iDxqQ4FtOz0CpdYZ0xQ78aszMzeAJZiLLb5VdR9tPfunVQLz6g==",
+        "requested": "[10.*, )",
+        "resolved": "10.0.7",
+        "contentHash": "tIEcQ2gvERrH2KiCjdsVcHGhXt9lIsuDStfOIeZWr7/fP8IXhGiYfx0/80PNI7WPO2IYuFtlZLSlnTS8+/Mchw==",
         "dependencies": {
-          "Common.Logging.Core": "3.4.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.7"
         }
       },
       "NHibernate": {
@@ -248,11 +243,6 @@
           "NETStandard.Library": "1.6.0"
         }
       },
-      "Common.Logging.Core": {
-        "type": "Transitive",
-        "resolved": "3.4.1",
-        "contentHash": "wLHldZHvxsSD6Ahonfj00/SkfHfKqO+YT6jsUwVm8Rch1REL9IArHAcSLXxYxYfu5/4ydGtmXvOtaH3AkVPu0A=="
-      },
       "Iesi.Collections": {
         "type": "Transitive",
         "resolved": "4.1.1",
@@ -312,7 +302,7 @@
       "ppwcode.vernacular.nhibernate.iv": {
         "type": "Project",
         "dependencies": {
-          "Common.Logging": "[3.4.1, 4.0.0)",
+          "Microsoft.Extensions.Logging.Abstractions": "[8.*, )",
           "NHibernate": "[5.*, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*-*, )",
           "PPWCode.Vernacular.Exceptions.V": "[1.*-*, )",
@@ -321,13 +311,13 @@
           "System.Configuration.ConfigurationManager": "[8.*, )"
         }
       },
-      "Common.Logging": {
+      "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[3.4.1, 4.0.0)",
-        "resolved": "3.4.1",
-        "contentHash": "5eZ/vgEOqzLg4PypZqnJ+wMhhgHyckicbZY4iDxqQ4FtOz0CpdYZ0xQ78aszMzeAJZiLLb5VdR9tPfunVQLz6g==",
+        "requested": "[8.*, )",
+        "resolved": "8.0.3",
+        "contentHash": "dL0QGToTxggRLMYY4ZYX5AMwBb+byQBd/5dMiZE07Nv73o6I5Are3C7eQTh7K2+A4ct0PVISSr7TZANbiNb2yQ==",
         "dependencies": {
-          "Common.Logging.Core": "3.4.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
         }
       },
       "NHibernate": {
@@ -438,11 +428,6 @@
           "NETStandard.Library": "1.6.0"
         }
       },
-      "Common.Logging.Core": {
-        "type": "Transitive",
-        "resolved": "3.4.1",
-        "contentHash": "wLHldZHvxsSD6Ahonfj00/SkfHfKqO+YT6jsUwVm8Rch1REL9IArHAcSLXxYxYfu5/4ydGtmXvOtaH3AkVPu0A=="
-      },
       "Iesi.Collections": {
         "type": "Transitive",
         "resolved": "4.1.1",
@@ -502,7 +487,7 @@
       "ppwcode.vernacular.nhibernate.iv": {
         "type": "Project",
         "dependencies": {
-          "Common.Logging": "[3.4.1, 4.0.0)",
+          "Microsoft.Extensions.Logging.Abstractions": "[9.*, )",
           "NHibernate": "[5.*, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*-*, )",
           "PPWCode.Vernacular.Exceptions.V": "[1.*-*, )",
@@ -511,13 +496,13 @@
           "System.Configuration.ConfigurationManager": "[9.*, )"
         }
       },
-      "Common.Logging": {
+      "Microsoft.Extensions.Logging.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[3.4.1, 4.0.0)",
-        "resolved": "3.4.1",
-        "contentHash": "5eZ/vgEOqzLg4PypZqnJ+wMhhgHyckicbZY4iDxqQ4FtOz0CpdYZ0xQ78aszMzeAJZiLLb5VdR9tPfunVQLz6g==",
+        "requested": "[9.*, )",
+        "resolved": "9.0.15",
+        "contentHash": "kI9Sc2l8oC3bEptPIPp3+aoCBCfrefJHn5lgfKbw526JJbUuNNQPtB/bcUyqFpzr6KKgHxALfNrP6rX1x+19yA==",
         "dependencies": {
-          "Common.Logging.Core": "3.4.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.15"
         }
       },
       "NHibernate": {

@@ -11,17 +11,13 @@
 
 using System;
 using System.Data;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Logging;
-
 using HibernatingRhinos.Profiler.Appender;
 
-using log4net.Util;
-
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -29,9 +25,10 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
-using PPWCode.Log4Net.Adapter;
 using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
+
+using Serilog;
 
 namespace PPWCode.Vernacular.NHibernate.IV.Test
 {
@@ -94,6 +91,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         /// <inheritdoc />
         protected override void OnFixtureSetup()
         {
+            // 1. Build configuration
             IConfiguration config =
                 new ConfigurationBuilder()
                     .AddJsonFile(@"appsettings.json", false, false)
@@ -104,11 +102,22 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                 .GetSection(@"appSettings")
                 .Bind(_appSettings);
 
-            LogLog.InternalDebugging = true;
-            LogManager.Adapter =
-                new Log4NetLoggerFactoryAdapter(
-                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(),
-                    null);
+            // 2. Setup Serilog to talk to NUnit
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom
+                .Configuration(config) // Reads levels from JSON
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+            // 3. Wire our nHibernate packages logging to Serilog
+            PPWLogging.Factory = LoggerFactory.Create(builder =>
+            {
+                // Tell Microsoft Logging to just pass everything to Serilog
+                builder.AddSerilog(dispose: true);
+            });
+
+            // 4 Wire nHibernate itself to use the same logger factory
+            PPWLogging.Factory.UseAsNHibernateLoggerProvider();
         }
 
         /// <inheritdoc />

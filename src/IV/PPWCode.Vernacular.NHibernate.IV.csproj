@@ -4,8 +4,10 @@
   
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    
     <PackageReference Include="NHibernate" />
-    <PackageReference Include="Common.Logging" />    
+    
     <PackageReference Include="PPWCode.Vernacular.Persistence.V" />
     <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
     <PackageReference Include="PPWCode.Vernacular.Contracts.I" />

@@ -12,7 +12,7 @@
 using System;
 using System.Diagnostics;
 
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 
 using PPWCode.Vernacular.Persistence.V;
 
@@ -22,7 +22,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
     public class SafeEnvironmentProvider(IExceptionTranslator exceptionTranslator)
         : ISafeEnvironmentProvider
     {
-        private static readonly ILog _logger = LogManager.GetLogger<SafeEnvironmentProvider>();
+        // Use the static bridge to create the logger
+        private static readonly ILogger _logger = PPWLogging.GetLogger<SafeEnvironmentProvider>();
 
         /// <inheritdoc cref="IExceptionTranslator" />
         public IExceptionTranslator ExceptionTranslator { get; } = exceptionTranslator ?? throw new ArgumentNullException(nameof(exceptionTranslator));
@@ -108,9 +109,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
             Func<TResult?> func)
         {
             Stopwatch? sw = null;
-            if (_logger.IsInfoEnabled)
+            if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(startMessage());
+                _logger.LogInformation(startMessage());
                 sw = new Stopwatch();
                 sw.Start();
             }
@@ -129,9 +130,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 sw?.Stop();
             }
 
-            if (_logger.IsInfoEnabled)
+            if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
+                _logger.LogInformation(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
             }
 
             return result;
