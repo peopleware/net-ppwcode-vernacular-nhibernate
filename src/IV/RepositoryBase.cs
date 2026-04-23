@@ -50,13 +50,13 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected virtual void Execute(string requestDescription, Action action)
             => Execute(requestDescription, action, null);
 
-        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult> func, TRoot? entity)
+        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult?> func, TRoot? entity)
             => TransactionProvider.Run(Session, IsolationLevel, () => SafeEnvironmentProvider.Run<TRoot, TId, TResult>(requestDescription, func, entity));
 
         protected virtual void Execute(string requestDescription, Action action, TRoot? entity)
             => TransactionProvider.Run(Session, IsolationLevel, () => SafeEnvironmentProvider.Run<TRoot, TId>(requestDescription, action, entity));
 
-        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult> func)
+        protected virtual TResult? Execute<TResult>(string requestDescription, Func<TResult?> func)
             => Execute(requestDescription, func, null);
 
         protected virtual IEnumerable<TId[]> GetSegmentedIds(IEnumerable<TId> ids)

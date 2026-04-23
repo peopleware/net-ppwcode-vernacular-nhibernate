@@ -25,7 +25,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;
 
-        TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity? entity)
+        TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult?> func, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>;
     }

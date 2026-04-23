@@ -68,7 +68,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc />
-        public TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult> func, TEntity? entity)
+        public TResult? Run<TEntity, TId, TResult>(string requestDescription, Func<TResult?> func, TEntity? entity)
             where TEntity : class, IIdentity<TId>
             where TId : IEquatable<TId>
         {

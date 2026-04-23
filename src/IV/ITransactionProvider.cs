@@ -20,6 +20,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
     {
         void Run(ISession session, IsolationLevel isolationLevel, Action action);
 
-        TResult? Run<TResult>(ISession session, IsolationLevel isolationLevel, Func<TResult> func);
+        TResult? Run<TResult>(ISession session, IsolationLevel isolationLevel, Func<TResult?> func);
     }
 }

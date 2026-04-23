@@ -42,7 +42,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         }
 
         /// <inheritdoc />
-        public TResult Run<TResult>(ISession session, IsolationLevel isolationLevel, Func<TResult> func)
+        public TResult? Run<TResult>(ISession session, IsolationLevel isolationLevel, Func<TResult?> func)
         {
             if (session == null)
             {
@@ -69,7 +69,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 _logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
             }
 
-            TResult result;
+            TResult? result;
             ITransaction transaction = session.BeginTransaction(isolationLevel);
             try
             {
