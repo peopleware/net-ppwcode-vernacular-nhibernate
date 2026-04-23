@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'The existing tag to create a release for (e.g., III/3.0.0)'
+        description: 'The existing tag to create a release for (e.g., IV/3.0.0)'
         required: true
         type: string
 
@@ -16,10 +16,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout III/next branch
+      - name: Checkout IV/next branch
         uses: actions/checkout@v4
         with:
-          ref: III/next
+          ref: IV/next
           fetch-depth: 0
           fetch-tags: true
 
@@ -32,7 +32,7 @@ jobs:
           # Validate tag format with roman numeral prefix
           if [[ ! $FULL_TAG =~ ^[IVX]+/[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
             echo "ERROR: Tag '$FULL_TAG' does not match format {ROMAN}/{VERSION}"
-            echo "Expected format: III/1.2.3 or III/2.0.0-beta1"
+            echo "Expected format: IV/1.2.3 or IV/2.0.0-beta1"
             exit 1
           fi
 
@@ -94,13 +94,13 @@ jobs:
             echo ""
             echo "<br />"
             echo ""
-            echo "[View full changelog →](https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }})"
+            echo "[View full changelog →](https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-IV/changelog.html#${{ steps.get_version.outputs.version_clean }})"
           } > release_body.md
 
       - name: Add Release Notes to Job Summary
         run: |
           if [ -f release_body.md ]; then
-            echo "# PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo "# PPWCode.Vernacular.NHibernate.IV ${{ steps.get_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             cat release_body.md >> $GITHUB_STEP_SUMMARY
           fi
@@ -112,5 +112,5 @@ jobs:
           tag_name: ${{ steps.get_version.outputs.full_tag }}
           generate_release_notes: false
           make_latest: false
-          name: PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version }}
+          name: PPWCode.Vernacular.NHibernate.IV ${{ steps.get_version.outputs.version }}
           body_path: release_body.md

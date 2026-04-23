@@ -9,5 +9,8 @@ This file is translated into markdown and used for the release notes in the GitH
 
 === Changes
 
-* Initial release of mark III
-* Supported target: `.NET Core 3.1`
+* Initial release of mark IV
+* Main work:
+** Remove Castle Windsor container
+** Support for Microsoft DI
+** Supported target: `.NET 8`, `.NET 9` and `.NET 10`

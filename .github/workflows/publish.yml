@@ -3,8 +3,8 @@ name: Publish to NuGet
 on:
   push:
     tags:
-      - 'III/[0-9]+.[0-9]+.[0-9]+'
-      - 'III/[0-9]+.[0-9]+.[0-9]+-*'
+      - 'IV/[0-9]+.[0-9]+.[0-9]+'
+      - 'IV/[0-9]+.[0-9]+.[0-9]+-*'
 
 jobs:
   build-and-test:
@@ -250,13 +250,13 @@ jobs:
             echo ""
             echo "<br />"
             echo ""
-            echo "[View full changelog →](https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html#${{ steps.get_version.outputs.version_clean }})"
+            echo "[View full changelog →](https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-IV/changelog.html#${{ steps.get_version.outputs.version_clean }})"
           } > release_body.md
 
       - name: Add Release Notes to Job Summary
         run: |
           if [ -f release_body.md ]; then
-            echo "# PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version_clean }}"
+            echo "# PPWCode.Vernacular.NHibernate.IV ${{ steps.get_version.outputs.version_clean }}"
             echo ""
             cat release_body.md >> $GITHUB_STEP_SUMMARY
           fi
@@ -326,18 +326,18 @@ jobs:
           cd release-artifacts
 
           # Zip test and coverage raw per OS
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_Linux_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Linux/
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_macOS_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-macOS/
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-test-output-raw_Windows_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Windows/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-test-output-raw_Linux_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Linux/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-test-output-raw_macOS_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-macOS/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-test-output-raw_Windows_${{ steps.get_version.outputs.version }}.zip test-and-coverage-raw-Windows/
 
           # Zip coverage HTML per OS
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_Linux_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Linux/
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_macOS_${{ steps.get_version.outputs.version }}.zip coverage-report-html-macOS/
-          zip -r -9 PPWCode.Vernacular.NHibernate.III-coverage-report-html_Windows_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Windows/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-coverage-report-html_Linux_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Linux/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-coverage-report-html_macOS_${{ steps.get_version.outputs.version }}.zip coverage-report-html-macOS/
+          zip -r -9 PPWCode.Vernacular.NHibernate.IV-coverage-report-html_Windows_${{ steps.get_version.outputs.version }}.zip coverage-report-html-Windows/
 
           # Zip all NuGet packages
           cd ../artifacts
-          zip -r -9 ../release-artifacts/PPWCode.Vernacular.NHibernate.III-nuget-pkgs_${{ steps.get_version.outputs.version }}.zip *.nupkg
+          zip -r -9 ../release-artifacts/PPWCode.Vernacular.NHibernate.IV-nuget-pkgs_${{ steps.get_version.outputs.version }}.zip *.nupkg
 
       - name: Create GitHub Release
         if: steps.get_version.outputs.is_prerelease == 'false'
@@ -346,6 +346,6 @@ jobs:
           files: |
             release-artifacts/*.zip
           generate_release_notes: false
-          name: PPWCode.Vernacular.NHibernate.III ${{ steps.get_version.outputs.version }}
+          name: PPWCode.Vernacular.NHibernate.IV ${{ steps.get_version.outputs.version }}
           body_path: release_body.md
           fail_on_unmatched_files: true

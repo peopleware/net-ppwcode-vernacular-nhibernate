@@ -1,0 +1,87 @@
+﻿// Copyright 2026 by PeopleWare n.v..
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+using NHibernate;
+
+using PPWCode.Vernacular.Persistence.V;
+using PPWCode.Vernacular.Persistence.V.Exceptions;
+
+namespace PPWCode.Vernacular.NHibernate.IV
+{
+    public interface IRepository<T, in TId>
+        where T : class, IIdentity<TId>
+        where TId : IEquatable<TId>
+    {
+        /// <inheritdoc cref="ISession.Get{T}(object)" />
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        T? GetById(TId? id);
+
+        /// <inheritdoc cref="ISession.Load{T}(object)" />
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        T LoadById(TId? id);
+
+        /// <summary>
+        ///     Find all records of type <typeparamref name="T" />.
+        /// </summary>
+        /// <returns>
+        ///     A list of records, the list is <b>never</b> a null-reference.
+        /// </returns>
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        IList<T> FindAll();
+
+        /// <summary>Gets an list of entities by their ids.</summary>
+        /// <param name="ids">The given primary keys.</param>
+        /// <returns>
+        ///     The entities with the given ids which could be found, if not found no entity with the id is returned.
+        /// </returns>
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        IList<T> FindByIds(IEnumerable<TId> ids);
+
+        /// <inheritdoc cref="ISession.Merge{T}(T)" />
+        /// <exception cref="NotFoundException">
+        ///     The normal behavior of nHibernate is that the <c>Merge</c> transforms an UPDATE for a not-found-PK into a
+        ///     CREATE. We will not do this in our code-base. In this case we will throw an exception.
+        /// </exception>
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        [return: NotNullIfNotNull(nameof(entity))]
+        T? Merge(T? entity);
+
+        /// <inheritdoc cref="ISession.SaveOrUpdate(object)" />
+        /// <exception cref="NotFoundException">
+        ///     The normal behaviour of nHibernate is that the <c>SaveOrUpdate</c> transforms an UPDATE for a not-found-PK into a
+        ///     CREATE. We will not do this in our code-base. In this case we will throw an exception.
+        /// </exception>
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        void SaveOrUpdate(T? entity);
+
+        /// <inheritdoc cref="ISession.Delete(object)" />
+        /// <remarks>
+        ///     Runs in an isolated environment. This ensures a transaction is active and exceptions are being triaged.
+        /// </remarks>
+        void Delete(T? entity);
+    }
+}

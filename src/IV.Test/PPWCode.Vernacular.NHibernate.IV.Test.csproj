@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\common.props" />
+  
+  <!-- nuget package -->
+  <PropertyGroup>
+    <Description>The PPWCode Vernacular NHibernate Test library version IV.</Description>
+    <PackageTags>ppwcode vernacular nhibernate orm test</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- less strict analyzer ruleset in this package -->
+    <CodeAnalysisRuleSet>..\Analyzer-Tests.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Target frameworks -->
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="Moq" />
+    
+    <PackageReference Include="NHibernateProfiler.Appender" />
+    <PackageReference Include="NHibernate.Extensions.Logging" />
+    
+    <PackageReference Include="PPWCode.Util.Authorization.I" />
+    <PackageReference Include="PPWCode.Util.Time.I" />
+    <PackageReference Include="PPWCode.Vernacular.Persistence.V" />
+    <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
+    
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Sinks.NUnit" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\IV.SqlServer\PPWCode.Vernacular.NHibernate.IV.SqlServer.csproj"/>
+  </ItemGroup>
+
+</Project>

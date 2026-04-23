@@ -1,0 +1,180 @@
+﻿// Copyright 2026 by PeopleWare n.v..
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Mapping;
+
+using NUnit.Framework;
+
+using PPWCode.Vernacular.NHibernate.IV.SqlServer;
+using PPWCode.Vernacular.Persistence.V;
+
+using Environment = NHibernate.Cfg.Environment;
+
+// MUDO: switch to Microsoft.Data.SqlClient
+#pragma warning disable CS0618 // Type or member is obsolete
+
+namespace PPWCode.Vernacular.NHibernate.IV.Test
+{
+    [Category("SqlServer")]
+    public abstract class NHibernateSqlServerFixture<TId, TAuditEntity>
+        : NHibernateFixture<TId>
+        where TId : IEquatable<TId>
+        where TAuditEntity : AuditLog<TId, DateTime>, new()
+    {
+        private Configuration? _configuration;
+        private string? _connectionString;
+
+        protected abstract string CatalogName { get; }
+
+        protected abstract bool UseUtc { get; }
+
+        protected virtual string ConnectionString
+            => _connectionString ??= RandomizedConnectionString;
+
+        protected virtual string RandomizedConnectionString
+        {
+            get
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(FixedConnectionString);
+                Guid guid = Guid.NewGuid();
+                builder.InitialCatalog = $"{builder.InitialCatalog}.{guid:D}";
+                return builder.ConnectionString;
+            }
+        }
+
+        protected override string FixedConnectionString
+            => !string.IsNullOrWhiteSpace(base.FixedConnectionString)
+                   ? base.FixedConnectionString
+                   : DefaultFixedConnectionString;
+
+        protected virtual string DefaultFixedConnectionString
+        {
+            get
+            {
+                SqlConnectionStringBuilder builder =
+                    new SqlConnectionStringBuilder
+                    {
+                        DataSource = "localhost",
+                        InitialCatalog = CatalogName,
+                        IntegratedSecurity = true
+                    };
+                return builder.ToString();
+            }
+        }
+
+        protected override Configuration Configuration
+        {
+            get
+            {
+                if (_configuration == null)
+                {
+                    _configuration = new Configuration()
+                        .DataBaseIntegration(db =>
+                        {
+                            db.Dialect<MsSqlDialect>();
+                            db.ConnectionString = ConnectionString;
+                            db.IsolationLevel = IsolationLevel.ReadCommitted;
+                            db.BatchSize = 0;
+                        })
+                        .Configure()
+                        .SetProperty(Environment.ShowSql, ShowSql.ToString())
+                        .SetProperty(Environment.FormatSql, FormatSql.ToString())
+                        .SetProperty(Environment.GenerateStatistics, GenerateStatistics.ToString());
+
+                    IDictionary<string, string> props = _configuration.Properties;
+                    props.Remove(Environment.ConnectionStringName);
+
+                    IInterceptor? interceptor = Interceptor?.GetInterceptor();
+                    if (interceptor != null)
+                    {
+                        _configuration.SetInterceptor(interceptor);
+                    }
+
+                    foreach (IRegisterEventListener registerListener in RegisterEventListeners)
+                    {
+                        registerListener.Register(_configuration);
+                    }
+
+                    IPpwHbmMapping? ppwHbmMapping = PpwHbmMapping;
+                    if (ppwHbmMapping != null)
+                    {
+                        _configuration.AddMapping(ppwHbmMapping.HbmMapping);
+                    }
+
+                    foreach (IAuxiliaryDatabaseObject auxiliaryDatabaseObject in AuxiliaryDatabaseObjects)
+                    {
+                        IPpwAuxiliaryDatabaseObject? ppwAuxiliaryDatabaseObject = auxiliaryDatabaseObject as IPpwAuxiliaryDatabaseObject;
+                        ppwAuxiliaryDatabaseObject?.SetConfiguration(_configuration);
+                        _configuration.AddAuxiliaryDatabaseObject(auxiliaryDatabaseObject);
+                    }
+                }
+
+                return _configuration;
+            }
+        }
+
+        protected virtual IPpwHbmMapping? PpwHbmMapping
+            => null;
+
+        protected virtual IEnumerable<IAuxiliaryDatabaseObject> AuxiliaryDatabaseObjects
+        {
+            get { yield break; }
+        }
+
+        protected virtual IEnumerable<IRegisterEventListener> RegisterEventListeners
+        {
+            get
+            {
+                yield return new CivilizedEventListener();
+                yield return new TestAuditLogEventListener<TId, TAuditEntity>(
+                    new TestTimeProvider(UtcNow),
+                    UseUtc,
+                    new TestIdentityProvider(IdentityName));
+            }
+        }
+
+        protected virtual INhInterceptor? Interceptor
+            => null;
+
+        protected virtual void ResetConfiguration()
+        {
+            _configuration = null;
+            _connectionString = null;
+        }
+
+        protected virtual void CreateCatalog()
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
+            if (SqlServerUtils.CatalogExists(ConnectionString, builder.InitialCatalog))
+            {
+                SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);
+            }
+
+            SqlServerUtils.CreateCatalog(ConnectionString, builder.InitialCatalog, true);
+        }
+
+        protected virtual void DropCatalog()
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
+            if (SqlServerUtils.CatalogExists(ConnectionString, builder.InitialCatalog))
+            {
+                SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);
+            }
+        }
+    }
+}

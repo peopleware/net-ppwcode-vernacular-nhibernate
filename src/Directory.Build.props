@@ -14,7 +14,7 @@
 
     <!-- nuget package -->
     <PropertyGroup>
-        <Description>The PPWCode Vernacular NHibernate library version III.</Description>
+        <Description>The PPWCode Vernacular NHibernate library version IV.</Description>
         <Product>PPWCode</Product>
         <Authors>dvdwouwe;rvdginste</Authors>
         <Company>Peopleware NV</Company>
@@ -32,7 +32,7 @@
 
         <PackageReleaseNotes>
 Changelog can be found in the documentation at:
-https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/changelog.html
+https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-IV/changelog.html
         </PackageReleaseNotes>
 
         <!-- SourceLink support -->
@@ -59,7 +59,7 @@ https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
     <!-- build configuration -->
     <PropertyGroup>
         <!-- Target frameworks -->
-        <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0;net462;net47;net471;net472;net48;net481</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 
         <!-- Configurations -->
         <Configurations>Debug;Release</Configurations>
@@ -102,7 +102,7 @@ https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
         <LangVersion>12.0</LangVersion>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <!-- properties for debug configuration -->
@@ -123,4 +123,9 @@ https://peopleware.github.io/net-ppwcode-docs/ppwcode-vernacular-nhibernate-iii/
         <DefineConstants>TRACE</DefineConstants>
     </PropertyGroup>
 
+    <!-- Show transitive package dependencies (a little bit slower) -->
+    <PropertyGroup>
+        <EmitLegacyAssetsFileItems>True</EmitLegacyAssetsFileItems>
+    </PropertyGroup>
+    
 </Project>

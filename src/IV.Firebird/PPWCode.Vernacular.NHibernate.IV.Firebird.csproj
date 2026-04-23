@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\common.props" />
+
+  <!-- nuget package -->
+  <PropertyGroup>
+    <Description>The PPWCode Vernacular NHibernate Firebird library version IV.</Description>
+    <PackageTags>ppwcode vernacular nhibernate orm firebird</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IV\PPWCode.Vernacular.NHibernate.IV.csproj"/>
+  </ItemGroup>
+
+</Project>

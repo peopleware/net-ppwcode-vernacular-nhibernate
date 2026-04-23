@@ -2,9 +2,9 @@ name: Build & Test
 
 on:
   push:
-    branches: [ "III/next", "III/feature/*", "III/bugfix/*" ]
+    branches: [ "IV/next", "IV/feature/*", "IV/bugfix/*" ]
   pull_request:
-    branches: [ "III/next" ]
+    branches: [ "IV/next" ]
 
 jobs:
   build-and-test:

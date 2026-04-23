@@ -1,0 +1,91 @@
+﻿// Copyright 2026 by PeopleWare n.v..
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using NUnit.Framework;
+
+using PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common.Repositories;
+using PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common;
+
+namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.Linq.Common
+{
+    public abstract class BaseCompanyTests : BaseRepositoryTests<Company>
+    {
+        private CompanyRepository? _repository;
+
+        protected CompanyRepository Repository
+            => _repository ??= new CompanyRepository(SessionProvider);
+
+        protected override void OnTeardown()
+        {
+            _repository = null;
+
+            base.OnTeardown();
+        }
+
+        protected Company CreateCompany(CompanyCreationType companyCreationType)
+        {
+            Company company =
+                new IctCompany
+                {
+                    Name = "Peopleware NV",
+                    Address =
+                        new AddressBuilder()
+                            .Street("Duwijckstraat")
+                            .Number("17")
+                };
+
+            int expectedPersistenceVersion;
+            if (companyCreationType == CompanyCreationType.WITH_2_CHILDREN)
+            {
+                // ReSharper disable once ObjectCreationAsStatement
+                new CompanyIdentification
+                {
+                    Identification = "1",
+                    Company = company
+                };
+
+                // ReSharper disable once ObjectCreationAsStatement
+                new CompanyIdentification
+                {
+                    Identification = "2",
+                    Company = company
+                };
+
+                expectedPersistenceVersion = 2;
+            }
+            else
+            {
+                expectedPersistenceVersion = 1;
+            }
+
+            Company? savedCompany = RunInsideTransaction(() => Repository.Merge(company), true);
+            Assert.That(savedCompany, Is.Not.Null);
+            Assert.That(company, Is.Not.EqualTo(savedCompany));
+            Assert.That(savedCompany.PersistenceVersion, Is.EqualTo(expectedPersistenceVersion));
+            Assert.That(companyCreationType == CompanyCreationType.NO_CHILDREN ? 0 : 2, Is.EqualTo(savedCompany.Identifications.Count));
+
+            return savedCompany;
+        }
+
+        protected enum CompanyCreationType
+        {
+            /// <summary>
+            ///     Initially save a company without any identifications.
+            /// </summary>
+            NO_CHILDREN,
+
+            /// <summary>
+            ///     Save initially a company with 2 identifications, they are identified by a Identification 1 and 2.
+            /// </summary>
+            WITH_2_CHILDREN
+        }
+    }
+}
