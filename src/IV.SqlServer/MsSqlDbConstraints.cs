@@ -10,7 +10,8 @@
 // limitations under the License.
 
 using System.Data.Common;
-using System.Data.SqlClient;
+
+using Microsoft.Data.SqlClient;
 
 // MUDO: switch to Microsoft.Data.SqlClient
 #pragma warning disable CS0618 // Type or member is obsolete
