@@ -31,8 +31,7 @@
     <!-- PostgreSQL -->
     <PackageVersion Include="Npgsql" Version="10.*" />
     <!-- SQL Server -->
-    <!-- legacy! should upgrade to Microsoft.Data.SqlClient -->
-    <PackageVersion Include="System.Data.SqlClient" Version="4.*" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.*" />
     <!-- nunit -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.*" />
     <PackageVersion Include="NUnit" Version="4.*" />
