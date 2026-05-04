@@ -57,9 +57,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void CanNotAddDuplicateUserName()
         {
-            RunInsideTransaction(() => Repository!.Merge(CreateUser()), true);
-
-            Assert.That((Action)(() => Repository!.Merge(CreateUser())), Throws.TypeOf<DbUniqueConstraintException>());
+            Action action = () => Repository!.Merge(CreateUser());
+            RunInsideTransaction(action, true);
+            Assert.That(action, Throws.TypeOf<DbUniqueConstraintException>());
         }
 
         [Test]

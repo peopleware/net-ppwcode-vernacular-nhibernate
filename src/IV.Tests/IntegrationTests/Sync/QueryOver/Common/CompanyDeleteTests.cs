@@ -142,7 +142,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 },
                 true);
 
-            Assert.That((Action)(() => Repository!.Delete(company)), Throws.TypeOf<ObjectAlreadyChangedException>());
+            Action act = () => Repository!.Delete(company);
+            Assert.That(act, Throws.TypeOf<ObjectAlreadyChangedException>());
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
