@@ -27,9 +27,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
         : TransactionProvider,
           ITransactionProviderAsync
     {
-        // Use the static bridge to create the logger
-        private static readonly ILogger _logger = PPWLogging.GetLogger<TransactionProviderAsync>();
-
         /// <inheritdoc />
         public Task RunAsync(
             ISession session,
@@ -65,17 +62,17 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
             if ((session.GetCurrentTransaction()?.IsActive == true) || (Transaction.Current != null))
             {
-                if (_logger.IsEnabled(LogLevel.Information))
+                if (Logger.IsEnabled(LogLevel.Information))
                 {
-                    _logger.LogInformation($"Transaction already active, not starting a new one.");
+                    Logger.LogInformation($"Transaction already active, not starting a new one.");
                 }
 
                 return await lambda(cancellationToken).ConfigureAwait(false);
             }
 
-            if (_logger.IsEnabled(LogLevel.Information))
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
+                Logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
             }
 
             TResult? result;

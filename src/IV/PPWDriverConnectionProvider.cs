@@ -24,8 +24,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Castle Windsor usage")]
     public class PPWDriverConnectionProvider : DriverConnectionProvider
     {
-        // Use the static bridge to create the logger
-        private static readonly ILogger _logger = PPWLogging.GetLogger<PPWDriverConnectionProvider>();
+        private ILogger? _logger;
+
+        public ILogger Logger
+            => _logger ??= PPWLogging.GetLogger(GetType());
 
         /// <summary>
         ///     Closes and Disposes of the <see cref="T:System.Data.IDbConnection" />.
@@ -45,7 +47,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             {
                 base.CloseConnection(conn);
             }
-            else if (_logger.IsEnabled(LogLevel.Warning))
+            else if (Logger.IsEnabled(LogLevel.Warning))
             {
                 StringBuilder sb =
                     new StringBuilder()
@@ -55,7 +57,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                         .AppendLine()
                         .AppendLine(Environment.StackTrace)
                         .AppendLine();
-                _logger.LogWarning(sb.ToString());
+                Logger.LogWarning(sb.ToString());
             }
         }
     }
