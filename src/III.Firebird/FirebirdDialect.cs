@@ -15,12 +15,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Firebird
 {
     public class FirebirdDialect : global::NHibernate.Dialect.FirebirdDialect
     {
-        private IViolatedConstraintNameExtracter _violatedConstraintNameExtracter;
-
         /// <inheritdoc />
-        public override IViolatedConstraintNameExtracter ViolatedConstraintNameExtracter
-            => _violatedConstraintNameExtracter
-               ?? (_violatedConstraintNameExtracter = new FirebirdViolatedConstraintNameExtracter());
+        public override IViolatedConstraintNameExtracter ViolatedConstraintNameExtracter { get; }
+            = new FirebirdViolatedConstraintNameExtracter();
 
         /// <inheritdoc />
         public override bool SupportsCommentOn

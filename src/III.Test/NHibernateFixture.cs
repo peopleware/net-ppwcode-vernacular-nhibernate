@@ -1,4 +1,4 @@
-﻿// Copyright 2024 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,17 +11,15 @@
 
 using System;
 using System.Data;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Common.Logging;
 
 using HibernatingRhinos.Profiler.Appender;
 
 using JetBrains.Annotations;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -29,12 +27,13 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
-using PPWCode.Log4Net.Adapter;
 using PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers;
 using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
 using PPWCode.Vernacular.NHibernate.III.Providers;
 using PPWCode.Vernacular.Persistence.IV;
+
+using Serilog;
 
 namespace PPWCode.Vernacular.NHibernate.III.Test
 {
@@ -42,6 +41,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
         : BaseFixture
         where TId : IEquatable<TId>
     {
+        [CanBeNull]
+        private AppSettings _appSettings;
+
         [CanBeNull]
         private ISessionFactory _sessionFactory;
 
@@ -51,38 +53,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
         [CanBeNull]
         private ISessionProviderAsync _sessionProviderAsync;
 
-        [CanBeNull]
-        private AppSettings _appSettings;
-
         protected abstract Configuration Configuration { get; }
         protected abstract string IdentityName { get; }
         protected abstract DateTime UtcNow { get; }
-
-        /// <inheritdoc />
-        protected override void OnFixtureSetup()
-        {
-            IConfiguration config =
-                new ConfigurationBuilder()
-                    .AddJsonFile(@"appsettings.json", false, false)
-                    .AddEnvironmentVariables(@"PPWCODE_")
-                    .Build();
-            _appSettings = new AppSettings();
-            config
-                .GetSection(@"appSettings")
-                .Bind(_appSettings);
-
-            log4net.Util.LogLog.InternalDebugging = true;
-            LogManager.Adapter =
-                new Log4NetLoggerFactoryAdapter(
-                    Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(),
-                    null);
-        }
-
-        /// <inheritdoc />
-        protected override void OnFixtureTeardown()
-        {
-            _appSettings = null;
-        }
 
         protected virtual bool UseProfiler
             => _appSettings?.UseProfiler ?? false;
@@ -105,7 +78,72 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
 
         [NotNull]
         protected virtual ISessionFactory SessionFactory
-            => _sessionFactory ?? (_sessionFactory = Configuration.BuildSessionFactory());
+            => _sessionFactory ??= Configuration.BuildSessionFactory();
+
+        [NotNull]
+        protected virtual ISessionProvider SessionProvider
+            => _sessionProvider ??=
+                   new SessionProvider(
+                       OpenSession(),
+                       new TransactionProvider(),
+                       new SafeEnvironmentProvider(new ExceptionTranslator()),
+                       IsolationLevel.ReadCommitted);
+
+        [NotNull]
+        protected virtual ITransactionProvider TransactionProvider
+            => SessionProvider.TransactionProvider;
+
+        [NotNull]
+        protected virtual ISessionProviderAsync SessionProviderAsync
+            => _sessionProviderAsync ??=
+                   new SessionProviderAsync(
+                       OpenSession(),
+                       new TransactionProviderAsync(),
+                       new SafeEnvironmentProviderAsync(new ExceptionTranslator()),
+                       IsolationLevel.ReadCommitted);
+
+        [NotNull]
+        protected virtual ITransactionProviderAsync TransactionProviderAsync
+            => SessionProviderAsync.TransactionProviderAsync;
+
+        /// <inheritdoc />
+        protected override void OnFixtureSetup()
+        {
+            // 1. Build configuration
+            IConfiguration config =
+                new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", false, false)
+                    .AddEnvironmentVariables(@"PPWCODE_")
+                    .Build();
+            _appSettings = new AppSettings();
+            config
+                .GetSection(@"appSettings")
+                .Bind(_appSettings);
+
+            // 2. Set up Serilog to talk to NUnit
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom
+                .Configuration(config) // Reads levels from JSON
+                .Enrich
+                .FromLogContext()
+                .CreateLogger();
+
+            // 3. Wire our nHibernate packages logging to Serilog
+            PPWLogging.Factory = LoggerFactory.Create(builder =>
+            {
+                // Tell Microsoft Logging to just pass everything to Serilog
+                builder.AddSerilog(dispose: true);
+            });
+
+            // 4 Wire nHibernate itself to use the same logger factory
+            PPWLogging.Factory.UseAsNHibernateLoggerProvider();
+        }
+
+        /// <inheritdoc />
+        protected override void OnFixtureTeardown()
+        {
+            _appSettings = null;
+        }
 
         [NotNull]
         protected virtual ISession OpenSession()
@@ -131,34 +169,6 @@ namespace PPWCode.Vernacular.NHibernate.III.Test
                     .Interceptor(sessionLocalInterceptor)
                     .OpenSession();
         }
-
-        [NotNull]
-        protected virtual ISessionProvider SessionProvider
-            => _sessionProvider
-               ?? (_sessionProvider =
-                       new SessionProvider(
-                           OpenSession(),
-                           new TransactionProvider(),
-                           new SafeEnvironmentProvider(new ExceptionTranslator()),
-                           IsolationLevel.ReadCommitted));
-
-        [NotNull]
-        protected virtual ITransactionProvider TransactionProvider
-            => SessionProvider.TransactionProvider;
-
-        [NotNull]
-        protected virtual ISessionProviderAsync SessionProviderAsync
-            => _sessionProviderAsync
-               ?? (_sessionProviderAsync =
-                       new SessionProviderAsync(
-                           OpenSession(),
-                           new TransactionProviderAsync(),
-                           new SafeEnvironmentProviderAsync(new ExceptionTranslator()),
-                           IsolationLevel.ReadCommitted));
-
-        [NotNull]
-        protected virtual ITransactionProviderAsync TransactionProviderAsync
-            => SessionProviderAsync.TransactionProviderAsync;
 
         protected virtual void BuildSchema()
         {

@@ -9,6 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 
 using NUnit.Framework;
@@ -56,9 +57,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
         [Test]
         public void CanNotAddDuplicateUserName()
         {
-            RunInsideTransaction(() => Repository.Merge(CreateUser()), true);
-
-            Assert.That((TestDelegate)(() => Repository.Merge(CreateUser())), Throws.TypeOf<DbUniqueConstraintException>());
+            Action act = () => Repository.Merge(CreateUser());
+            RunInsideTransaction(act, true);
+            Assert.That(act, Throws.TypeOf<DbUniqueConstraintException>());
         }
 
         [Test]

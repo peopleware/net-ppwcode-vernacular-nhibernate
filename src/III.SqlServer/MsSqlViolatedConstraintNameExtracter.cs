@@ -11,10 +11,11 @@
 
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 
 using JetBrains.Annotations;
+
+using Microsoft.Data.SqlClient;
 
 using NHibernate.Exceptions;
 
@@ -30,12 +31,7 @@ namespace PPWCode.Vernacular.NHibernate.III.SqlServer
           IDbConstraints
     {
         [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public MsSqlViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new MsSqlDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new MsSqlDbConstraints();
 
         /// <inheritdoc />
         public DbConstraintMetadata GetByConstraintName(string constraintName)

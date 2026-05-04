@@ -135,29 +135,45 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
                 throw new Error($"You must supply a dependency of type {nameof(IPpwHbmMapping)}, using the {nameof(NHibernateOptions.UseHbmMapping)} method.");
             }
 
+            if (options.TimeProvider == null)
+            {
+                throw new Error($"You must supply a dependency of type {nameof(ITimeProvider)}, using the {nameof(NHibernateOptions.UseTimeProvider)} method.");
+            }
+
+            if (options.IdentityProvider == null)
+            {
+                throw new Error($"You must supply a dependency of type {nameof(IIdentityProvider)}, using the {nameof(NHibernateOptions.UseIdentityProvider)} method.");
+            }
+
             services.TryAddSingleton(options.MappingAssemblies);
             services.TryAddSingleton(sp => (IMappingAssemblies)sp.GetRequiredService(options.MappingAssemblies));
 
             services.TryAddSingleton(options.PpwHbmMapping);
             services.TryAddSingleton(sp => (IPpwHbmMapping)sp.GetRequiredService(options.PpwHbmMapping));
 
+            services.TryAddSingleton(options.TimeProvider);
+            services.TryAddSingleton(sp => (ITimeProvider)sp.GetRequiredService(options.TimeProvider));
+
+            services.TryAddSingleton(options.IdentityProvider);
+            services.TryAddSingleton(sp => (IIdentityProvider)sp.GetRequiredService(options.IdentityProvider));
+
             // Because we called ApplyDefaultsIfNotGiven() on the options, some of them are set and not null
             services.TryAddSingleton(options.ExceptionTranslator!);
-            services.TryAddSingleton(sp => (IExceptionTranslator)sp.GetRequiredService(options.ExceptionTranslator));
+            services.TryAddSingleton(sp => (IExceptionTranslator)sp.GetRequiredService(options.ExceptionTranslator!));
 
             services.TryAddSingleton(options.NhProperties!);
-            services.TryAddSingleton(sp => (INhProperties)sp.GetRequiredService(options.NhProperties));
+            services.TryAddSingleton(sp => (INhProperties)sp.GetRequiredService(options.NhProperties!));
 
             services.TryAddSingleton(options.NhConfiguration!);
-            services.TryAddSingleton(sp => (INhConfiguration)sp.GetRequiredService(options.NhConfiguration));
+            services.TryAddSingleton(sp => (INhConfiguration)sp.GetRequiredService(options.NhConfiguration!));
 
             services.TryAddSingleton(options.NHibernateSessionFactory!);
-            services.TryAddSingleton(sp => (INHibernateSessionFactory)sp.GetRequiredService(options.NHibernateSessionFactory));
+            services.TryAddSingleton(sp => (INHibernateSessionFactory)sp.GetRequiredService(options.NHibernateSessionFactory!));
 
             if (options.Interceptor != null)
             {
                 services.TryAddSingleton(options.Interceptor);
-                services.TryAddSingleton(sp => (IInterceptor)sp.GetService(options.Interceptor));
+                services.TryAddSingleton(sp => (IInterceptor)sp.GetService(options.Interceptor)!);
             }
 
             services.TryAddSingleton<INhInterceptor>(sp =>
@@ -166,26 +182,6 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
                 instance.Interceptor = sp.GetService<IInterceptor>();
                 return instance;
             });
-
-            if (options.TimeProvider != null)
-            {
-                services.TryAddSingleton(options.TimeProvider);
-                services.TryAddSingleton(sp => (ITimeProvider)sp.GetRequiredService(options.TimeProvider));
-            }
-            else
-            {
-                services.TryAddSingleton<ITimeProvider, TimeProvider>();
-            }
-
-            if (options.IdentityProvider != null)
-            {
-                services.TryAddSingleton(options.IdentityProvider);
-                services.TryAddSingleton(sp => (IIdentityProvider)sp.GetRequiredService(options.IdentityProvider));
-            }
-            else
-            {
-                services.TryAddSingleton<IIdentityProvider, IdentityProvider>();
-            }
 
             if (options.CivilizedEventListener)
             {
@@ -201,7 +197,7 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
             else
             {
                 services.TryAddSingleton(options.TransactionProvider!);
-                services.TryAddSingleton(sp => (ITransactionProvider)sp.GetRequiredService(options.TransactionProvider));
+                services.TryAddSingleton(sp => (ITransactionProvider)sp.GetRequiredService(options.TransactionProvider!));
             }
 
             if (options.SafeEnvironmentProviderAsync != null)
@@ -226,7 +222,7 @@ namespace PPWCode.Vernacular.NHibernate.III.DI
             else
             {
                 services.TryAddScoped(options.SessionProvider!);
-                services.TryAddScoped(sp => (ISessionProvider)ActivatorUtilities.CreateInstance(sp, options.SessionProvider, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProvider)ActivatorUtilities.CreateInstance(sp, options.SessionProvider!, isolationLevel));
             }
 
             RegisterNhSessionFactories(services, options);
