@@ -15,7 +15,6 @@ using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
 using NHibernate;
 using NHibernate.Mapping;
@@ -205,9 +204,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
                     return instance;
                 });
             }
-
-            PPWLogging.Factory = options.LoggerFactory;
-            PPWLogging.Factory.UseAsNHibernateLoggerProvider();
 
             return services;
         }
