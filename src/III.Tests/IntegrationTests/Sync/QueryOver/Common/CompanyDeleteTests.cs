@@ -9,6 +9,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using NUnit.Framework;
 
 using PPWCode.Vernacular.NHibernate.III.Tests.Model.Common;
@@ -137,7 +139,8 @@ namespace PPWCode.Vernacular.NHibernate.III.Tests.IntegrationTests.Sync.QueryOve
                 },
                 true);
 
-            Assert.That(() => Repository.Delete(company), Throws.TypeOf<ObjectAlreadyChangedException>());
+            Action act = () => Repository.Delete(company);
+            Assert.That(act, Throws.TypeOf<ObjectAlreadyChangedException>());
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));

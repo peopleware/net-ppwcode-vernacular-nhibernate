@@ -14,9 +14,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Common.Logging;
-
 using JetBrains.Annotations;
+
+using Microsoft.Extensions.Logging;
 
 using PPWCode.Vernacular.NHibernate.III.Async.Interfaces.Providers;
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
@@ -31,9 +31,6 @@ namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers
         : SafeEnvironmentProvider,
           ISafeEnvironmentProviderAsync
     {
-        [NotNull]
-        private static readonly ILog _logger = LogManager.GetLogger<SafeEnvironmentProviderAsync>();
-
         public SafeEnvironmentProviderAsync([NotNull] IExceptionTranslator exceptionTranslator)
             : base(exceptionTranslator)
         {
@@ -137,9 +134,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers
             CancellationToken cancellationToken)
         {
             Stopwatch sw = null;
-            if (_logger.IsInfoEnabled)
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(startMessage());
+                Logger.LogInformation(startMessage());
                 sw = new Stopwatch();
                 sw.Start();
             }
@@ -158,9 +155,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Async.Implementations.Providers
                 sw?.Stop();
             }
 
-            if (_logger.IsInfoEnabled)
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
+                Logger.LogInformation(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
             }
 
             return result;

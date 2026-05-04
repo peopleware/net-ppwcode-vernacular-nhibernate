@@ -12,9 +12,9 @@
 using System;
 using System.Diagnostics;
 
-using Common.Logging;
-
 using JetBrains.Annotations;
+
+using Microsoft.Extensions.Logging;
 
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
 using PPWCode.Vernacular.Persistence.IV;
@@ -24,8 +24,12 @@ namespace PPWCode.Vernacular.NHibernate.III.Providers
     /// <inheritdoc />
     public class SafeEnvironmentProvider : ISafeEnvironmentProvider
     {
+        [CanBeNull]
+        private ILogger _logger;
+
         [NotNull]
-        private static readonly ILog _logger = LogManager.GetLogger<SafeEnvironmentProvider>();
+        public ILogger Logger
+            => _logger ??= PPWLogging.GetLogger(GetType());
 
         public SafeEnvironmentProvider([NotNull] IExceptionTranslator exceptionTranslator)
         {
@@ -124,9 +128,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Providers
             [NotNull] Func<TResult> func)
         {
             Stopwatch sw = null;
-            if (_logger.IsInfoEnabled)
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(startMessage());
+                Logger.LogInformation(startMessage());
                 sw = new Stopwatch();
                 sw.Start();
             }
@@ -145,9 +149,9 @@ namespace PPWCode.Vernacular.NHibernate.III.Providers
                 sw?.Stop();
             }
 
-            if (_logger.IsInfoEnabled)
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.Info(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
+                Logger.LogInformation(sw != null ? $"{finishedMessage()}, elapsed {sw.ElapsedMilliseconds} ms." : finishedMessage());
             }
 
             return result;
