@@ -9,6 +9,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -51,5 +53,14 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <returns>An <see cref="ILogger" /> instance for <typeparamref name="T" />.</returns>
         public static ILogger GetLogger<T>()
             => Factory.CreateLogger<T>();
+
+        /// <summary>
+        ///     Creates an <see cref="ILogger" /> for the specified <see cref="Type" />
+        ///     using the configured <see cref="Factory" />.
+        /// </summary>
+        /// <param name="type">The type whose full name is used as the logger category name.</param>
+        /// <returns>An <see cref="ILogger" /> instance for the specified <see cref="Type" />.</returns>
+        public static ILogger GetLogger(Type type)
+            => Factory.CreateLogger(type);
     }
 }
