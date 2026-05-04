@@ -28,12 +28,7 @@ namespace PPWCode.Vernacular.NHibernate.III.Firebird
           IDbConstraints
     {
         [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public FirebirdViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new FirebirdDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new FirebirdDbConstraints();
 
         /// <inheritdoc />
         public DbConstraintMetadata GetByConstraintName(string constraintName)

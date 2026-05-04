@@ -27,12 +27,7 @@ namespace PPWCode.Vernacular.NHibernate.III.PostgreSQL
           IDbConstraints
     {
         [NotNull]
-        private readonly IDbConstraints _dbConstraints;
-
-        public PostgreViolatedConstraintNameExtracter()
-        {
-            _dbConstraints = new PostgreDbConstraints();
-        }
+        private readonly IDbConstraints _dbConstraints = new PostgreDbConstraints();
 
         /// <inheritdoc />
         public DbConstraintMetadata GetByConstraintName(string constraintName)
