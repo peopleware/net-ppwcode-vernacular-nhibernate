@@ -110,8 +110,8 @@
       "NUnit": {
         "type": "Direct",
         "requested": "[4.*, )",
-        "resolved": "4.5.1",
-        "contentHash": "x1sIqU9i0IkxqFayqthzmJs/75jTMbrfNMixj4vtfTi7rRzGbtuY27V+iAhfTY02u5k2qvW3QBGM414OG4q8Lw=="
+        "resolved": "4.6.0",
+        "contentHash": "RsafbuYR+HzdDhgfdLYrDOSuFdv8IgGpbe5NIqXWAhZ7t6lXNj9yNcLcAk34lKVio6OusBQolKlboyl/9hObNA=="
       },
       "PPWCode.Util.Authorization.I": {
         "type": "Direct",
@@ -743,8 +743,8 @@
       "NUnit": {
         "type": "Direct",
         "requested": "[4.*, )",
-        "resolved": "4.5.1",
-        "contentHash": "x1sIqU9i0IkxqFayqthzmJs/75jTMbrfNMixj4vtfTi7rRzGbtuY27V+iAhfTY02u5k2qvW3QBGM414OG4q8Lw=="
+        "resolved": "4.6.0",
+        "contentHash": "RsafbuYR+HzdDhgfdLYrDOSuFdv8IgGpbe5NIqXWAhZ7t6lXNj9yNcLcAk34lKVio6OusBQolKlboyl/9hObNA=="
       },
       "PPWCode.Util.Authorization.I": {
         "type": "Direct",
@@ -1381,8 +1381,8 @@
       "NUnit": {
         "type": "Direct",
         "requested": "[4.*, )",
-        "resolved": "4.5.1",
-        "contentHash": "x1sIqU9i0IkxqFayqthzmJs/75jTMbrfNMixj4vtfTi7rRzGbtuY27V+iAhfTY02u5k2qvW3QBGM414OG4q8Lw=="
+        "resolved": "4.6.0",
+        "contentHash": "RsafbuYR+HzdDhgfdLYrDOSuFdv8IgGpbe5NIqXWAhZ7t6lXNj9yNcLcAk34lKVio6OusBQolKlboyl/9hObNA=="
       },
       "PPWCode.Util.Authorization.I": {
         "type": "Direct",

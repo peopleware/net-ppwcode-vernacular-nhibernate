@@ -9,6 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 
 using NUnit.Framework;
@@ -58,7 +59,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         {
             RunInsideTransaction(() => Repository!.Merge(CreateUser()), true);
 
-            Assert.That((TestDelegate)(() => Repository!.Merge(CreateUser())), Throws.TypeOf<DbUniqueConstraintException>());
+            Assert.That((Action)(() => Repository!.Merge(CreateUser())), Throws.TypeOf<DbUniqueConstraintException>());
         }
 
         [Test]
