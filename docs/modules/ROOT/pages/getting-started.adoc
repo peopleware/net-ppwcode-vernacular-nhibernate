@@ -18,13 +18,13 @@
 
 == Add NuGet package
 
-All libraries that are part of the `PPWCode.Vernacular.NHibernate.III` project are published on NuGet. 
+All libraries that are part of the `PPWCode.Vernacular.NHibernate.III` project are published on NuGet.
 
 The following packages are available:
 
 - {nuget-main}[{main}], base library
 - {nuget-castle}[{castle}], Castle Windsor facility
-- {nuget-ms-di}[{ms-di}], extension to register NHIbernate using service collection
+- {nuget-ms-di}[{ms-di}], helper for Microsoft DI
 - {nuget-sql}[{sql}], support for Microsoft SQL Server
 - {nuget-pgsql}[{pgsql}], support for PostgreSQL
 - {nuget-firebird}[{firebird}], support for Firebird
@@ -33,7 +33,20 @@ The following packages are available:
 
 You can use your IDE to add the required libraries as dependencies to your project, or manually add them in the `.csproj` file.  This would look similar to the following:
 
+
+=== Castle Windsor
+
+WARNING: This is no longer supported from version 5.
+
 [source,xml]
 ----
-include::example$project.csproj[]
+include::example$project-castle.csproj[]
+----
+
+
+=== Microsoft DI
+
+[source,xml]
+----
+include::example$project-ms-di.csproj[]
 ----

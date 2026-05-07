@@ -8,6 +8,7 @@ Note that this project contains the following libraries (and NuGet packages):
 
 - `PPWCode.Vernacular.NHibernate.III`, base functionality and database independent abstractions
 - `PPWCode.Vernacular.NHibernate.III.CastleWindsor`, a Castle Windsor _facility_ for setup and registration when using Castle Windsor as dependency injection container
+- `PPWCode.Vernacular.NHibernate.III.DI`, a helper for setup and registration when using the Microsoft DI container
 - `PPWCode.Vernacular.NHibernate.III.SqlServer`, support for Microsoft SQL Server
 - `PPWCode.Vernacular.NHibernate.III.PostgreSQL`, support for PostgreSQL
 - `PPWCode.Vernacular.NHibernate.III.Firebird`, support for Firebird
@@ -38,4 +39,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

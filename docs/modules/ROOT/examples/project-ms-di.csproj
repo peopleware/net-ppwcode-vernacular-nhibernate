@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<!-- ... -->
+
+    <ItemGroup>
+        <!-- nuget package dependencies -->
+        <PackageReference Include="PPWCode.Vernacular.NHibernate.III" Version="4.2.0" />
+        <PackageReference Include="PPWCode.Vernacular.NHibernate.III.SqlServer" Version="4.2.0" />
+        <PackageReference Include="PPWCode.Vernacular.NHibernate.III.DI" Version="4.2.0" />
+    </ItemGroup>
+
+    <!-- ... -->
+</Project>
