@@ -11,32 +11,45 @@
     <!-- no overrides allowed, should only exceptionally be enabled -->
     <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
+
   <!-- package versions -->
   <ItemGroup>
     <!-- jetbrains -->
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
+
     <!-- ppwcode -->
     <PackageVersion Include="PPWCode.Vernacular.Persistence.IV" Version="2.*" />
     <PackageVersion Include="PPWCode.Vernacular.Exceptions.IV" Version="2.*" />
     <PackageVersion Include="PPWCode.Vernacular.Semantics.III" Version="1.*" />
+
     <!-- system -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
+
     <!-- nhibernate -->
     <PackageVersion Include="NHibernate" Version="5.*" />
     <PackageVersion Include="NHibernateProfiler.Appender" Version="6.0.*" />
     <PackageVersion Include="NHibernate.Extensions.Logging" Version="4.*" />
+
     <!-- Firebird -->
     <PackageVersion Include="FirebirdSql.Data.FirebirdClient" Version="10.*" />
+
     <!-- SQL Server -->
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.*" />
+
     <!-- nunit -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.*" />
     <PackageVersion Include="NUnit" Version="4.*" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.*" />
     <PackageVersion Include="JunitXml.TestLogger" Version="8.*" />
     <PackageVersion Include="coverlet.collector" Version="10.*" />
+
     <!-- testing -->
     <PackageVersion Include="Moq" Version="4.*" />
+
+    <!-- Logging -->
+    <PackageVersion Include="Serilog" Version="4.*" />
+    <PackageVersion Include="Serilog.Sinks.NUnit" Version="1.*" />
+
     <!-- .net full framework reference assemblies -->
     <!-- these are explicitly added to avoid issues with cross-platform package lock files -->
     <!-- https://github.com/NuGet/Home/issues/9195 -->
@@ -49,11 +62,10 @@
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3" />
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" />
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies.net481" Version="1.0.3" />
+
     <!-- analyzers -->
     <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
-    <!-- Logging -->
-    <PackageVersion Include="Serilog" Version="4.*" />
-    <PackageVersion Include="Serilog.Sinks.NUnit" Version="1.*" />
+
   </ItemGroup>
   <!-- microsoft: framework dependent -->
   <Choose>
@@ -70,6 +82,7 @@
         <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.*" />
         <PackageVersion Include="Serilog.Extensions.Logging" Version="8.*" />
         <PackageVersion Include="Serilog.Settings.Configuration" Version="8.*" />
+
         <!-- PostgreSQL -->
         <PackageVersion Include="Npgsql" Version="10.*" />
       </ItemGroup>
@@ -87,6 +100,7 @@
         <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.*" />
         <PackageVersion Include="Serilog.Extensions.Logging" Version="9.*" />
         <PackageVersion Include="Serilog.Settings.Configuration" Version="9.*" />
+
         <!-- PostgreSQL -->
         <PackageVersion Include="Npgsql" Version="10.*" />
       </ItemGroup>
@@ -104,11 +118,13 @@
         <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.*" />
         <PackageVersion Include="Serilog.Extensions.Logging" Version="10.*" />
         <PackageVersion Include="Serilog.Settings.Configuration" Version="10.*" />
+
         <!-- PostgreSQL -->
         <PackageVersion Include="Npgsql" Version="10.*" />
       </ItemGroup>
     </When>
     <Otherwise>
+      <!-- versions used on .net full framework -->
       <ItemGroup>
         <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.*" />
         <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.*" />
@@ -121,11 +137,13 @@
         <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.*" />
         <PackageVersion Include="Serilog.Extensions.Logging" Version="10.*" />
         <PackageVersion Include="Serilog.Settings.Configuration" Version="10.*" />
+
         <!-- PostgreSQL -->
         <PackageVersion Include="Npgsql" Version="8.*" />
       </ItemGroup>
     </Otherwise>
   </Choose>
+
   <!-- global package references -->
   <ItemGroup>
     <!-- included in each project, using PrivateAssets="All" -->
