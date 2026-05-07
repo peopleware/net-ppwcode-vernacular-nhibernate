@@ -11,9 +11,10 @@ This file is translated into markdown and used for the release notes in the GitH
 :nuget-ms-di: https://www.nuget.org/packages/PPWCode.Vernacular.NHibernate.III.DI/
 :ms-di: PPWCode.Vernacular.NHibernate.III.DI
 
-=== Fixes
+
+=== New
+* Add new package {nuget-ms-di}[{ms-di}]
+** configuration of NHibernate using standard MS DI (registration in `IServiceCollection`)
 
 === Changes
-* Add new package {nuget-ms-di}[{ms-di}]
-** configuration of NHIbernate using standard MS DI (Service collection)    
-
+* Upgrade log4net to 3.x
