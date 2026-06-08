@@ -13,11 +13,11 @@ using System.Collections.Generic;
 
 using NHibernate.Cfg;
 
-namespace PPWCode.Vernacular.NHibernate.IV.DI
+namespace PPWCode.Vernacular.NHibernate.IV
 {
-    public class EmptyNhProperties : INhProperties
+    /// <inheritdoc />
+    public sealed class EmptyNhProperties : INhProperties
     {
-        /// <inheritdoc />
         public IEnumerable<KeyValuePair<string, string?>> GetProperties(Configuration configuration)
         {
             yield break;

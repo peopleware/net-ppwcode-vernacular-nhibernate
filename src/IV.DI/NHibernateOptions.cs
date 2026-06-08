@@ -531,7 +531,7 @@ public sealed class NHibernateOptions
         }
 
         ExceptionTranslator ??= typeof(ExceptionTranslator);
-        NhProperties ??= typeof(NhProperties);
+        NhProperties ??= typeof(EmptyNhProperties);
         NhConfiguration ??= typeof(NhConfiguration);
         NHibernateSessionFactory ??= typeof(NHibernateSessionFactory);
         SessionLifestyle ??= ServiceLifetime.Scoped;
