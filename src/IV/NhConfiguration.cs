@@ -38,7 +38,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 configuration.Configure();
 
                 // Overrule properties if necessary
-                foreach (KeyValuePair<string, string> item in NhProperties.GetProperties(configuration))
+                foreach (KeyValuePair<string, string?> item in NhProperties.GetProperties(configuration))
                 {
                     if (configuration.Properties.ContainsKey(item.Key))
                     {

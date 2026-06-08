@@ -18,7 +18,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public class NhProperties : INhProperties
     {
-        public IEnumerable<KeyValuePair<string, string>> GetProperties(Configuration configuration)
+        public IEnumerable<KeyValuePair<string, string?>> GetProperties(Configuration configuration)
         {
             yield break;
         }

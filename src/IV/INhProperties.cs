@@ -17,6 +17,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
 {
     public interface INhProperties
     {
-        IEnumerable<KeyValuePair<string, string>> GetProperties(Configuration configuration);
+        IEnumerable<KeyValuePair<string, string?>> GetProperties(Configuration configuration);
     }
 }
