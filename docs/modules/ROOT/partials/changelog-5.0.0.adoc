@@ -15,7 +15,7 @@ This file is translated into markdown and used for the release notes in the GitH
 
 * Upgrade from legacy `System.Data.SqlClient` to `Microsoft.Data.SqlClient`
 ** Warning: possibly breaking when not using defaults
-* Upgrade dotnet SDK to `10.0.300`
+* Upgrade dotnet SDK to `10.0.301`
 * Upgrade all package dependencies
 
 
