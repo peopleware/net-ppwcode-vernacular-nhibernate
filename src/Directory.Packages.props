@@ -20,14 +20,14 @@
     <!-- ppwcode -->
     <PackageVersion Include="PPWCode.Vernacular.Persistence.IV" Version="2.*" />
     <PackageVersion Include="PPWCode.Vernacular.Exceptions.IV" Version="2.*" />
-    <PackageVersion Include="PPWCode.Vernacular.Semantics.III" Version="1.*" />
+    <PackageVersion Include="PPWCode.Vernacular.Semantics.IV" Version="2.*" />
 
     <!-- system -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
 
     <!-- nhibernate -->
     <PackageVersion Include="NHibernate" Version="5.*" />
-    <PackageVersion Include="NHibernateProfiler.Appender" Version="6.0.*" />
+    <PackageVersion Include="NHibernateProfiler.Appender" Version="6.*" />
     <PackageVersion Include="NHibernate.Extensions.Logging" Version="4.*" />
 
     <!-- Firebird -->
@@ -64,7 +64,7 @@
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies.net481" Version="1.0.3" />
 
     <!-- analyzers -->
-    <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.*" />
 
   </ItemGroup>
   <!-- microsoft: framework dependent -->
