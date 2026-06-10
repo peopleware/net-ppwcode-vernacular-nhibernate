@@ -21,9 +21,17 @@
   <ItemGroup>
     <PackageReference Include="NUnit" />
     <PackageReference Include="Moq" />
+
     <PackageReference Include="NHibernateProfiler.Appender" />
-    <PackageReference Include="log4net" />
-    <PackageReference Include="PPWCode.Log4Net.Adapter" />
+    <PackageReference Include="NHibernate.Extensions.Logging" />
+
+    <PackageReference Include="PPWCode.Vernacular.Persistence.IV" />
+    <PackageReference Include="PPWCode.Vernacular.Exceptions.IV" />
+
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Sinks.NUnit" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +40,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
   
   <ItemGroup>

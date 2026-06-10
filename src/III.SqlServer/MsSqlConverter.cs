@@ -10,9 +10,10 @@
 // limitations under the License.
 
 using System;
-using System.Data.SqlClient;
 
 using JetBrains.Annotations;
+
+using Microsoft.Data.SqlClient;
 
 using NHibernate.Exceptions;
 

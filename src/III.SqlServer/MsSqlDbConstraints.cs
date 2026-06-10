@@ -10,7 +10,8 @@
 // limitations under the License.
 
 using System.Data.Common;
-using System.Data.SqlClient;
+
+using Microsoft.Data.SqlClient;
 
 using PPWCode.Vernacular.NHibernate.III.DbConstraint;
 

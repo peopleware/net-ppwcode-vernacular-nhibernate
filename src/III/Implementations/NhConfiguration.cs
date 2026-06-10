@@ -29,8 +29,8 @@ namespace PPWCode.Vernacular.NHibernate.III
             [NotNull] INhProperties nhProperties,
             [NotNull] IMappingAssemblies mappingAssemblies,
             [NotNull] IPpwHbmMapping ppwHbmMapping,
-            [NotNull] IRegisterEventListener[] registerEventListeners,
-            [NotNull] IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
+            [NotNull] IEnumerable<IRegisterEventListener> registerEventListeners,
+            [NotNull] IEnumerable<IAuxiliaryDatabaseObject> auxiliaryDatabaseObjects)
             : base(nhInterceptor, nhProperties, mappingAssemblies, ppwHbmMapping, registerEventListeners, auxiliaryDatabaseObjects)
         {
         }
@@ -39,7 +39,7 @@ namespace PPWCode.Vernacular.NHibernate.III
         {
             get
             {
-                Configuration configuration = new Configuration();
+                Configuration configuration = new();
 
                 configuration.Configure();
 

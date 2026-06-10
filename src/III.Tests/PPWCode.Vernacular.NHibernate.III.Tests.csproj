@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" />
-    <PackageReference Include="log4net" />
   </ItemGroup>
 
   <ItemGroup>

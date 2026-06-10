@@ -14,9 +14,9 @@ using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using Common.Logging;
-
 using JetBrains.Annotations;
+
+using Microsoft.Extensions.Logging;
 
 using NHibernate.Connection;
 
@@ -29,8 +29,12 @@ namespace PPWCode.Vernacular.NHibernate.III
 #endif
     public class PPWDriverConnectionProvider : DriverConnectionProvider
     {
+        [CanBeNull]
+        private ILogger _logger;
+
         [JetBrains.Annotations.NotNull]
-        private static readonly ILog _logger = LogManager.GetLogger<PPWDriverConnectionProvider>();
+        public ILogger Logger
+            => _logger ??= PPWLogging.GetLogger(GetType());
 
         /// <summary>
         ///     Closes and Disposes of the <see cref="T:System.Data.IDbConnection" />.
@@ -50,7 +54,7 @@ namespace PPWCode.Vernacular.NHibernate.III
             {
                 base.CloseConnection(conn);
             }
-            else if (_logger.IsWarnEnabled)
+            else if (Logger.IsEnabled(LogLevel.Warning))
             {
                 StringBuilder sb =
                     new StringBuilder()
@@ -60,7 +64,7 @@ namespace PPWCode.Vernacular.NHibernate.III
                         .AppendLine()
                         .AppendLine(Environment.StackTrace)
                         .AppendLine();
-                _logger.Warn(sb.ToString());
+                Logger.LogWarning(sb.ToString());
             }
         }
     }
