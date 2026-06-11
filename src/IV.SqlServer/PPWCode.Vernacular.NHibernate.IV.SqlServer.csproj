@@ -17,4 +17,9 @@
     <ProjectReference Include="..\IV\PPWCode.Vernacular.NHibernate.IV.csproj"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="DropAll.sql" />
+    <EmbeddedResource Include="DropAll.sql" />
+  </ItemGroup>
+
 </Project>
