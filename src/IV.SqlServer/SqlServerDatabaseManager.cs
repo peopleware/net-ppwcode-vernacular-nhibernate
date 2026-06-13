@@ -19,9 +19,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer;
 /// <inheritdoc />
 public class SqlServerDatabaseManager : DatabaseManager
 {
-    /// <inheritdoc />
     public SqlServerDatabaseManager(
-        ILogger logger,
+        ILogger<SqlServerDatabaseManager> logger,
         INHibernateSessionFactory nHibernateSessionFactory,
         INhConfiguration nhConfiguration,
         IPpwHbmMapping ppwHbmMapping)
