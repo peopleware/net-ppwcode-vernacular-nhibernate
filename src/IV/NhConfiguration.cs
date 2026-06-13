@@ -25,9 +25,15 @@ namespace PPWCode.Vernacular.NHibernate.IV
         INhProperties nhProperties,
         IMappingAssemblies mappingAssemblies,
         IPpwHbmMapping ppwHbmMapping,
-        IRegisterEventListener[] registerEventListeners,
-        IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
-        : NhConfigurationBase(nhInterceptor, nhProperties, mappingAssemblies, ppwHbmMapping, registerEventListeners, auxiliaryDatabaseObjects)
+        IEnumerable<IRegisterEventListener> registerEventListeners,
+        IEnumerable<IAuxiliaryDatabaseObject> auxiliaryDatabaseObjects)
+        : NhConfigurationBase(
+            nhInterceptor,
+            nhProperties,
+            mappingAssemblies,
+            ppwHbmMapping,
+            registerEventListeners,
+            auxiliaryDatabaseObjects)
     {
         protected override Configuration Configuration
         {
