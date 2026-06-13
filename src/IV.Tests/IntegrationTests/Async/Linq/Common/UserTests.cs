@@ -23,14 +23,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
     public class UserTests : BaseUserTests
     {
         protected User CreateUserModel(string name = "Ruben", Gender gender = Gender.MALE)
-            => new User
+            => new()
                {
                    Name = name,
                    Gender = gender
                };
 
         protected Role CreateRoleModel(string name)
-            => new Role
+            => new()
                {
                    Name = name
                };
@@ -41,7 +41,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
             CancellationToken cancellationToken)
         {
             long previousEntityInsertCount = SessionFactory.Statistics.EntityInsertCount;
-            List<Role> roles = new List<Role>();
+            List<Role> roles = new();
 
             async Task Action(CancellationToken can)
             {
@@ -152,13 +152,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Com
         public async Task FindUserByName()
         {
             User ruben =
-                new User
+                new()
                 {
                     Name = "Ruben",
                     Gender = Gender.MALE
                 };
             User danny =
-                new User
+                new()
                 {
                     Name = "Danny",
                     Gender = Gender.FEMALE

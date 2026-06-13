@@ -39,7 +39,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         private const string LastModifiedAtPropertyName = "LastModifiedAt";
         private const string LastModifiedByPropertyName = "LastModifiedBy";
 
-        protected ConcurrentDictionary<Property, int> IndexCache { get; } = new ConcurrentDictionary<Property, int>();
+        protected ConcurrentDictionary<Property, int> IndexCache { get; } = new();
 
         /// <summary>
         ///     Provides the current timestamp used for auditing purposes.

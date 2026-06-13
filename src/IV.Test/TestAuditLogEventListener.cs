@@ -57,5 +57,5 @@ public class TestAuditLogEventListener<TId, TAuditEntity> : AuditLogEventListene
 
     /// <inheritdoc />
     protected override AuditLogEventContext CreateContext(IPostDatabaseOperationEventArgs postDatabaseOperationEventArgs)
-        => new AuditLogEventContext(postDatabaseOperationEventArgs);
+        => new(postDatabaseOperationEventArgs);
 }

@@ -46,8 +46,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         where TContext : AuditLogEventContext
         where TTimestamp : struct, IComparable<TTimestamp>, IEquatable<TTimestamp>
     {
-        private static readonly ConcurrentDictionary<Type, AuditLogItem> _domainTypes =
-            new ConcurrentDictionary<Type, AuditLogItem>();
+        private static readonly ConcurrentDictionary<Type, AuditLogItem> _domainTypes = new();
 
         public async Task OnPostDeleteAsync(PostDeleteEvent @event, CancellationToken cancellationToken)
         {
@@ -182,7 +181,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             TContext context,
             PpwAuditLog? old,
             PpwAuditLog? @new)
-            => new TAuditEntity
+            => new()
                {
                    EntryType = entryType,
                    EntityName = entityName,
@@ -203,7 +202,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             string? entityId = @event.Id.ToString();
             Contract.Assert(entityId != null);
 
-            List<PpwAuditLog> auditLogs = new List<PpwAuditLog>();
+            List<PpwAuditLog> auditLogs = new();
             int length = @event.State.Length;
             for (int fieldIndex = 0; fieldIndex < length; fieldIndex++)
             {
@@ -223,7 +222,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 }
             }
 
-            List<TAuditEntity> auditEntities = new List<TAuditEntity>();
+            List<TAuditEntity> auditEntities = new();
             if (auditLogs.Count > 0)
             {
                 OnAddAuditEntities(context);
@@ -254,7 +253,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                         entityName));
             }
 
-            List<PpwAuditLogPair> auditLogPairs = new List<PpwAuditLogPair>();
+            List<PpwAuditLogPair> auditLogPairs = new();
             int[] fieldIndices = @event.Persister.FindDirty(@event.State, @event.OldState, @event.Entity, @event.Session);
             if (fieldIndices != null)
             {
@@ -296,7 +295,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 }
             }
 
-            List<TAuditEntity> auditLogs = new List<TAuditEntity>();
+            List<TAuditEntity> auditLogs = new();
             if (auditLogPairs.Count > 0)
             {
                 OnAddAuditEntities(context);

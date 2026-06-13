@@ -73,8 +73,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         public void Test(string entityName, object id)
         {
-            List<string> ghosts = new List<string>();
-            DirtyCheckingInterceptor interceptor = new DirtyCheckingInterceptor(ghosts);
+            List<string> ghosts = new();
+            DirtyCheckingInterceptor interceptor = new(ghosts);
 
             using (ISession session = SessionFactory.WithOptions().Interceptor(interceptor).OpenSession())
             {

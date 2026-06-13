@@ -25,12 +25,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
     public class DtoMappingTests : BaseRepositoryTests<Ship>
     {
         public ShipRepository ShipRepository
-            => new ShipRepository(SessionProviderAsync);
+            => new(SessionProviderAsync);
 
         private Task GenerateShipAndContainersAsync(CancellationToken cancellationToken)
         {
             Ship ship1 =
-                new Ship
+                new()
                 {
                     Code = "X1"
                 };
@@ -62,7 +62,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
             }
 
             Ship ship2 =
-                new Ship
+                new()
                 {
                     Code = "X2"
                 };
@@ -81,7 +81,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Async.Linq.Dto
             }
 
             Ship ship3 =
-                new Ship
+                new()
                 {
                     Code = "Z1"
                 };

@@ -46,7 +46,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                    nameof(FindByIds),
                    () =>
                    {
-                       List<TRoot> result = new List<TRoot>();
+                       List<TRoot> result = new();
                        foreach (TId[] segment in GetSegmentedIds(ids).Where(s => s.Length > 0))
                        {
                            result.AddRange(FindByIdsInternal(segment));

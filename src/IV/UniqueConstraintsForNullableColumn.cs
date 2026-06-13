@@ -32,7 +32,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         public override string SqlCreateString(Dialect dialect, IMapping mapping, string? defaultCatalog, string? defaultSchema)
         {
-            Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
+            Context context = new(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
             string script;
             if (ColumnName != null)
@@ -64,7 +64,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         protected virtual string SqlCreateStringSqlServer(Context context)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             sb.AppendLine(
                 context.QuotedSchemaName != null
@@ -83,7 +83,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         protected virtual string SqlCreateStringGeneric(Context context)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             sb.AppendLine(
                 context.QuotedSchemaName != null

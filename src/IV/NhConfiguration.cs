@@ -33,7 +33,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         {
             get
             {
-                Configuration configuration = new Configuration();
+                Configuration configuration = new();
 
                 configuration.Configure();
 

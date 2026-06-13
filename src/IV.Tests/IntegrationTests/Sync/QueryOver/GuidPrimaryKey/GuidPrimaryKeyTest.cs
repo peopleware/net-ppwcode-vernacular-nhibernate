@@ -50,7 +50,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             RunInsideTransaction(
                 () =>
                 {
-                    Car car = new Car
+                    Car car = new()
                               {
                                   ModelName = "Fiat"
                               };

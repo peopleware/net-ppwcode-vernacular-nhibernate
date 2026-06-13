@@ -210,7 +210,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             => this;
 
         public static implicit operator Address(AddressBuilder builder)
-            => new Address(
+            => new(
                 builder._street ?? throw new InvalidOperationException(),
                 builder._number ?? throw new InvalidOperationException(),
                 builder._box,

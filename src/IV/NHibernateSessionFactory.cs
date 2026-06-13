@@ -17,7 +17,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public class NHibernateSessionFactory : INHibernateSessionFactory
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
         private readonly INhConfiguration _nhConfiguration;
         private volatile ISessionFactory? _sessionFactory;
 

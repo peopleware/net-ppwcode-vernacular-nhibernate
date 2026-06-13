@@ -62,7 +62,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             string? defaultCatalog,
             string? defaultSchema)
         {
-            Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
+            Context context = new(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
             string script;
             if (ColumnDefinitions != null)
@@ -94,7 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         protected virtual string SqlCreateStringSqlServer(Context context)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             sb.Append(
                 IsUnique()
@@ -123,7 +123,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         protected virtual string SqlCreateStringPostgreSQL(Context context)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             sb.Append(
                 IsUnique()
@@ -148,7 +148,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         protected virtual string SqlCreateStringGeneric(Context context)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (IsUnique())
             {

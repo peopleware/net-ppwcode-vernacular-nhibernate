@@ -87,7 +87,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
                 throw new ArgumentNullException(nameof(configure));
             }
 
-            NHibernateOptions options = new NHibernateOptions();
+            NHibernateOptions options = new();
             configure(options);
             options.ApplyDefaultsIfNotGiven();
 
@@ -221,7 +221,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             ServiceLifetime lifetime = options.SessionLifestyle ?? ServiceLifetime.Singleton;
 
             ServiceDescriptor sessionServiceDescriptor =
-                new ServiceDescriptor(
+                new(
                     typeof(ISession),
                     sp =>
                     {
@@ -232,7 +232,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             services.Add(sessionServiceDescriptor);
 
             ServiceDescriptor statelessSessionServiceDescriptor =
-                new ServiceDescriptor(
+                new(
                     typeof(IStatelessSession),
                     sp =>
                     {

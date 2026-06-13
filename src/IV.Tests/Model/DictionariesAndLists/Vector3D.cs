@@ -169,7 +169,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.DictionariesAndLists
             => this;
 
         public static implicit operator Vector3D(Vector3DBuilder builder)
-            => new Vector3D(
+            => new(
                 builder._x ?? throw new InvalidOperationException(),
                 builder._y ?? throw new InvalidOperationException(),
                 builder._z ?? throw new InvalidOperationException());
