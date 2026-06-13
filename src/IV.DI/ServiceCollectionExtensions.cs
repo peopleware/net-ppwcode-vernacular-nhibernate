@@ -181,14 +181,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             IsolationLevel isolationLevel = options.IsolationLevel!.Value;
             if (options.SessionProviderAsync != null)
             {
-                services.TryAddScoped(options.SessionProviderAsync);
-                services.TryAddScoped(sp => (ISessionProviderAsync)ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
-                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService<ISessionProviderAsync>());
+                services.TryAddScoped(sp => ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProviderAsync)sp.GetRequiredService(options.SessionProviderAsync));
+                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProviderAsync));
             }
             else
             {
-                services.TryAddScoped(options.SessionProvider!);
-                services.TryAddScoped(sp => (ISessionProvider)ActivatorUtilities.CreateInstance(sp, options.SessionProvider!, isolationLevel));
+                services.TryAddScoped(sp => ActivatorUtilities.CreateInstance(sp, options.SessionProvider!, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProvider!));
             }
 
             RegisterNhSessionFactories(services, options);
