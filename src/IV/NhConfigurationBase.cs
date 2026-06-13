@@ -10,6 +10,7 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.Linq;
 
 using NHibernate.Cfg;
 using NHibernate.Mapping;
@@ -22,18 +23,18 @@ namespace PPWCode.Vernacular.NHibernate.IV
         INhProperties nhProperties,
         IMappingAssemblies mappingAssemblies,
         IPpwHbmMapping ppwHbmMapping,
-        IRegisterEventListener[] registerEventListeners,
-        IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
+        IEnumerable<IRegisterEventListener> registerEventListeners,
+        IEnumerable<IAuxiliaryDatabaseObject> auxiliaryDatabaseObjects)
         : INhConfiguration
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
         private volatile Configuration? _configuration;
 
         /// <inheritdoc cref="INhProperties" />
         protected INhProperties NhProperties { get; } = nhProperties;
 
         /// <inheritdoc cref="IRegisterEventListener" />
-        protected IEnumerable<IRegisterEventListener> RegisterEventListeners { get; } = registerEventListeners;
+        protected IRegisterEventListener[] RegisterEventListeners { get; } = registerEventListeners.ToArray();
 
         /// <inheritdoc cref="GetConfiguration" />
         protected abstract Configuration Configuration { get; }
@@ -48,7 +49,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected IMappingAssemblies MappingAssemblies { get; } = mappingAssemblies;
 
         /// <inheritdoc cref="IAuxiliaryDatabaseObject" />
-        protected IAuxiliaryDatabaseObject[] AuxiliaryDatabaseObjects { get; } = auxiliaryDatabaseObjects;
+        protected IAuxiliaryDatabaseObject[] AuxiliaryDatabaseObjects { get; } = auxiliaryDatabaseObjects.ToArray();
 
         /// <inheritdoc />
         public Configuration GetConfiguration()
