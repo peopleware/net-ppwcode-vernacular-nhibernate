@@ -21,6 +21,7 @@ using NHibernate.Mapping;
 
 using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
+using PPWCode.Vernacular.Contracts.I;
 using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DI
@@ -181,14 +182,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             IsolationLevel isolationLevel = options.IsolationLevel!.Value;
             if (options.SessionProviderAsync != null)
             {
-                services.TryAddScoped(sp => ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
+                services.TryAddScoped(
+                    options.SessionProviderAsync,
+                    sp => ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
                 services.TryAddScoped(sp => (ISessionProviderAsync)sp.GetRequiredService(options.SessionProviderAsync));
                 services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProviderAsync));
             }
             else
             {
-                services.TryAddScoped(sp => ActivatorUtilities.CreateInstance(sp, options.SessionProvider!, isolationLevel));
-                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProvider!));
+                Contract.Assert(options.SessionProvider != null);
+                services.TryAddScoped(
+                    options.SessionProvider,
+                    sp => ActivatorUtilities.CreateInstance(sp, options.SessionProvider, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProvider));
             }
 
             RegisterNhSessionFactories(services, options);
