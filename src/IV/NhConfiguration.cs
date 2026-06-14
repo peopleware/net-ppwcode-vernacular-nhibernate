@@ -41,7 +41,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
             {
                 Configuration configuration = new();
 
-                configuration.Configure();
+                if (UseDefaultConfiguration)
+                {
+                    configuration.Configure();
+                }
 
                 // Overrule properties if necessary
                 foreach (KeyValuePair<string, string?> item in NhProperties.GetProperties(configuration))
@@ -94,5 +97,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 return configuration;
             }
         }
+
+        /// <inheritdoc />
+        public override bool UseDefaultConfiguration
+            => true;
     }
 }

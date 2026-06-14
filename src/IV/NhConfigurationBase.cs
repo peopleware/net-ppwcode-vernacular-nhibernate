@@ -52,6 +52,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected IAuxiliaryDatabaseObject[] AuxiliaryDatabaseObjects { get; } = auxiliaryDatabaseObjects.ToArray();
 
         /// <inheritdoc />
+        public abstract bool UseDefaultConfiguration { get; }
+
+        /// <inheritdoc />
         public Configuration GetConfiguration()
         {
             if (_configuration == null)
