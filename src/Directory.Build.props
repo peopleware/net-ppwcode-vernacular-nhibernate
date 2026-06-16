@@ -23,7 +23,7 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/peopleware/net-ppwcode-vernacular-nhibernate.git</RepositoryUrl>
 
-        <PackageTags>ppwcode vernacular nhibernate orm dotnetcore netcore</PackageTags>
+        <PackageTags>ppwcode vernacular nhibernate orm dotnetcore netcore gen4</PackageTags>
         <PackageProjectUrl>https://github.com/peopleware/net-ppwcode-vernacular-nhibernate</PackageProjectUrl>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
