@@ -86,14 +86,14 @@ jobs:
         # ContinuousIntegrationBuild=true excludes full-framework
         # builds on Linux and macOS
         run: |
-          dotnet restore PPWCode.Vernacular.NHIbernate.slnx \
+          dotnet restore PPWCode.Vernacular.NHibernate.slnx \
             --locked-mode \
             -p:Configuration=Release
 
       - name: Build
         shell: bash
         run: |
-          dotnet build PPWCode.Vernacular.NHIbernate.slnx \
+          dotnet build PPWCode.Vernacular.NHibernate.slnx \
             --configuration Release \
             --no-restore \
             -p:ContinuousIntegrationBuild=true
@@ -103,7 +103,7 @@ jobs:
         env:
           PPWCODE_APPSETTINGS__FIXEDCONNECTIONSTRING: ${{ format('Server=localhost;Database=master;User Id=sa;Password={0};TrustServerCertificate=True', env.SA_PASSWORD) }}
         run: |
-          dotnet test PPWCode.Vernacular.NHIbernate.slnx \
+          dotnet test PPWCode.Vernacular.NHibernate.slnx \
             --configuration Release \
             --no-build \
             --verbosity normal \
