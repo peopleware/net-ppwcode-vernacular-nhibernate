@@ -14,12 +14,12 @@
   <!-- package versions -->
   <ItemGroup>
     <!-- ppwcode -->
-    <PackageVersion Include="PPWCode.Vernacular.Persistence.V" Version="1.*-*" />
-    <PackageVersion Include="PPWCode.Vernacular.Exceptions.V" Version="1.*-*" />
-    <PackageVersion Include="PPWCode.Vernacular.Contracts.I" Version="1.*-*" />
-    <PackageVersion Include="PPWCode.Vernacular.Semantics.V" Version="1.*-*" />
-    <PackageVersion Include="PPWCode.Util.Authorization.I" Version="1.*-*" />
-    <PackageVersion Include="PPWCode.Util.Time.I" Version="2.*-*" />
+    <PackageVersion Include="PPWCode.Vernacular.Persistence.V" Version="1.*" />
+    <PackageVersion Include="PPWCode.Vernacular.Exceptions.V" Version="1.*" />
+    <PackageVersion Include="PPWCode.Vernacular.Contracts.I" Version="1.*" />
+    <PackageVersion Include="PPWCode.Vernacular.Semantics.V" Version="1.*" />
+    <PackageVersion Include="PPWCode.Util.Authorization.I" Version="1.*" />
+    <PackageVersion Include="PPWCode.Util.Time.I" Version="2.*" />
     <!-- system -->
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <!-- nhibernate -->
@@ -39,7 +39,7 @@
     <PackageVersion Include="JunitXml.TestLogger" Version="8.*" />
     <PackageVersion Include="coverlet.collector" Version="10.*" />
     <!-- testing -->
-    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Moq" Version="4.*" />
     <!-- analyzers -->
     <PackageVersion Include="NUnit.Analyzers" Version="4.*" />
     <!-- Logging -->
