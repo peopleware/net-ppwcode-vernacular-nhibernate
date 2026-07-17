@@ -21,7 +21,7 @@
     <PackageVersion Include="PPWCode.Util.Authorization.I" Version="1.*" />
     <PackageVersion Include="PPWCode.Util.Time.I" Version="2.*" />
     <!-- system -->
-    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.*" />
     <!-- nhibernate -->
     <PackageVersion Include="NHibernate" Version="5.*" />
     <PackageVersion Include="NHibernateProfiler.Appender" Version="6.0.*" />
