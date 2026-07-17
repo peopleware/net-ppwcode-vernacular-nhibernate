@@ -84,8 +84,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <inheritdoc
         ///     cref="LinqRepository{TRoot,TId}.Count" />
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the work.</param>
-        public virtual Task<int> CountAsync(
-            Func<IQueryable<TRoot>, IQueryable<TRoot>> lambda,
+        public virtual Task<int> CountAsync<TResult>(
+            Func<IQueryable<TRoot>, IQueryable<TResult>> lambda,
             CancellationToken cancellationToken)
             => ExecuteAsync(
                 nameof(CountAsync),
@@ -214,8 +214,8 @@ namespace PPWCode.Vernacular.NHibernate.IV
         /// <inheritdoc
         ///     cref="LinqRepository{TRoot,TId}.CountInternal" />
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the work.</param>
-        protected virtual async Task<int> CountInternalAsync(
-            Func<IQueryable<TRoot>> lambda,
+        protected virtual async Task<int> CountInternalAsync<TResult>(
+            Func<IQueryable<TResult>> lambda,
             CancellationToken cancellationToken)
         {
             try

@@ -62,7 +62,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         /// <inheritdoc cref="ISession.MergeAsync{T}(T,System.Threading.CancellationToken)" />
         /// <exception cref="NotFoundException">
-        ///     The normal behaviour of nHibernate is that the <c>Merge</c> transforms an UPDATE for a not-found-PK into a
+        ///     The normal behavior of nHibernate is that the <c>Merge</c> transforms an UPDATE for a not-found-PK into a
         ///     CREATE. We will not do this in our code-base. In this case we will throw an exception.
         /// </exception>
         /// <remarks>
@@ -72,7 +72,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         /// <inheritdoc cref="ISession.SaveOrUpdateAsync(object,System.Threading.CancellationToken)" />
         /// <exception cref="NotFoundException">
-        ///     The normal behaviour of nHibernate is that the <c>SaveOrUpdate</c> transforms an UPDATE for a not-found-PK into a
+        ///     The normal behavior of nHibernate is that the <c>SaveOrUpdate</c> transforms an UPDATE for a not-found-PK into a
         ///     CREATE. We will not do this in our code-base. In this case we will throw an exception.
         /// </exception>
         /// <remarks>

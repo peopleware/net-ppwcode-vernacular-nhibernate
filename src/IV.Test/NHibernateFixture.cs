@@ -128,12 +128,12 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         protected virtual ISession OpenSession()
         {
-            Mock<IIdentityProvider> identityProvider = new Mock<IIdentityProvider>();
+            Mock<IIdentityProvider> identityProvider = new();
             identityProvider
                 .Setup(ip => ip.IdentityName)
                 .Returns(IdentityName);
 
-            Mock<ITimeProvider<DateTime>> timeProvider = new Mock<ITimeProvider<DateTime>>();
+            Mock<ITimeProvider<DateTime>> timeProvider = new();
             timeProvider
                 .Setup(tp => tp.Now)
                 .Returns(UtcNow.ToLocalTime);
@@ -141,7 +141,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
                 .Setup(tp => tp.UtcNow)
                 .Returns(UtcNow);
 
-            TestAuditInterceptor<TId> sessionLocalInterceptor = new TestAuditInterceptor<TId>(timeProvider.Object, true, identityProvider.Object);
+            TestAuditInterceptor<TId> sessionLocalInterceptor = new(timeProvider.Object, true, identityProvider.Object);
 
             return
                 SessionFactory
@@ -152,7 +152,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         protected virtual void BuildSchema()
         {
-            SchemaExport schemaExport = new SchemaExport(Configuration);
+            SchemaExport schemaExport = new(Configuration);
             if (UseProfiler && SuppressProfilingWhileCreatingSchema)
             {
                 using (ProfilerIntegration.IgnoreAll())

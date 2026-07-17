@@ -23,8 +23,10 @@ namespace PPWCode.Vernacular.NHibernate.IV
     /// <inheritdoc />
     public class TransactionProvider : ITransactionProvider
     {
-        // Use the static bridge to create the logger
-        private static readonly ILogger _logger = PPWLogging.GetLogger<TransactionProvider>();
+        private ILogger? _logger;
+
+        public ILogger Logger
+            => _logger ??= PPWLogging.GetLogger<TransactionProvider>();
 
         /// <inheritdoc />
         public void Run(ISession session, IsolationLevel isolationLevel, Action action)
@@ -56,17 +58,17 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
             if ((session.GetCurrentTransaction()?.IsActive == true) || (Transaction.Current != null))
             {
-                if (_logger.IsEnabled(LogLevel.Information))
+                if (Logger.IsEnabled(LogLevel.Information))
                 {
-                    _logger.LogInformation($"Transaction already active, not starting a new one.");
+                    Logger.LogInformation($"Transaction already active, not starting a new one.");
                 }
 
                 return func.Invoke();
             }
 
-            if (_logger.IsEnabled(LogLevel.Information))
+            if (Logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
+                Logger.LogInformation($"Starting new transaction with isolation level: {isolationLevel}");
             }
 
             TResult? result;

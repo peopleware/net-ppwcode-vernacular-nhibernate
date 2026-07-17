@@ -25,20 +25,29 @@ namespace PPWCode.Vernacular.NHibernate.IV
         INhProperties nhProperties,
         IMappingAssemblies mappingAssemblies,
         IPpwHbmMapping ppwHbmMapping,
-        IRegisterEventListener[] registerEventListeners,
-        IAuxiliaryDatabaseObject[] auxiliaryDatabaseObjects)
-        : NhConfigurationBase(nhInterceptor, nhProperties, mappingAssemblies, ppwHbmMapping, registerEventListeners, auxiliaryDatabaseObjects)
+        IEnumerable<IRegisterEventListener> registerEventListeners,
+        IEnumerable<IAuxiliaryDatabaseObject> auxiliaryDatabaseObjects)
+        : NhConfigurationBase(
+            nhInterceptor,
+            nhProperties,
+            mappingAssemblies,
+            ppwHbmMapping,
+            registerEventListeners,
+            auxiliaryDatabaseObjects)
     {
         protected override Configuration Configuration
         {
             get
             {
-                Configuration configuration = new Configuration();
+                Configuration configuration = new();
 
-                configuration.Configure();
+                if (UseDefaultConfiguration)
+                {
+                    configuration.Configure();
+                }
 
                 // Overrule properties if necessary
-                foreach (KeyValuePair<string, string> item in NhProperties.GetProperties(configuration))
+                foreach (KeyValuePair<string, string?> item in NhProperties.GetProperties(configuration))
                 {
                     if (configuration.Properties.ContainsKey(item.Key))
                     {
@@ -88,5 +97,9 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 return configuration;
             }
         }
+
+        /// <inheritdoc />
+        public override bool UseDefaultConfiguration
+            => true;
     }
 }

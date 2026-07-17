@@ -14,3 +14,12 @@ This file is translated into markdown and used for the release notes in the GitH
 ** Remove Castle Windsor container
 ** Support for Microsoft DI
 ** Supported target: `.NET 8`, `.NET 9` and `.NET 10`
+* Switched the solution file from `.sln` to `.slnx` format
+* Updated the .NET SDK version to `10.0.302`
+* Added `gen5` to the NuGet package tags
+* Generated portable debug symbols for both Debug and Release configurations
+* Changed test and analyzer package versions to floating versions
+* Remove Microsoft.SourceLink.GitHub from global package references
+* Use only release package versions
+* Update `System.ComponentModel.Annotations` to use floating version `5.*`
+* Updated test project dependencies to the latest available versions

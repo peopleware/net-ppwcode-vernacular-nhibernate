@@ -15,13 +15,13 @@ using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
 using NHibernate;
 using NHibernate.Mapping;
 
 using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
+using PPWCode.Vernacular.Contracts.I;
 using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DI
@@ -88,7 +88,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
                 throw new ArgumentNullException(nameof(configure));
             }
 
-            NHibernateOptions options = new NHibernateOptions();
+            NHibernateOptions options = new();
             configure(options);
             options.ApplyDefaultsIfNotGiven();
 
@@ -182,14 +182,19 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             IsolationLevel isolationLevel = options.IsolationLevel!.Value;
             if (options.SessionProviderAsync != null)
             {
-                services.TryAddScoped(options.SessionProviderAsync);
-                services.TryAddScoped(sp => (ISessionProviderAsync)ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
-                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService<ISessionProviderAsync>());
+                services.TryAddScoped(
+                    options.SessionProviderAsync,
+                    sp => ActivatorUtilities.CreateInstance(sp, options.SessionProviderAsync, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProviderAsync)sp.GetRequiredService(options.SessionProviderAsync));
+                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProviderAsync));
             }
             else
             {
-                services.TryAddScoped(options.SessionProvider!);
-                services.TryAddScoped(sp => (ISessionProvider)ActivatorUtilities.CreateInstance(sp, options.SessionProvider!, isolationLevel));
+                Contract.Assert(options.SessionProvider != null);
+                services.TryAddScoped(
+                    options.SessionProvider,
+                    sp => ActivatorUtilities.CreateInstance(sp, options.SessionProvider, isolationLevel));
+                services.TryAddScoped(sp => (ISessionProvider)sp.GetRequiredService(options.SessionProvider));
             }
 
             RegisterNhSessionFactories(services, options);
@@ -205,9 +210,6 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
                     return instance;
                 });
             }
-
-            PPWLogging.Factory = options.LoggerFactory;
-            PPWLogging.Factory.UseAsNHibernateLoggerProvider();
 
             return services;
         }
@@ -225,7 +227,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             ServiceLifetime lifetime = options.SessionLifestyle ?? ServiceLifetime.Singleton;
 
             ServiceDescriptor sessionServiceDescriptor =
-                new ServiceDescriptor(
+                new(
                     typeof(ISession),
                     sp =>
                     {
@@ -236,7 +238,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.DI
             services.Add(sessionServiceDescriptor);
 
             ServiceDescriptor statelessSessionServiceDescriptor =
-                new ServiceDescriptor(
+                new(
                     typeof(IStatelessSession),
                     sp =>
                     {

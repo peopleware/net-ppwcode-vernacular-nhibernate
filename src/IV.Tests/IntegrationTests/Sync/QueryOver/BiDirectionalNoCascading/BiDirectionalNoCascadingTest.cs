@@ -21,13 +21,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
     public class BiDirectionalNoCascadingTest : BaseRepositoryTests<Author>
     {
         public AuthorRepository AuthorRepository
-            => new AuthorRepository(SessionProvider);
+            => new(SessionProvider);
 
         public BookRepository BookRepository
-            => new BookRepository(SessionProvider);
+            => new(SessionProvider);
 
         public KeywordRepository KeywordRepository
-            => new KeywordRepository(SessionProvider);
+            => new(SessionProvider);
 
         /// <summary>
         ///     Override this method for setup code that needs to run for each test separately.
@@ -45,7 +45,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     Book inDepth =
-                        new Book
+                        new()
                         {
                             Name = "C# in Depth",
                             Author = null
@@ -57,7 +57,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                     Assert.That(mergedInDepth, Is.Not.EqualTo(inDepth));
 
                     Keyword csharp =
-                        new Keyword
+                        new()
                         {
                             Name = "C#"
                         };
@@ -83,7 +83,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     Book inDepth =
-                        new Book
+                        new()
                         {
                             Name = "C# in Depth",
                             Author = null
@@ -93,7 +93,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                     Assert.That(inDepth.IdIsTransient, Is.False, "Original Book object is persisted and has now a primary key.");
 
                     Keyword csharp =
-                        new Keyword
+                        new()
                         {
                             Name = "C#"
                         };
@@ -113,7 +113,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     Author john =
-                        new Author
+                        new()
                         {
                             Name = "John Skeet"
                         };
@@ -124,7 +124,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                     Assert.That(mergedJohn, Is.Not.EqualTo(john));
 
                     Book inDepth =
-                        new Book
+                        new()
                         {
                             Name = "C# in Depth",
                             Author = mergedJohn
@@ -151,7 +151,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     Author john =
-                        new Author
+                        new()
                         {
                             Name = "John Skeet"
                         };
@@ -160,7 +160,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                     Assert.That(john.IdIsTransient, Is.False, "Original Author object is persisted and has now a primary key.");
 
                     Book inDepth =
-                        new Book
+                        new()
                         {
                             Name = "C# in Depth",
                             Author = john

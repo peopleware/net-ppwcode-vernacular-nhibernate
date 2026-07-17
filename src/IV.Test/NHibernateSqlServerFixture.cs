@@ -12,7 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+
+using Microsoft.Data.SqlClient;
 
 using NHibernate;
 using NHibernate.Cfg;
@@ -50,7 +51,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
         {
             get
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(FixedConnectionString);
+                SqlConnectionStringBuilder builder = new(FixedConnectionString);
                 Guid guid = Guid.NewGuid();
                 builder.InitialCatalog = $"{builder.InitialCatalog}.{guid:D}";
                 return builder.ConnectionString;
@@ -67,7 +68,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             get
             {
                 SqlConnectionStringBuilder builder =
-                    new SqlConnectionStringBuilder
+                    new()
                     {
                         DataSource = "localhost",
                         InitialCatalog = CatalogName,
@@ -159,7 +160,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         protected virtual void CreateCatalog()
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
+            SqlConnectionStringBuilder builder = new(ConnectionString);
             if (SqlServerUtils.CatalogExists(ConnectionString, builder.InitialCatalog))
             {
                 SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);
@@ -170,7 +171,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
         protected virtual void DropCatalog()
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ConnectionString);
+            SqlConnectionStringBuilder builder = new(ConnectionString);
             if (SqlServerUtils.CatalogExists(ConnectionString, builder.InitialCatalog))
             {
                 SqlServerUtils.DropCatalog(ConnectionString, builder.InitialCatalog);

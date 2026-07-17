@@ -23,7 +23,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
 {
     public abstract class ModelMapperBase : IPpwHbmMapping
     {
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
         private readonly IMappingAssemblies _mappingAssemblies;
         private HbmMapping? _hbmMapping;
 
@@ -120,21 +120,21 @@ namespace PPWCode.Vernacular.NHibernate.IV.MappingByCode
                                 ICustomizersHolder? customizerHolder = customizerHolderFieldInfo.GetValue(ModelMapper) as ICustomizersHolder;
                                 IEnumerable<Type> types = customizerHolder?.GetAllCustomizedEntities() ?? [];
                                 HashSet<Type> rootClasses =
-                                    new HashSet<Type>(
+                                    new(
                                         types
                                             .Where(t => ModelMapper.ModelInspector.IsEntity(t)
                                                         && ModelMapper.ModelInspector.IsRootEntity(t)));
                                 HashSet<Type> subClasses =
-                                    new HashSet<Type>(
+                                    new(
                                         types
                                             .Where(t => ModelMapper.ModelInspector.IsEntity(t)
                                                         && !ModelMapper.ModelInspector.IsRootEntity(t)));
-                                List<Type> orderedClasses = new List<Type>(rootClasses);
-                                HashSet<Type> processedClasses = new HashSet<Type>(orderedClasses);
+                                List<Type> orderedClasses = new(rootClasses);
+                                HashSet<Type> processedClasses = new(orderedClasses);
                                 bool nextLevelEntitiesAvailable;
                                 do
                                 {
-                                    HashSet<Type> nextLevelEntities = new HashSet<Type>();
+                                    HashSet<Type> nextLevelEntities = new();
                                     foreach (Type subClass in subClasses.ToList())
                                     {
                                         if ((subClass.BaseType != null) && processedClasses.Contains(subClass.BaseType))

@@ -42,14 +42,14 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         }
 
         protected User CreateUser(string name = @"Ruben", Gender gender = Gender.MALE)
-            => new User
+            => new()
                {
                    Name = name,
                    Gender = gender
                };
 
         protected Role CreateRole(string name)
-            => new Role
+            => new()
                {
                    Name = name
                };
@@ -57,9 +57,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void CanNotAddDuplicateUserName()
         {
-            RunInsideTransaction(() => Repository!.Merge(CreateUser()), true);
-
-            Assert.That((Action)(() => Repository!.Merge(CreateUser())), Throws.TypeOf<DbUniqueConstraintException>());
+            Action action = () => Repository!.Merge(CreateUser());
+            RunInsideTransaction(action, true);
+            Assert.That(action, Throws.TypeOf<DbUniqueConstraintException>());
         }
 
         [Test]
@@ -162,13 +162,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void FindUserByName()
         {
             User ruben =
-                new User
+                new()
                 {
                     Name = "Ruben",
                     Gender = Gender.MALE
                 };
             User danny =
-                new User
+                new()
                 {
                     Name = "Danny",
                     Gender = Gender.FEMALE

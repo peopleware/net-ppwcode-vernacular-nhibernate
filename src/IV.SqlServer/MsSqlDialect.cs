@@ -9,7 +9,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using NHibernate.Cfg;
 using NHibernate.Dialect;
+using NHibernate.Driver;
 using NHibernate.Exceptions;
 
 namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
@@ -23,5 +25,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.SqlServer
         /// <inheritdoc />
         public override ISQLExceptionConverter BuildSQLExceptionConverter()
             => new MsSqlConverter(ViolatedConstraintNameExtracter);
+
+        /// <inheritdoc />
+        protected override void RegisterDefaultProperties()
+        {
+            base.RegisterDefaultProperties();
+
+            DefaultProperties[Environment.ConnectionDriver] = typeof(MicrosoftDataSqlClientDriver).AssemblyQualifiedName;
+        }
     }
 }

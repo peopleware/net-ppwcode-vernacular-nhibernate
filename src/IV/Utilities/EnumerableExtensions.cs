@@ -27,7 +27,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             for (int index1 = 0; index1 < segments; ++index1)
             {
                 Grouping<int, T> grouping =
-                    new Grouping<int, T>(perSegment)
+                    new(perSegment)
                     {
                         Key = index1 + 1
                     };

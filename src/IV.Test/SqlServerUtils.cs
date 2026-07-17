@@ -11,7 +11,8 @@
 
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+
+using Microsoft.Data.SqlClient;
 
 using PPWCode.Vernacular.Exceptions.V;
 
@@ -28,7 +29,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             bool pooling)
         {
             SqlConnectionStringBuilder builder =
-                new SqlConnectionStringBuilder(sqlConnectionString)
+                new(sqlConnectionString)
                 {
                     InitialCatalog = catalog ?? @"master",
                     Pooling = pooling
@@ -36,11 +37,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
             return builder.ConnectionString;
         }
 
-        private static SqlConnection GetConnection(
-            string sqlConnectionString,
-            string? catalog,
-            bool pooling)
-            => new SqlConnection(GetConnectionString(sqlConnectionString, catalog, pooling));
+        private static SqlConnection GetConnection(string sqlConnectionString, string? catalog, bool pooling)
+            => new(GetConnectionString(sqlConnectionString, catalog, pooling));
 
         private static void ExecuteCommands(
             SqlConnection connection,
@@ -96,9 +94,9 @@ namespace PPWCode.Vernacular.NHibernate.IV.Test
 
             using SqlConnection connection = GetConnection(sqlConnectionString, null, false);
             connection.Open();
-            using SqlCommand sqlCommand = new SqlCommand(CmdText, connection);
+            using SqlCommand sqlCommand = new(CmdText, connection);
             SqlParameter param =
-                new SqlParameter
+                new()
                 {
                     ParameterName = "@name",
                     Value = catalog

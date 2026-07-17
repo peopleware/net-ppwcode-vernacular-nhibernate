@@ -37,7 +37,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         protected Company CreateCompany(CompanyCreationType companyCreationType)
         {
             Company company =
-                new Company
+                new()
                 {
                     Name = "Peopleware NV"
                 };

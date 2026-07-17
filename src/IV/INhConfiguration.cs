@@ -15,6 +15,12 @@ namespace PPWCode.Vernacular.NHibernate.IV
 {
     public interface INhConfiguration
     {
+        /// <summary>
+        ///     Gets a value indicating whether <see cref="Configuration.Configure()" /> is called before applying the
+        ///     configured overrides, mappings, listeners, interceptor, and auxiliary database objects.
+        /// </summary>
+        bool UseDefaultConfiguration { get; }
+
         /// <inheritdoc cref="Configuration" />
         Configuration GetConfiguration();
     }

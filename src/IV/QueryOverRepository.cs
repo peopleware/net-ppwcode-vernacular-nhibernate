@@ -347,7 +347,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                         .Future<TDto>()
                         .ToList();
 
-                PagedList<TDto> result = new PagedList<TDto>(qryResult, pageIndex, pageSize, rowCount.Value);
+                PagedList<TDto> result = new(qryResult, pageIndex, pageSize, rowCount.Value);
 
                 return result;
             }

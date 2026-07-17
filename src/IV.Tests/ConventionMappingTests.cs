@@ -50,7 +50,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests
                 configuration.AddAuxiliaryDatabaseObject(auxiliaryDatabaseObject);
             }
 
-            SchemaExport schemaExport = new SchemaExport(configuration);
+            SchemaExport schemaExport = new(configuration);
             schemaExport.Create(true, false);
         }
 

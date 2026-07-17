@@ -106,6 +106,6 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         [DebuggerStepThrough]
         public static implicit operator DbConstraintMetadata(DbConstraintMetadataBuilder builder)
-            => new DbConstraintMetadata(builder._constraintName, builder._tableName, builder._tableSchema, builder._constraintType);
+            => new(builder._constraintName, builder._tableName, builder._tableSchema, builder._constraintType);
     }
 }

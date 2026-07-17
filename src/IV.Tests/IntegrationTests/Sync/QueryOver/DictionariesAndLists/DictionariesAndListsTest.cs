@@ -32,7 +32,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             RunInsideTransaction(
                 () =>
                 {
-                    Tower tower = new Tower();
+                    Tower tower = new();
 
                     tower.Sections.Add(
                         new Plane

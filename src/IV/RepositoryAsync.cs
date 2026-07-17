@@ -55,7 +55,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         {
             async Task<IList<TRoot>> WrapperAsync(CancellationToken can)
             {
-                List<TRoot> result = new List<TRoot>();
+                List<TRoot> result = new();
                 foreach (TId[] segment in GetSegmentedIds(ids).Where(s => s.Length > 0))
                 {
                     result.AddRange(await FindByIdsInternalAsync(segment, can).ConfigureAwait(false));

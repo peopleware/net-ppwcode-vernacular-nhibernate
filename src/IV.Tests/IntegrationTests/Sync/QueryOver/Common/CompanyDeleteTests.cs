@@ -96,7 +96,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void Can_Delete_A_None_Existing_Company()
         {
             Company noneExistingCompany =
-                new Company
+                new()
                 {
                     Id = -1,
                     PersistenceVersion = 1,
@@ -115,7 +115,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         [Test]
         public void Can_Delete_A_Transient_Company()
         {
-            Company transientCompany = new Company();
+            Company transientCompany = new();
 
             // Check if no deletes are already performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));
@@ -142,7 +142,8 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 },
                 true);
 
-            Assert.That((Action)(() => Repository!.Delete(company)), Throws.TypeOf<ObjectAlreadyChangedException>());
+            Action act = () => Repository!.Delete(company);
+            Assert.That(act, Throws.TypeOf<ObjectAlreadyChangedException>());
 
             // No deletes are performed
             Assert.That(SessionFactory.Statistics.EntityDeleteCount, Is.EqualTo(0));

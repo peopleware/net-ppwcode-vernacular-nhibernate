@@ -25,7 +25,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
     public class DtoMappingTests : BaseRepositoryTests<Ship>
     {
         public ShipRepository ShipRepository
-            => new ShipRepository(SessionProvider);
+            => new(SessionProvider);
 
         /// <summary>
         ///     Override this method for setup code that needs to run for each test separately.
@@ -39,7 +39,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         private void GenerateShipAndContainers()
         {
             Ship ship1 =
-                new Ship
+                new()
                 {
                     Code = "X1"
                 };
@@ -68,7 +68,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 };
             }
 
-            Ship ship2 = new Ship
+            Ship ship2 = new()
                          {
                              Code = "X2"
                          };
@@ -86,7 +86,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
             }
 
             Ship ship3 =
-                new Ship
+                new()
                 {
                     Code = "Z1"
                 };

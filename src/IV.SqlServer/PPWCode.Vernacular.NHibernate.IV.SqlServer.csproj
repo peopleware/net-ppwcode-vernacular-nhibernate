@@ -10,11 +10,16 @@
 
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" />
-    <PackageReference Include="System.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IV\PPWCode.Vernacular.NHibernate.IV.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DropAll.sql" />
+    <EmbeddedResource Include="DropAll.sql" />
   </ItemGroup>
 
 </Project>

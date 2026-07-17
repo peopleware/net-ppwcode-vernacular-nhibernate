@@ -66,7 +66,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             string? defaultCatalog,
             string? defaultSchema)
         {
-            Context context = new Context(this, dialect, mapping, defaultCatalog, defaultCatalog);
+            Context context = new(this, dialect, mapping, defaultCatalog, defaultCatalog);
 
             string script;
             if (dialect is MsSql2000Dialect)
@@ -91,7 +91,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         public virtual string SqlCreateStringSqlServer(Context context)
         {
-            StringBuilder script = new StringBuilder();
+            StringBuilder script = new();
             foreach (string schemaName in SchemaNames)
             {
                 string generatorTableName = context.GetTableName(schemaName);
@@ -104,7 +104,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 script.AppendLine($"ALTER TABLE {generatorTableName} ADD PRIMARY KEY ({context.EntityNameColumnName});");
                 script.AppendLine("GO");
 
-                HashSet<HbmClass> hbmClasses = new HashSet<HbmClass>(HbmClasses.Where(c => c.schema == schemaName));
+                HashSet<HbmClass> hbmClasses = new(HbmClasses.Where(c => c.schema == schemaName));
                 foreach (HbmClass hbmClass in hbmClasses)
                 {
                     string[] segments = hbmClass.Name.Split(',');
@@ -123,7 +123,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         public virtual string SqlCreateStringFirebird(Context context)
         {
-            StringBuilder script = new StringBuilder();
+            StringBuilder script = new();
 
             script.AppendLine("execute block");
             script.AppendLine("as");
@@ -147,7 +147,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
 
         public virtual string SqlCreateStringGeneric(Context context)
         {
-            StringBuilder script = new StringBuilder();
+            StringBuilder script = new();
             foreach (string schemaName in SchemaNames)
             {
                 string generatorTableName = context.GetTableName(schemaName);
@@ -156,7 +156,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                 script.AppendLine($"ALTER TABLE {generatorTableName} ADD {context.TableNameColumnName} VARCHAR({GeneratorTableNameColumnLength(context.Dialect)}) NOT NULL;");
                 script.AppendLine($"ALTER TABLE {generatorTableName} ADD PRIMARY KEY ({context.EntityNameColumnName});");
 
-                HashSet<HbmClass> hbmClasses = new HashSet<HbmClass>(HbmClasses.Where(c => c.schema == schemaName));
+                HashSet<HbmClass> hbmClasses = new(HbmClasses.Where(c => c.schema == schemaName));
                 foreach (HbmClass hbmClass in hbmClasses)
                 {
                     string[] segments = hbmClass.Name.Split(',');

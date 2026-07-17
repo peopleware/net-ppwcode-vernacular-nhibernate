@@ -13,14 +13,11 @@ using System;
 using System.Data;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
 
 using NHibernate;
 
 using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
-
-using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
 namespace PPWCode.Vernacular.NHibernate.IV.DI;
 
@@ -175,13 +172,6 @@ public sealed class NHibernateOptions
     ///     <see cref="IRegisterEventListener" />.  Defaults to <c>true</c>.
     /// </summary>
     public bool CivilizedEventListener { get; private set; } = true;
-
-    /// <summary>
-    ///     The factory responsible for creating <see cref="Microsoft.Extensions.Logging.ILogger" /> instances
-    ///     used across the application. Defaults to <see cref="Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory" />
-    ///     when not explicitly provided.
-    /// </summary>
-    public ILoggerFactory LoggerFactory { get; private set; } = NullLoggerFactory.Instance;
 
     /// <summary>
     ///     Registers a custom <see cref="IQueryOverCustomExpressions" /> implementation.
@@ -478,20 +468,6 @@ public sealed class NHibernateOptions
     }
 
     /// <summary>
-    ///     Sets the specified <see cref="ILoggerFactory" /> instance for use with NHibernate.
-    ///     This allows integration with a custom logging infrastructure.
-    /// </summary>
-    /// <param name="loggerFactory">
-    ///     The <see cref="ILoggerFactory" /> implementation to be used for logging.
-    /// </param>
-    /// <returns>The current <see cref="NHibernateOptions" /> instance for fluent chaining.</returns>
-    public NHibernateOptions UseLoggerFactory(ILoggerFactory loggerFactory)
-    {
-        LoggerFactory = loggerFactory;
-        return this;
-    }
-
-    /// <summary>
     ///     Fills in built-in defaults for every option that was not set explicitly.
     ///     This method is called automatically by
     ///     <see cref="ServiceCollectionExtensions.AddNHibernate" /> and does not normally need
@@ -555,7 +531,7 @@ public sealed class NHibernateOptions
         }
 
         ExceptionTranslator ??= typeof(ExceptionTranslator);
-        NhProperties ??= typeof(NhProperties);
+        NhProperties ??= typeof(EmptyNhProperties);
         NhConfiguration ??= typeof(NhConfiguration);
         NHibernateSessionFactory ??= typeof(NHibernateSessionFactory);
         SessionLifestyle ??= ServiceLifetime.Scoped;

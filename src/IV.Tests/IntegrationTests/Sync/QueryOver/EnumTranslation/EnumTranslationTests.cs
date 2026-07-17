@@ -42,7 +42,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 () =>
                 {
                     GenderEnumTranslation tr =
-                        new GenderEnumTranslation
+                        new()
                         {
                             Code = GenderEnum.MALE,
                             TranslationFr = "Homme",
@@ -66,7 +66,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
         public void TestMore()
         {
             GenderEnumTranslation getMale =
-                new GenderEnumTranslation
+                new()
                 {
                     Code = GenderEnum.MALE,
                     TranslationNl = "Man",
@@ -74,7 +74,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 };
 
             GenderEnumTranslation getFemale =
-                new GenderEnumTranslation
+                new()
                 {
                     Code = GenderEnum.FEMALE,
                     TranslationNl = "Vrouw",
@@ -82,7 +82,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 };
 
             SalutationEnumTranslation setMr =
-                new SalutationEnumTranslation
+                new()
                 {
                     Code = SalutationEnum.MR,
                     TranslationNl = "Meneer",
@@ -90,7 +90,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 };
 
             SalutationEnumTranslation setMrs =
-                new SalutationEnumTranslation
+                new()
                 {
                     Code = SalutationEnum.MRS,
                     TranslationNl = "Mevrouw",
@@ -98,7 +98,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 };
 
             SalutationEnumTranslation setMs =
-                new SalutationEnumTranslation
+                new()
                 {
                     Code = SalutationEnum.MS,
                     TranslationNl = "Juffrouw",

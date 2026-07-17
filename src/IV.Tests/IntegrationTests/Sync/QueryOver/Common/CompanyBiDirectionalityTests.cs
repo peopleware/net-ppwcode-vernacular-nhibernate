@@ -27,7 +27,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
 
             // Add child
             CompanyIdentification companyIdentification =
-                new CompanyIdentification
+                new()
                 {
                     Identification = "1"
                 };
@@ -55,13 +55,13 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
 
             // Add child
             CompanyIdentification companyIdentification =
-                new CompanyIdentification
+                new()
                 {
                     Identification = "1"
                 };
             company.AddIdentification(companyIdentification);
             CompanyIdentification companyIdentification2 =
-                new CompanyIdentification
+                new()
                 {
                     Identification = "1"
                 };
@@ -211,7 +211,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                         Company mergedCompany = Repository!.Merge(company);
 
                         FailedCompany failedCompany =
-                            new FailedCompany
+                            new()
                             {
                                 FailingDate = UtcNow
                             };
