@@ -167,7 +167,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.Model.Common
             public UniqueConstraintsForExtendedCompany(IPpwHbmMapping ppwHbmMapping)
                 : base(ppwHbmMapping)
             {
-                ColumnName = c => c.ExtendedCompany!;
+                ColumnName = c => c.ExtendedCompany;
             }
         }
     }
