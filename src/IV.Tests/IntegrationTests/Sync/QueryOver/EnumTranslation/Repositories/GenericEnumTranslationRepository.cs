@@ -56,6 +56,7 @@ namespace PPWCode.Vernacular.NHibernate.IV.Tests.IntegrationTests.Sync.QueryOver
                 result = translation.TranslationNl;
             }
 
+            Assert.That(translation, Is.Not.Null);
             if (language == "fr")
             {
                 result = translation.TranslationFr;
