@@ -1,0 +1,38 @@
+////
+The changelog for a specific release.
+Note that it is best to update the changelog as new code is developed.
+
+All attributes used, must be included in this file to keep it self-contained.
+
+This file is translated into markdown and used for the release notes in the GitHub release!
+////
+
+=== Changes
+
+* Property selectors in `PpwAuxiliaryDatabaseObject`, `PpwAuxiliaryIndex<TEntity>`, and
+  `UniqueConstraintsForNullableColumn<TEntity>` now accept expressions that select nullable
+  properties without requiring the null-forgiving operator (`!`).
+* When upgrading, use `object?` as the result type in explicitly typed selector expressions
+  and in overrides of `GetColumns`, `GetColumnNames`, or `GetPropertyInfo`. Existing
+  declarations that use `object` can produce nullable warnings and fail builds that
+  treat those warnings as errors.
+
+=== Dependency updates
+
+The NuGet lock-file refresh includes these dependency updates for the published packages.
+
+* Updated NHibernate to `5.7.1` and `PPWCode.Vernacular.Contracts.I` to `1.6.0`.
+* Updated the SQL Server provider dependency `Microsoft.Data.SqlClient` to `7.1.2`
+  and the PostgreSQL provider dependency `Npgsql` to `10.0.4`.
+* Updated `NHibernate.Extensions.Logging` to `4.0.2` and
+  `PPWCode.Util.Time.I` to `2.1.0` in the DI and test support packages.
+* Updated Moq to `4.21.0` in the test support package.
+* Updated several `Microsoft.Extensions` dependencies and
+  `System.Configuration.ConfigurationManager` to `9.0.23` for .NET 9 and
+  `10.0.15` for .NET 10.
+
+=== Tests and tooling
+
+* Added a null assertion before reading the French translation in the QueryOver enum
+  translation tests, resolving compiler warning `CS8602`.
+* Configured ReSharper to outdent C# statement labels.
