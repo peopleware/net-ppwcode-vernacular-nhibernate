@@ -42,7 +42,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         protected virtual PersistentClass? GetPersistentClassFor()
             => GetPersistentClassFor(typeof(TEntity));
 
-        protected virtual Column[] GetColumns(Expression<Func<TEntity, object>> propertyLambda)
+        protected virtual Column[] GetColumns(Expression<Func<TEntity, object?>> propertyLambda)
             => base.GetColumns(propertyLambda);
 
         protected virtual Column[] GetDiscriminatorColumnsFor(Type type)

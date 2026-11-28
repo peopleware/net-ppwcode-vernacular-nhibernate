@@ -28,7 +28,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
         : PpwAuxiliaryDatabaseObject(ppwHbmMapping)
         where TEntity : class
     {
-        protected Expression<Func<TEntity, object>>? ColumnName { get; set; }
+        protected Expression<Func<TEntity, object?>>? ColumnName { get; set; }
 
         public override string SqlCreateString(Dialect dialect, IMapping mapping, string? defaultCatalog, string? defaultSchema)
         {

@@ -76,7 +76,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                        .ToArray()
                    : [];
 
-        protected virtual Column[] GetColumns<TSource>(Expression<Func<TSource, object>> propertyLambda)
+        protected virtual Column[] GetColumns<TSource>(Expression<Func<TSource, object?>> propertyLambda)
         {
             PropertyInfo propInfo = GetPropertyInfo(propertyLambda);
             PersistentClass? persistentClass = GetPersistentClassFor(typeof(TSource));
@@ -94,7 +94,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
                     : EmptyColumnArray;
         }
 
-        protected virtual string[] GetColumnNames<TSource>(Expression<Func<TSource, object>> propertyLambda)
+        protected virtual string[] GetColumnNames<TSource>(Expression<Func<TSource, object?>> propertyLambda)
             => GetColumns(propertyLambda)
                 .Select(c => c.Name)
                 .ToArray();
@@ -116,7 +116,7 @@ namespace PPWCode.Vernacular.NHibernate.IV
             return EmptyStringArray;
         }
 
-        protected virtual PropertyInfo GetPropertyInfo<TSource>(Expression<Func<TSource, object>> propertyLambda)
+        protected virtual PropertyInfo GetPropertyInfo<TSource>(Expression<Func<TSource, object?>> propertyLambda)
         {
             Expression body = propertyLambda.Body;
             MemberExpression? member = body as MemberExpression;
